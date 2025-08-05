@@ -1,0 +1,105 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(
+    -45deg,
+    #2100ff,
+    #0846ff,
+    #ababc4,
+    #ff3337,
+    #eb0000
+  );
+  background-size: 400% 400%;
+  animation: gradienteMovimento 10s ease infinite;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@keyframes gradienteMovimento {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+h2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  font-size: 2rem;
+}
+
+#login-caixa {
+  background: #ffffff;
+  padding: 3.125rem;
+  border-radius: 10px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0, 5);
+  width: 400px;
+  height: 400px;
+  text-align: center;
+  color: #808080;
+  margin-bottom: 20px;
+}
+
+.user-caixa {
+  position: relative;
+}
+
+.user-caixa #email,
+#senha,
+#status {
+  width: 100%;
+  padding: 0.625rem 0;
+  font-size: 15px;
+  color: #ababc4;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 2px solid #ababc4;
+  outline: none;
+  background: transparent;
+  margin-top: 50px;
+}
+
+.user-caixa label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #0846ff;
+  pointer-events: none;
+  transition: 0.5s;
+  margin-top: 40px;
+}
+
+.user-caixa input:focus ~ label,
+.user-caixa input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #0846ff;
+  font-size: 12px;
+}
+
+#login-caixa button {
+  background: #ababc4;
+  border: none;
+  color: #ffffff;
+  padding: 14px 40px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+}
+
+#login-caixa button:hover {
+  background: #ff3337;
+}

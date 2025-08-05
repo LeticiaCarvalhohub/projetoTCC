@@ -1,0 +1,22 @@
+@media (max-width: 768px) {
+  body {
+    grid-template-columns: 1fr;
+    grid-template-rows: 70px 1fr 50px;
+    grid-template-areas:
+      "header"
+      "main"
+      "footer";
+  }
+  nav {
+    position: fixed;
+    top: 70px;
+    left: -15rem;
+    width: 15rem;
+    height: calc(100vh - 70px);
+    transition: var(--transicao);
+    z-index: 100;
+  }
+  nav.ativo {
+    left: 0;
+  }
+}

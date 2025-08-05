@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tudo no controle</title>
+    <link rel="stylesheet" href="../css/painelControle.css" />
+    <link rel="stylesheet" href="../css/animacoesPainel.css" />
+    <link rel="stylesheet" href="../css/painelControleRes.css" />
+  </head>
+  <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="logo-container">
+        <button id="acessoNav">
+          <img src="../assets/icons/menu.svg" alt="" />
+        </button>
+        <img id="logoIcone" src="../assets/images/logoTdC.png" alt="#" />
+        <h1 id="tituloPrincipal">Tudo no Controle</h1>
+      </div>
+      <div class="perfilUsuario">
+        <div class="caixaPesquisa">
+          <input type="text" placeholder="O que procura..." />
+          <button class="iconePesquisa">
+            <img src="../assets/icons/pesquisar.svg" alt="iconePesquisa" />
+          </button>
+        </div>
+        <span class="nomeUsuario">Matheus Cardoso</span>
+        <div class="avatarUsuario">
+          <img src="../assets/images/Matheus.png" alt="MatheusCabeção" />
+        </div>
+      </div>
+    </header>
+
+    <!-- Barra de navegação -->
+    <nav>
+      <div class="navSessao">
+        <div class="navTitulo">Principal</div>
+        <a href="#" class="navLink ativo" data-destino="dashboard">
+          <img src="../assets/icons/dashboard.svg" alt="dashboard" />
+          <span>Dashboard</span>
+        </a>
+      </div>
+
+      <div class="navSessao">
+        <div class="navTitulo">Operacional</div>
+        <a href="#" class="navLink" data-destino="compras">
+          <img src="../assets/icons/compras.svg" alt="" />
+          <span>Compras</span>
+        </a>
+        <a href="#" class="navLink" data-destino="vendas">
+          <img src="../assets/icons/carrinho.svg" alt="" />
+          <span>Vendas</span>
+        </a>
+        <a href="#" class="navLink" data-destino="inventario">
+          <img src="../assets/icons/estoque.svg" alt="estoque" />
+          <span>Inventário</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Contúdo Principal -->
+    <main>
+      <!-- DashBoard-->
+      <section id="dashboard">
+        <div class="cabecalhoPagina">
+          <h2 class="paginaTitulo">Dashboard</h2>
+          <p class="subtitulo">Início / Dashboard</p>
+        </div>
+        <div class="dashboardGrid">
+          <div class="cartao">
+            <div class="cabecalhoCartao">
+              <h3 class="tituloCartao">Vendas Hoje</h3>
+              <div class="iconeCartao">
+                <img src="../assets/icons/vendas.svg" alt="vendas" />
+              </div>
+            </div>
+            <div class="valorCartao">R$ 45.237,89</div>
+            <div class="descricaoCartao">+12% em relação a ontem</div>
+          </div>
+          <div class="cartao">
+            <div class="cabecalhoCartao">
+              <h3 class="tituloCartao">Pedidos Pendentes</h3>
+              <div class="iconeCartao">
+                <img src="../assets/icons/alerta.svg" alt="alerta" />
+              </div>
+            </div>
+            <div class="valorCartao">25</div>
+            <div class="descricaoCartao">-2 desde ontem</div>
+          </div>
+          <div class="cartao">
+            <div class="cabecalhoCartao">
+              <h3 class="tituloCartao">Novos fornecedores</h3>
+              <div class="iconeCartao">
+                <img src="../assets/icons/pessoas.svg" alt="pessoas" />
+              </div>
+            </div>
+            <div class="valorCartao">14</div>
+            <div class="descricaoCartao">+7 novos esta semana</div>
+          </div>
+        </div>
+        <div class="calendario">
+          <h3 class="sessaoTitulo">Calendário</h3>
+          <div class="diasCalendario"></div>
+        </div>
+        <div class="acoesRapidas">
+          <div class="abas">
+            <button class="aba ativo">Operações</button>
+            <button class="aba">Relatórios</button>
+          </div>
+          <h3 class="sessaoTitulo">Ações Rápidas</h3>
+          <div class="acoesBotoes">
+            <button class="botaoPrimario">
+              <img src="../assets/icons/novo.svg" alt="" />
+              Novos Pedidos
+            </button>
+            <button class="botaoPrimario">
+              <img src="../assets/icons/pessoas2.svg" alt="pessoas" />
+              Novos Clientes
+            </button>
+            <button class="botaoPrimario">
+              <img src="../assets/icons/papelBranco.svg" alt="relatório" />
+              Relatório Diário
+            </button>
+          </div>
+        </div>
+        <div class="atividadesRecentes">
+          <div class="sessaoCabecalho">
+            <h2 class="paginaTitulo">Atividades Recentes</h2>
+            <div id="verTudo">Ver Tudo</div>
+          </div>
+          <div class="filtrarOpcoes">
+            <select class="filtroSelecionar">
+              <option value="#">Todas Atividades</option>
+              <option value="Estoque">Estoque</option>
+              <option value="Compras">Compras</option>
+              <option value="Vendas">Vendas</option>
+              <option value="Sistema">Sistema</option>
+            </select>
+            <input type="date" id="dataFiltro" />
+          </div>
+          <div class="listaAtividade">
+            <div class="atividadeItem">
+              <div class="iconeAtividade">👤</div>
+              <div class="caixaAtividade">
+                <h4 class="tituloAtividade">Novo cliente cadastrado</h4>
+                <p>Empresa Cardoso LTDA. foi cadastrada no sistema</p>
+                <p class="tempoAtividade">10 minutos atrás</p>
+              </div>
+            </div>
+            <div class="atividadeItem">
+              <div class="iconeAtividade">💰</div>
+              <div class="caixaAtividade">
+                <h4 class="tituloAtividade">Pedido faturado</h4>
+                <p>Pedido #2045 no valor de R$ 7.890,00</p>
+                <p class="tempoAtividade">1 hora atrás</p>
+              </div>
+            </div>
+            <div class="atividadeItem">
+              <div class="iconeAtividade">💰</div>
+              <div class="caixaAtividade">
+                <h4 class="tituloAtividade">Pedido faturado</h4>
+                <p>Pedido #2045 no valor de R$ 7.890,00</p>
+                <p class="tempoAtividade">1 hora atrás</p>
+              </div>
+            </div>
+            <div class="atividadeItem">
+              <div class="iconeAtividade">💰</div>
+              <div class="caixaAtividade">
+                <h4 class="tituloAtividade">Pedido faturado</h4>
+                <p>Pedido #2045 no valor de R$ 7.890,00</p>
+                <p class="tempoAtividade">1 hora atrás</p>
+              </div>
+            </div>
+            <div class="atividadeItem">
+              <div class="iconeAtividade">💰</div>
+              <div class="caixaAtividade">
+                <h4 class="tituloAtividade">Pedido faturado</h4>
+                <p>Pedido #2045 no valor de R$ 7.890,00</p>
+                <p class="tempoAtividade">1 hora atrás</p>
+              </div>
+            </div>
+            <div class="atividadeItem">
+              <div class="iconeAtividade">💰</div>
+              <div class="caixaAtividade">
+                <h4 class="tituloAtividade">Pedido faturado</h4>
+                <p>Pedido #2045 no valor de R$ 7.890,00</p>
+                <p class="tempoAtividade">1 hora atrás</p>
+              </div>
+            </div>
+            <div class="atividadeItem">
+              <div class="iconeAtividade">💰</div>
+              <div class="caixaAtividade">
+                <h4 class="tituloAtividade">Pedido faturado</h4>
+                <p>Pedido #2045 no valor de R$ 7.890,00</p>
+                <p class="tempoAtividade">1 hora atrás</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Compras -->
+      <section id="compras" style="display: none">
+        <div id="comprasCabecalho">
+          <h2 class="paginaTitulo">Compras</h2>
+        </div>
+
+        <div id="controlesCompras">
+          <button id="btnAbrirModalCompra" class="botaoPrimario">
+            <img src="../assets/icons/novo.svg" alt="novo.svg" />Nova Compra
+          </button>
+          <div class="pesquisasModulos">
+            <input
+              type="text"
+              placeholder="Buscar por fornecedor ou código..."
+              id="filtroCompras"
+              class="p"
+            />
+            <button class="pesquisaBotao">
+              <img src="../assets/icons/pesquisar.svg" alt="iconePesquisa" />
+            </button>
+          </div>
+          <div class="filtrarOpcoes">
+            <select class="filtroSelecionar">
+              <option value="">Todos os status</option>
+              <option value="pendente">Pendente</option>
+              <option value="recebido">Recebido</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </div>
+        </div>
+
+        <table id="tabelaCompras">
+          <thead>
+            <tr class="tabelaCabecalho">
+              <th>Código</th>
+              <th>Fornecedor</th>
+              <th>Data</th>
+              <th>Itens</th>
+              <th>Total (R$)</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="listaCompras">
+            <tr class="linhaTabela">
+              <td class="tabelaColuna">PROD001</td>
+              <td class="tabelaColuna">Empresa Cardoso</td>
+              <td class="tabelaColuna">20/06/2026</td>
+              <td class="tabelaColuna">10 linhas</td>
+              <td>R$9.000</td>
+              <td class="tabelaColuna">
+                <span class="itemEstado emEstoque">Recebido</span>
+              </td>
+              <td class="tabelaColuna acoes">
+                <button class="botoesDecisao" title="Editar">
+                  <img src="../assets/icons/editar.svg" alt="editar.png" />
+                </button>
+                <button class="botoesDecisao" title="Excluir">
+                  <img src="../assets/icons/lixeira.svg" alt="apagar.png" />
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Vendas -->
+      <section id="vendas" style="display: none">
+        <div id="vendasCabecalho">
+          <div id="caixaVendas">
+            <h2 class="paginaTitulo">Vendas</h2>
+            <div id="vendasSumario">
+              <div class="sumarioEstado total">
+                <span>Total Vendido Hoje</span>
+                <strong>R$ 1.250,00</strong>
+              </div>
+              <div class="sumarioEstado realizadas">
+                <span>Vendas Realizadas</span>
+                <strong>287 vendas</strong>
+              </div>
+              <div class="sumarioEstado alerta">
+                <span>Fiado Pendente</span>
+                <strong>R$ 320,00</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="controlesVendas">
+          <button id="btnAbrirModalVenda" class="botaoPrimario">
+            <img src="../assets/icons/novo.svg" alt="novo.svg" />Nova Venda
+          </button>
+          <div class="pesquisasModulos">
+            <input
+              type="text"
+              placeholder="Buscar por fornecedor ou código..."
+              id="filtroVendas"
+              class="p"
+            />
+            <button class="pesquisaBotao">
+              <img src="../assets/icons/pesquisar.svg" alt="iconePesquisa" />
+            </button>
+          </div>
+          <div class="filtrarOpcoes">
+            <select class="filtroSelecionar">
+              <option value="">Todos os pagamentos</option>
+              <option value="dinheiro">Dinheiro</option>
+              <option value="cartao">Cartão</option>
+              <option value="pix">PIX</option>
+              <option value="fiado">Fiado</option>
+            </select>
+          </div>
+          <div class="filtrarOpcoes">
+            <select class="filtroSelecionar">
+              <option value="">Todos os status</option>
+              <option value="pendente">Pago</option>
+              <option value="recebido">Pendente</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </div>
+        </div>
+
+        <table id="tabelaCompras">
+          <thead>
+            <tr class="tabelaCabecalho">
+              <th>Código</th>
+              <th>Fornecedor</th>
+              <th>Data</th>
+              <th>Itens</th>
+              <th>Total (R$)</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="listaCompras">
+            <tr class="linhaTabela">
+              <td class="tabelaColuna">PROD001</td>
+              <td class="tabelaColuna">Empresa Cardoso</td>
+              <td class="tabelaColuna">20/06/2026</td>
+              <td class="tabelaColuna">10 linhas</td>
+              <td>R$9.000</td>
+              <td class="tabelaColuna">
+                <span class="itemEstado emEstoque">Recebido</span>
+              </td>
+              <td class="tabelaColuna acoes">
+                <button class="botoesDecisao" title="Editar">
+                  <img src="../assets/icons/editar.svg" alt="editar.png" />
+                </button>
+                <button class="botoesDecisao" title="Excluir">
+                  <img src="../assets/icons/lixeira.svg" alt="apagar.png" />
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Estoque -->
+      <section id="inventario" style="display: none">
+        <div id="inventarioCabecalho">
+          <div id="caixaInventario">
+            <h2 class="paginaTitulo">Inventário</h2>
+            <div id="inventarioSumario">
+              <div class="sumarioEstado total">
+                <span>Produtos Totais</span>
+                <strong>287</strong>
+              </div>
+              <div class="sumarioEstado alerta">
+                <span>Baixo Estoque</span>
+                <strong>23</strong>
+              </div>
+              <div class="sumarioEstado perigo">
+                <span>Em Falta</span>
+                <strong>6</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="controlesInventario">
+          <button id="btnAbrirModalEstoque" class="botaoPrimario">
+            <img src="../assets/icons/novo.svg" alt="" />Novo Produto
+          </button>
+          <button class="botaoSecundario"><img src="" alt="" />Entrada</button>
+          <button class="botaoSecundario"><img src="" alt="" />Saída</button>
+          <div class="filtrarOpcoes">
+            <select class="filtroSelecionar">
+              <option>Todos Status</option>
+              <option>Em Estoque</option>
+              <option>Baixo Estoque</option>
+              <option>Em Falta</option>
+            </select>
+          </div>
+          <div class="pesquisasModulos">
+            <input type="text" placeholder="Buscar produtos..." />
+            <button class="pesquisaBotao">
+              <img src="../assets/icons/pesquisar.svg" alt="iconePesquisa" />
+            </button>
+          </div>
+          <button class="botaoSecundario">
+            <img src="" alt="" /> Exportar
+          </button>
+        </div>
+
+        <table id="tabelaInventario">
+          <thead>
+            <tr class="tabelaCabecalho">
+              <th>Código</th>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="linhaTabela">
+              <td class="tabelaColuna">PROD001</td>
+              <td class="tabelaColuna">Notebook Dell</td>
+              <td class="tabelaColuna">15 unidades</td>
+              <td class="tabelaColuna">
+                <span class="itemEstado emEstoque">Em Estoque</span>
+              </td>
+              <td class="tabelaColuna acoes">
+                <button class="botoesDecisao" title="Editar">
+                  <img src="../assets/icons/editar.svg" alt="editar.png" />
+                </button>
+                <button class="botoesDecisao" title="Excluir">
+                  <img src="../assets/icons/lixeira.svg" alt="apagar.png" />
+                </button>
+              </td>
+            </tr>
+            <tr class="linhaTabela">
+              <td class="tabelaColuna">PROD002</td>
+              <td class="tabelaColuna">Teclado Sem Fio</td>
+              <td class="tabelaColuna">65 unidades</td>
+              <td class="tabelaColuna">
+                <span class="itemEstado baixoEstoque">Baixo Estoque</span>
+              </td>
+              <td class="tabelaColuna acoes">
+                <button class="botoesDecisao" title="Editar">
+                  <img src="../assets/icons/editar.svg" alt="editar.png" />
+                </button>
+                <button class="botoesDecisao" title="Excluir">
+                  <img src="../assets/icons/lixeira.svg" alt="apagar.png" />
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+      <p>Tudo no Controle © 2025 - Versão 1.0.0</p>
+    </footer>
+
+    <!-- Modal para o registro de novas vendas -->
+    <dialog
+      id="modalRegistroVenda"
+      aria-labelledby="tituloModalVenda"
+      aria-modal="true"
+      role="dialog"
+    >
+      <form id="formRegistroVenda" method="POST">
+        <div class="modalCabecalho">
+          <h2 class="tituloModal">Registrar Venda</h2>
+          <button
+            type="button"
+            aria-label="Fechar formulário"
+            id="botaoFecharVenda"
+            class="botaoFecharModal"
+          >
+            <img src="../assets/icons/fechar.svg" alt="fechar.svg" />
+          </button>
+        </div>
+
+        <div class="grupoFormulario">
+          <!-- Cliente -->
+          <label for="clienteVenda">Cliente</label>
+          <input
+            type="text"
+            id="clienteVenda"
+            name="cliente"
+            placeholder="Nome do cliente"
+            required
+          />
+
+          <!-- Produto -->
+          <label for="produtoVenda">Produto</label>
+          <select id="produtoVenda" name="produto" required>
+            <option value="" disabled selected>Selecione o produto</option>
+            <!-- Produtos devem ser carregados dinamicamente -->
+          </select>
+
+          <!-- Quantidade -->
+          <label for="quantidadeVenda">Quantidade</label>
+          <input
+            type="number"
+            id="quantidadeVenda"
+            name="quantidade"
+            min="1"
+            required
+          />
+
+          <!-- Preço unitário (preenchido automático ou editável) -->
+          <label for="precoUnitarioVenda">Preço Unitário</label>
+          <input
+            type="number"
+            id="precoUnitarioVenda"
+            name="preco_unitario"
+            step="0.01"
+            min="0"
+            required
+          />
+
+          <!-- Valor total (pode ser calculado) -->
+          <label for="valorTotalVenda">Valor Total</label>
+          <input
+            type="number"
+            id="valorTotalVenda"
+            name="valor_total"
+            step="0.01"
+            min="0"
+            readonly
+          />
+
+          <!-- Forma de pagamento -->
+          <label for="formaPagamentoVenda">Forma de Pagamento</label>
+          <select id="formaPagamentoVenda" name="forma_pagamento" required>
+            <option value="" disabled selected>Selecione</option>
+            <option value="dinheiro">Dinheiro</option>
+            <option value="pix">PIX</option>
+            <option value="cartao">Cartão</option>
+            <option value="boleto">Boleto</option>
+          </select>
+
+          <!-- Data da venda -->
+          <label for="dataVenda">Data da Venda</label>
+          <input type="date" id="dataVenda" name="data_venda" required />
+        </div>
+
+        <menu>
+          <button type="submit" class="botaoPrimario">Registrar Venda</button>
+          <button type="button" id="botaoCancelarVenda" class="botaoSecundario">
+            Cancelar
+          </button>
+        </menu>
+      </form>
+    </dialog>
+
+    <!-- Modal para o cadastro de novos produtos -->
+    <dialog
+      id="modalCadastroProduto"
+      aria-labelledby="tituloModalCadastro"
+      aria-modal="true"
+      role="dialog"
+    >
+      <form id="formCadastroProduto" method="POST">
+        <div class="modalCabecalho">
+          <h2 class="tituloModal">Cadastrar Produto</h2>
+          <button
+            type="button"
+            aria-label="Fechar formulário"
+            id="botaoFecharModal"
+            class="botaoFecharModal"
+          >
+            <img src="../assets/icons/fechar.svg" alt="fechar.svg" />
+          </button>
+        </div>
+
+        <!-- Tipo do Produto -->
+        <label for="tipoProduto">Tipo de Produto</label>
+        <select id="tipoProduto" name="tipo" required>
+          <option value="" disabled selected>Selecione</option>
+          <option value="linha">Linha</option>
+          <option value="tecido">Tecido</option>
+          <option value="adicional">Produto Adicional</option>
+        </select>
+
+        <h3 class="subtituloSecao">Informações Gerais</h3>
+        <div class="grupoFormulario">
+          <!-- Campos compartilhados -->
+          <label for="codigoProduto">Código/SKU</label>
+          <input type="text" id="codigoProduto" name="codigo" required />
+
+          <label for="nomeProduto">Nome do Produto</label>
+          <input
+            type="text"
+            id="nomeProduto"
+            name="nome"
+            class="campo-longo"
+            required
+          />
+
+          <label for="fornecedorProduto">Fornecedor</label>
+          <input type="text" id="fornecedorProduto" name="fornecedor" />
+
+          <label for="unidadeMedida">Unidade de Medida</label>
+          <select id="unidadeMedida" name="unidade_medida">
+            <option value="" disabled selected>Selecione</option>
+            <option value="un">Unidade</option>
+            <option value="m">Metro</option>
+            <option value="kg">Quilo</option>
+            <option value="rolo">Rolo</option>
+          </select>
+
+          <label for="quantidade">Quantidade</label>
+          <input type="number" id="quantidade" name="quantidade" min="0" />
+
+          <label for="precoCusto">Preço de Custo</label>
+          <input
+            type="number"
+            id="precoCusto"
+            name="preco_custo"
+            step="0.01"
+            min="0"
+          />
+
+          <label for="precoVenda">Preço de Venda</label>
+          <input
+            type="number"
+            id="precoVenda"
+            name="preco_venda"
+            step="0.01"
+            min="0"
+          />
+
+          <label for="dataEntrada">Data de Entrada</label>
+          <input type="date" id="dataEntrada" name="data_entrada" />
+        </div>
+
+        <!-- Linha -->
+        <div class="grupoFormulario grupoTipo" id="formLinha" hidden>
+          <h3 class="subtituloSecao">Informações do Tipo</h3>
+          <label for="corLinha">Cor</label>
+          <input type="text" id="corLinha" name="cor_linha" />
+
+          <label for="espessuraLinha">Espessura</label>
+          <input type="text" id="espessuraLinha" name="espessura" />
+
+          <label for="marcaLinha">Marca</label>
+          <input type="text" id="marcaLinha" name="marca_linha" />
+        </div>
+
+        <!-- Tecido -->
+        <div class="grupoFormulario grupoTipo" id="formTecido" hidden>
+          <h3 class="subtituloSecao">Informações do Tipo</h3>
+          <label for="tipoTecido">Tipo (ex: algodão)</label>
+          <input type="text" id="tipoTecido" name="tipo_tecido" />
+
+          <label for="corTecido">Cor</label>
+          <input type="text" id="corTecido" name="cor_tecido" />
+
+          <label for="composicaoTecido">Composição</label>
+          <input type="text" id="composicaoTecido" name="composicao" />
+
+          <label for="metragemTecido">Metragem</label>
+          <input
+            type="number"
+            id="metragemTecido"
+            name="metragem"
+            step="0.1"
+            min="0"
+          />
+        </div>
+
+        <!-- Produto Adicional -->
+        <div class="grupoFormulario grupoTipo" id="formAdicional" hidden>
+          <h3 class="subtituloSecao">Informações do Tipo</h3>
+          <label for="descricaoAdicional">Descrição</label>
+          <textarea
+            id="descricaoAdicional"
+            name="descricao"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <menu>
+          <button type="submit" class="botaoPrimario">Cadastrar</button>
+          <button type="button" id="botaoCancelarModal">Cancelar</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script src="../scripts/painelControle.js"></script>
+  </body>
+</html>
