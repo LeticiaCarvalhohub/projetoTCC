@@ -1,6 +1,6 @@
-from flask import Flask,render_template,request,session,redirect
+from flask import Flask,render_template,request,session,redirect, jsonify
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="app/static")
 app.secret_key = "AVNL"
 bancoDeDados = [
         {
@@ -31,14 +31,20 @@ def login():
   
 @app.route("/login", methods= ['POST'])
 def verificarLogin():
-  login = request.form['usuario']
-  senha = request.form['senha']
-  estado = request.form['estado']
+  data = request.get_json()
+  login = data.get('usuario')
+  senha = data.get('senha')
+  estado = data.get('estado')
 
   for user in bancoDeDados:
     if(login == user['usuario'] and senha == user['senha'] and estado == user['estado']):
       session['usuario'] = login
-      return redirect('/')
-  return render_template('login.html')
+      return jsonify({"sucesso": True})
+  return jsonify({"sucesso": False, "mensagem": "Credenciais inválidas."}), 401
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    session.clear()
+    return jsonify({"sucesso": True})
 
 

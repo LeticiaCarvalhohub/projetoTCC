@@ -4,30 +4,39 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tudo no controle</title>
-    <link rel="stylesheet" href="../static/css/painelControle.css" />
-    <link rel="stylesheet" href="../static/css/animacoesPainel.css" />
-    <link rel="stylesheet" href="../staticcss/painelControleRes.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/painelControle.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/animacoesPainel.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/painelControleRes.css') }}"
+    />
   </head>
   <body>
     <!-- Cabeçalho -->
     <header>
       <div class="logo-container">
         <button id="acessoNav">
-          <img src="../assets/icons/menu.svg" alt="" />
+          <img src="{{ url_for('static', filename='assets/icons/menu.svg') }}" alt="menu.svg" />
         </button>
-        <img id="logoIcone" src="../assets/images/logoTdC.png" alt="#" />
+        <img id="logoIcone" src="../app/assets/images/logoTdC.png" alt="#" />
         <h1 id="tituloPrincipal">Tudo no Controle</h1>
       </div>
       <div class="perfilUsuario">
         <div class="caixaPesquisa">
           <input type="text" placeholder="O que procura..." />
           <button class="iconePesquisa">
-            <img src="../assets/icons/pesquisar.svg" alt="iconePesquisa" />
+            <img src="../app/assets/icons/pesquisar.svg" alt="iconePesquisa" />
           </button>
         </div>
-        <span class="nomeUsuario">Matheus Cardoso</span>
+        <span class="nomeUsuario"></span>
         <div class="avatarUsuario">
-          <img src="../assets/images/Matheus.png" alt="MatheusCabeção" />
+          <img src="../app/assets/images/Matheus.png" alt="MatheusCabeção" />
         </div>
       </div>
     </header>
@@ -57,6 +66,8 @@
           <span>Inventário</span>
         </a>
       </div>
+
+      <button id="btnLogout">Sair</button>
     </nav>
 
     <!-- Contúdo Principal -->
@@ -685,6 +696,6 @@
       </form>
     </dialog>
 
-    <script src="../static/js/painelControle.js"></script>
+    <script src="{{ url_for('static', filename='js/painelControle.js') }}"></script>
   </body>
 </html>
