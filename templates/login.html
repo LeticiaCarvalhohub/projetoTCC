@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Sistema</title>
+    <link rel="stylesheet" href="../app/static/css/login.css" />
+  </head>
+  <body>
+    <form id="login-caixa">
+      <h1>Login</h1>
+
+      <div class="user-caixa">
+        <input
+          type="text"
+          id="usuario"
+          name="usuario"
+          placeholder=" "
+          required
+        />
+        <label for="usuario">Usuário</label>
+      </div>
+
+      <div class="user-caixa">
+        <input
+          type="password"
+          id="senha"
+          name="senha"
+          placeholder=" "
+          required
+        />
+        <label for="senha">Senha</label>
+      </div>
+
+      <div class="user-caixa">
+        <select id="estado" name="estado" required>
+          <option value=" " disabled selected>Selecionar função</option>
+          <option value="Administrador">Administrador</option>
+          <option value="Funcionário">Funcionário</option>
+        </select>
+        <label for="estado">Status</label>
+      </div>
+
+      <p id="mensagem"></p>
+
+      <button type="submit">Entrar</button>
+    </form>
+
+    <script src="../app/static/js/login.js"></script>
+  </body>
+</html>
