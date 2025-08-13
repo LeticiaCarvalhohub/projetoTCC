@@ -22,22 +22,29 @@
     <header>
       <div class="logo-container">
         <button id="acessoNav">
-          <img src="{{ url_for('static', filename='assets/icons/menu.svg') }}" alt="menu.svg" />
+          <img
+            src="{{ url_for('static', filename='assets/icons/menu.svg') }}"
+            alt="menu.svg"
+          />
         </button>
-        <img id="logoIcone" src="../app/assets/images/logoTdC.png" alt="#" />
+        <img
+          id="logoIcone"
+          src="{{ url_for('static', filename='assets/images/logoTdC.png') }}"
+          alt="#"
+        />
         <h1 id="tituloPrincipal">Tudo no Controle</h1>
       </div>
       <div class="perfilUsuario">
         <div class="caixaPesquisa">
           <input type="text" placeholder="O que procura..." />
           <button class="iconePesquisa">
-            <img src="../app/assets/icons/pesquisar.svg" alt="iconePesquisa" />
+            <img
+              src="{{ url_for('static', filename='assets/icons/pesquisar.svg') }}"
+              alt="iconePesquisa"
+            />
           </button>
         </div>
-        <span class="nomeUsuario"></span>
-        <div class="avatarUsuario">
-          <img src="../app/assets/images/Matheus.png" alt="MatheusCabeção" />
-        </div>
+        <span class="nomeUsuario">Bem-vindo - {{ session['usuario'] }}</span>
       </div>
     </header>
 
@@ -46,7 +53,10 @@
       <div class="navSessao">
         <div class="navTitulo">Principal</div>
         <a href="#" class="navLink ativo" data-destino="dashboard">
-          <img src="../assets/icons/dashboard.svg" alt="dashboard" />
+          <img
+            src="{{ url_for('static', filename='assets/icons/dashboard.svg') }}"
+            alt="dashboard"
+          />
           <span>Dashboard</span>
         </a>
       </div>
@@ -54,15 +64,24 @@
       <div class="navSessao">
         <div class="navTitulo">Operacional</div>
         <a href="#" class="navLink" data-destino="compras">
-          <img src="../assets/icons/compras.svg" alt="" />
+          <img
+            src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
+            alt="compras.svg"
+          />
           <span>Compras</span>
         </a>
         <a href="#" class="navLink" data-destino="vendas">
-          <img src="../assets/icons/carrinho.svg" alt="" />
+          <img
+            src="{{ url_for('static', filename='assets/icons/vendas.svg') }}"
+            alt="vendas.svg"
+          />
           <span>Vendas</span>
         </a>
         <a href="#" class="navLink" data-destino="inventario">
-          <img src="../assets/icons/estoque.svg" alt="estoque" />
+          <img
+            src="{{ url_for('static', filename='assets/icons/estoque.svg') }}"
+            alt="estoque.svg"
+          />
           <span>Inventário</span>
         </a>
       </div>
@@ -83,7 +102,10 @@
             <div class="cabecalhoCartao">
               <h3 class="tituloCartao">Vendas Hoje</h3>
               <div class="iconeCartao">
-                <img src="../assets/icons/vendas.svg" alt="vendas" />
+                <img
+                  src="{{ url_for('static', filename='assets/icons/vendas.svg') }}"
+                  alt="vendas.svg"
+                />
               </div>
             </div>
             <div class="valorCartao">R$ 45.237,89</div>
@@ -93,7 +115,10 @@
             <div class="cabecalhoCartao">
               <h3 class="tituloCartao">Pedidos Pendentes</h3>
               <div class="iconeCartao">
-                <img src="../assets/icons/alerta.svg" alt="alerta" />
+                <img
+                  src="{{ url_for('static', filename='assets/icons/alerta.svg') }}"
+                  alt="alerta.svg"
+                />
               </div>
             </div>
             <div class="valorCartao">25</div>
@@ -103,7 +128,10 @@
             <div class="cabecalhoCartao">
               <h3 class="tituloCartao">Novos fornecedores</h3>
               <div class="iconeCartao">
-                <img src="../assets/icons/pessoas.svg" alt="pessoas" />
+                <img
+                  src="{{ url_for('static', filename='assets/icons/pessoas.svg') }}"
+                  alt="pessoas.svg"
+                />
               </div>
             </div>
             <div class="valorCartao">14</div>
@@ -122,15 +150,24 @@
           <h3 class="sessaoTitulo">Ações Rápidas</h3>
           <div class="acoesBotoes">
             <button class="botaoPrimario">
-              <img src="../assets/icons/novo.svg" alt="" />
+              <img
+                src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+                alt="novo.svg"
+              />
               Novos Pedidos
             </button>
             <button class="botaoPrimario">
-              <img src="../assets/icons/pessoas2.svg" alt="pessoas" />
+              <img
+                src="{{ url_for('static', filename='assets/icons/pessoas2.svg') }}"
+                alt="pessoas2.svg"
+              />
               Novos Clientes
             </button>
             <button class="botaoPrimario">
-              <img src="../assets/icons/papelBranco.svg" alt="relatório" />
+              <img
+                src="{{ url_for('static', filename='assets/icons/papelBranco.svg') }}"
+                alt="papelBranco.svg"
+              />
               Relatório Diário
             </button>
           </div>
@@ -175,38 +212,6 @@
                 <p class="tempoAtividade">1 hora atrás</p>
               </div>
             </div>
-            <div class="atividadeItem">
-              <div class="iconeAtividade">💰</div>
-              <div class="caixaAtividade">
-                <h4 class="tituloAtividade">Pedido faturado</h4>
-                <p>Pedido #2045 no valor de R$ 7.890,00</p>
-                <p class="tempoAtividade">1 hora atrás</p>
-              </div>
-            </div>
-            <div class="atividadeItem">
-              <div class="iconeAtividade">💰</div>
-              <div class="caixaAtividade">
-                <h4 class="tituloAtividade">Pedido faturado</h4>
-                <p>Pedido #2045 no valor de R$ 7.890,00</p>
-                <p class="tempoAtividade">1 hora atrás</p>
-              </div>
-            </div>
-            <div class="atividadeItem">
-              <div class="iconeAtividade">💰</div>
-              <div class="caixaAtividade">
-                <h4 class="tituloAtividade">Pedido faturado</h4>
-                <p>Pedido #2045 no valor de R$ 7.890,00</p>
-                <p class="tempoAtividade">1 hora atrás</p>
-              </div>
-            </div>
-            <div class="atividadeItem">
-              <div class="iconeAtividade">💰</div>
-              <div class="caixaAtividade">
-                <h4 class="tituloAtividade">Pedido faturado</h4>
-                <p>Pedido #2045 no valor de R$ 7.890,00</p>
-                <p class="tempoAtividade">1 hora atrás</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -219,7 +224,10 @@
 
         <div id="controlesCompras">
           <button id="btnAbrirModalCompra" class="botaoPrimario">
-            <img src="../assets/icons/novo.svg" alt="novo.svg" />Nova Compra
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Nova Compra
           </button>
           <div class="pesquisasModulos">
             <input
@@ -229,7 +237,7 @@
               class="p"
             />
             <button class="pesquisaBotao">
-              <img src="../assets/icons/pesquisar.svg" alt="iconePesquisa" />
+              <img src="{{ url_for('static', filename='assets/icons/pesquisar.svg') }}" alt="pesquisar.svg" />
             </button>
           </div>
           <div class="filtrarOpcoes">
@@ -266,10 +274,10 @@
               </td>
               <td class="tabelaColuna acoes">
                 <button class="botoesDecisao" title="Editar">
-                  <img src="../assets/icons/editar.svg" alt="editar.png" />
+                  <img src="{{ url_for('static', filename='assets/icons/editar.svg') }}" alt="editar.svg" />
                 </button>
                 <button class="botoesDecisao" title="Excluir">
-                  <img src="../assets/icons/lixeira.svg" alt="apagar.png" />
+                  <img src="{{ url_for('static', filename='assets/icons/lixeira.svg') }}" alt="lixeira.svg" />
                 </button>
               </td>
             </tr>
@@ -301,7 +309,7 @@
 
         <div id="controlesVendas">
           <button id="btnAbrirModalVenda" class="botaoPrimario">
-            <img src="../assets/icons/novo.svg" alt="novo.svg" />Nova Venda
+            <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Nova Venda
           </button>
           <div class="pesquisasModulos">
             <input
@@ -311,7 +319,7 @@
               class="p"
             />
             <button class="pesquisaBotao">
-              <img src="../assets/icons/pesquisar.svg" alt="iconePesquisa" />
+              <img src="{{ url_for('static', filename='assets/icons/pesquisar.svg') }}" alt="pesquisaar.svg" />
             </button>
           </div>
           <div class="filtrarOpcoes">
@@ -357,10 +365,10 @@
               </td>
               <td class="tabelaColuna acoes">
                 <button class="botoesDecisao" title="Editar">
-                  <img src="../assets/icons/editar.svg" alt="editar.png" />
+                  <img src="{{ url_for('static', filename='assets/icons/editar.svg') }}" alt="editar.svg" />
                 </button>
                 <button class="botoesDecisao" title="Excluir">
-                  <img src="../assets/icons/lixeira.svg" alt="apagar.png" />
+                  <img src="{{ url_for('static', filename='assets/icons/lixeira.svg') }}" alt="lixeira.svg" />
                 </button>
               </td>
             </tr>
@@ -392,7 +400,7 @@
 
         <div id="controlesInventario">
           <button id="btnAbrirModalEstoque" class="botaoPrimario">
-            <img src="../assets/icons/novo.svg" alt="" />Novo Produto
+            <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Novo Produto
           </button>
           <button class="botaoSecundario"><img src="" alt="" />Entrada</button>
           <button class="botaoSecundario"><img src="" alt="" />Saída</button>
@@ -407,7 +415,7 @@
           <div class="pesquisasModulos">
             <input type="text" placeholder="Buscar produtos..." />
             <button class="pesquisaBotao">
-              <img src="../assets/icons/pesquisar.svg" alt="iconePesquisa" />
+              <img src="{{ url_for('static', filename='assets/icons/pesquisar.svg')}}" alt="pesquisar.svg" />
             </button>
           </div>
           <button class="botaoSecundario">
@@ -435,10 +443,10 @@
               </td>
               <td class="tabelaColuna acoes">
                 <button class="botoesDecisao" title="Editar">
-                  <img src="../assets/icons/editar.svg" alt="editar.png" />
+                  <img src="{{ url_for('static', filename='assets/icons/editar.svg')}}" alt="editar.svg" />
                 </button>
                 <button class="botoesDecisao" title="Excluir">
-                  <img src="../assets/icons/lixeira.svg" alt="apagar.png" />
+                  <img src="{{ url_for('static', filename='assets/icons/lixeira.svg')}}" alt="lixeira.svg" />
                 </button>
               </td>
             </tr>
@@ -451,10 +459,10 @@
               </td>
               <td class="tabelaColuna acoes">
                 <button class="botoesDecisao" title="Editar">
-                  <img src="../assets/icons/editar.svg" alt="editar.png" />
+                  <img src="{{ url_for('static', filename='assets/icons/editar.svg')}}" alt="editar.svg" />
                 </button>
                 <button class="botoesDecisao" title="Excluir">
-                  <img src="../assets/icons/lixeira.svg" alt="apagar.png" />
+                  <img src="{{ url_for('static', filename='assets/icons/lixeira.svg')}}" alt="lixeira.svg" />
                 </button>
               </td>
             </tr>
@@ -484,7 +492,7 @@
             id="botaoFecharVenda"
             class="botaoFecharModal"
           >
-            <img src="../assets/icons/fechar.svg" alt="fechar.svg" />
+            <img src="{{ url_for('static', filename='assets/icons/fechar.svg')}}" alt="fechar.svg" />
           </button>
         </div>
 
@@ -578,7 +586,7 @@
             id="botaoFecharModal"
             class="botaoFecharModal"
           >
-            <img src="../assets/icons/fechar.svg" alt="fechar.svg" />
+            <img src="{{ url_for('static', filename='assets/icons/fechar.svg')}}" alt="fechar.svg" />
           </button>
         </div>
 

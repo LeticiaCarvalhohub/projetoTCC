@@ -1,11 +1,11 @@
-from flask import Flask,render_template,request,session,redirect, jsonify
+from flask import Flask, render_template, request, session, redirect, jsonify
 
 app = Flask(__name__, static_folder="app/static")
 app.secret_key = "AVNL"
 bancoDeDados = [
         {
-          "usuario": "Admin",
-          "senha": "123", 
+          "usuario": "Eduardo de Sousa",
+          "senha": "12345", 
           "estado": "Administrador"
         },
         {
@@ -25,7 +25,7 @@ def home():
 @app.route("/login")
 def login():
   if('usuario' in session):
-    return redirect('/')
+    return redirect('/painelPrincipal')
   else:
     return render_template("login.html")
   
@@ -41,6 +41,13 @@ def verificarLogin():
       session['usuario'] = login
       return jsonify({"sucesso": True})
   return jsonify({"sucesso": False, "mensagem": "Credenciais inválidas."}), 401
+
+@app.route("/painelPrincipal")
+def painelPrincipal():
+    if 'usuario' in session:
+        return render_template("painelControle.html")
+    else:
+        return redirect("/login")
 
 @app.route("/logout", methods=["POST"])
 def logout():
