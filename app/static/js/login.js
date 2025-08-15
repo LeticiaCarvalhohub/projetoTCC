@@ -30,7 +30,7 @@ formLogin.addEventListener("submit", async (e) => {
     }
   } catch (erro) {
     console.error("Erro no login: ", erro)
-    mensagem.textContent = "Erro de conexão com o servidor.";
+    mensagem.textContent = "Credenciais inválidas.";
     mensagem.style.color = "#990000";
   }
 }); 

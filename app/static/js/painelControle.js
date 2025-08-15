@@ -21,6 +21,8 @@ const btnCancelarModalCompra = document.getElementById("botaoCancelarCompra");
 const btnCancelarModalVenda = document.getElementById("botaoCancelarVenda");
 const btnCancelarModalEstoque = document.getElementById("botaoCancelarModal");
 
+const btnLogout = document.getElementById("btnLogout");
+
 // Variáveis de alteração do conteúdo do formulário
 const tipoProduto = document.getElementById("tipoProduto");
 const formLinha = document.getElementById("formLinha");
@@ -117,5 +119,29 @@ tipoProduto.addEventListener("change", () => {
     case "adicional":
       formAdicional.hidden = false;
       break;
+  }
+});
+
+btnLogout.addEventListener("click", async () => {
+  try {
+    const resposta = await fetch("/logout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+    });
+
+    if (resposta.ok) {
+      const dados = await resposta.json();
+      if (dados.sucesso) {
+        window.location.href = "/login";
+      } else {
+        alert("Erro ao sair");
+      }
+    } else {
+      alert("Erro na requisição");
+    }
+  } catch (erro) {
+    alert("Erro ao sair");
+    console.error(erro);
   }
 });

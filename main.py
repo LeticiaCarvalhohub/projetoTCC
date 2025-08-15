@@ -11,7 +11,7 @@ bancoDeDados = [
         {
           "usuario": "Funcionario",
           "senha": "123", 
-          "estado": "Funcionario"
+          "estado": "Funcionário"
         },
     ]
 
