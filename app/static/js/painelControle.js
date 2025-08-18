@@ -132,7 +132,7 @@ btnLogout.addEventListener("click", async () => {
 
     if (resposta.ok) {
       const dados = await resposta.json();
-      if (dados.sucesso) {
+      if (dados) {
         window.location.href = "/login";
       } else {
         alert("Erro ao sair");

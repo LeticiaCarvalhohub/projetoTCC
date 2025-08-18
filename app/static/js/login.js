@@ -17,20 +17,20 @@ formLogin.addEventListener("submit", async (e) => {
     });
 
     if (!resposta.ok) {
-      throw new Error('Erro HTTP: ${resposta.status}')
+      throw new Error(`Erro HTTP: ${resposta.status}`);
     }
 
     const dados = await resposta.json();
 
-    if (dados.sucesso) {
+    if (dados) {
       window.location.href = "/painelPrincipal";
     } else {
       mensagem.textContent = dados.mensagem || "Credenciais inválidas.";
       mensagem.style.color = "red";
     }
   } catch (erro) {
-    console.error("Erro no login: ", erro)
+    console.error("Erro no login: ", erro);
     mensagem.textContent = "Credenciais inválidas.";
     mensagem.style.color = "#990000";
   }
-}); 
+});
