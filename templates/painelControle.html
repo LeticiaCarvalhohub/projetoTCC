@@ -89,7 +89,7 @@
       <button id="btnLogout">Sair</button>
     </nav>
 
-    <!-- Contúdo Principal -->
+    <!-- Conteúdo Principal -->
     <main>
       <!-- DashBoard-->
       <section id="dashboard">
@@ -147,7 +147,10 @@
           <div class="graficos">
             <h3 class="graficoTitulo">Compras semanais</h3>
             <p class="descricaoGrafico"></p>
-            <canvas></canvas>
+            <div id="chartContainer" style="height: 320px;width: 100%;">
+                  <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+                  <script src="./static/js/graficos.js"></script>
+            </div>
           </div>
           <div class="graficos">
             <h3 class="graficoTitulo">Total de Vendas</h3>
