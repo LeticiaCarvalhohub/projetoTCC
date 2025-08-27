@@ -35,15 +35,6 @@
         <h1 id="tituloPrincipal">Tudo no Controle</h1>
       </div>
       <div class="perfilUsuario">
-        <div class="caixaPesquisa">
-          <input type="text" placeholder="O que procura..." />
-          <button class="iconePesquisa">
-            <img
-              src="{{ url_for('static', filename='assets/icons/pesquisar.svg') }}"
-              alt="iconePesquisa"
-            />
-          </button>
-        </div>
         <span class="nomeUsuario">Bem-vindo - {{ session['usuario'] }}</span>
       </div>
     </header>
@@ -176,13 +167,6 @@
                 alt="pessoas2.svg"
               />
               Novos Clientes
-            </button>
-            <button class="botaoPrimario">
-              <img
-                src="{{ url_for('static', filename='assets/icons/papelBranco.svg') }}"
-                alt="papelBranco.svg"
-              />
-              Relatório Diário
             </button>
           </div>
         </div>
@@ -440,8 +424,6 @@
               alt="novo.svg"
             />Novo Produto
           </button>
-          <button class="botaoSecundario"><img src="" alt="" />Entrada</button>
-          <button class="botaoSecundario"><img src="" alt="" />Saída</button>
           <div class="filtrarOpcoes">
             <select class="filtroSelecionar">
               <option>Todos Status</option>

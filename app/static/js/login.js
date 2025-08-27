@@ -22,7 +22,7 @@ formLogin.addEventListener("submit", async (e) => {
 
     const dados = await resposta.json();
 
-    if (dados) {
+    if (dados.sucesso) {
       window.location.href = "/painelPrincipal";
     } else {
       mensagem.textContent = dados.mensagem || "Credenciais inválidas.";
