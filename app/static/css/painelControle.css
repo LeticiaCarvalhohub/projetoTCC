@@ -292,6 +292,16 @@ main {
   box-shadow: var(--sombra-pequena);
 }
 
+.graficoContainer {
+  height: 25rem;
+  width: 100%;
+  background: white;
+  border-radius: var(--raio-borda);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--sombra-pequena);
+}
+
 .sessaoTitulo {
   margin-top: 1rem;
 }

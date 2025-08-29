@@ -5,16 +5,16 @@ usuario_bp = Blueprint("usuario", __name__)
 
 @usuario_bp.route("/")
 def home():
-  if 'usuario' in session:
+  # if 'usuario' in session:
     return render_template("painelControle.html")
-  else:
+  # else:
     return redirect("/login")
   
 @usuario_bp.route("/login", methods=["GET"])
 def login():
-  if 'usuario' in session:
+  # if 'usuario' in session:
     return redirect("/painelPrincipal")
-  return render_template("login.html")
+  # return render_template("login.html")
 
 @usuario_bp.route("/login", methods=["POST"])
 def verificarLogin():
@@ -32,9 +32,9 @@ def verificarLogin():
   
 @usuario_bp.route("/painelPrincipal")
 def painelPrincipal():
-  if 'usuario' in session:
+  # if 'usuario' in session:
     return render_template("painelControle.html")
-  else:
+  # else:
     return redirect("/login")
   
 @usuario_bp.route("/logout", methods=["POST"])

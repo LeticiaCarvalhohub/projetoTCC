@@ -16,6 +16,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/painelControleRes.css') }}"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <!-- Cabeçalho -->
@@ -136,17 +137,10 @@
             <div class="diasCalendario"></div>
           </div>
           <div class="graficos">
-            <h3 class="graficoTitulo">Compras semanais</h3>
-            <p class="descricaoGrafico"></p>
-            <div id="chartContainer" style="height: 320px;width: 100%;">
-                  <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-                  <script src="./static/js/graficos.js"></script>
-            </div>
+            <canvas id="chartContainer1" class="graficoContainer"></canvas>
           </div>
           <div class="graficos">
-            <h3 class="graficoTitulo">Total de Vendas</h3>
-            <p class="descricaoGrafico"></p>
-            <canvas></canvas>
+            <canvas id="chartContainer2" class="graficoContainer"></canvas>
           </div>
         </div>
 
@@ -511,7 +505,7 @@
 
     <!-- Rodapé -->
     <footer>
-      <p>Tudo no Controle © 2025 - Versão 1.0.0</p>
+      <p>Tudo no Controle © 2025 - Versão 3.0</p>
     </footer>
 
     <!-- Modal para o registro de novas vendas -->
@@ -749,5 +743,6 @@
     </dialog>
 
     <script src="{{ url_for('static', filename='js/painelControle.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/graficos.js')}}"></script>
   </body>
 </html>

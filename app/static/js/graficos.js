@@ -1,22 +1,60 @@
 window.onload = function () {
-    var chart = new CanvasJS.Chart("chartContainer", {
-        theme: "light2", // "light2", "dark1", "dark2"
-        animationEnabled: false, // change to true		
-        title: {
-            text: "Compras semanais"
+  const grafico1 = document.getElementById("chartContainer1").getContext("2d");
+  const grafico2 = document.getElementById("chartContainer2").getContext("2d");
+
+  const dados = [];
+
+  const dataAtual = new Date();
+  const mesAtual = dataAtual.getMonth();
+
+  const config1 = {
+    type: "bar",
+    data: {
+      labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
+      datasets: [
+        {
+          label: "Total de Vendas Mensais (R$)",
+          data: [1200, 1900, 3000, 2500, 2200, 2800],
+          backgroundColor: "rgba(41, 141, 208, 0.6)",
+          borderColor: "rgba(123, 202, 255, 1)",
+          borderWidth: 1,
         },
-        data: [
-            {
-                // Change type to "bar", "area", "spline", "pie", etc.
-                type: "column",
-                dataPoints: [
-                    { label: "Semana 1", y: 10 },
-                    { label: "Semana 2", y: 15 },
-                    { label: "Semana 3", y: 25 },
-                    { label: "Semana 4", y: 30 },
-                ]
-            }
-        ]
-    });
-    chart.render();
-}
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  };
+
+  const config2 = {
+    type: "bar",
+    data: {
+      labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
+      datasets: [
+        {
+          label: "Vendas (R$)",
+          data: [1200, 1900, 3000, 2500, 2200, 2800],
+          backgroundColor: "rgba(54, 162, 235, 0.6)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  };
+
+  new Chart(grafico1, config1);
+  new Chart(grafico2, config2);
+};
