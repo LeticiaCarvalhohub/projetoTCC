@@ -1,22 +1,9 @@
-import mysql.connector
-from config import Config
+from app.models import conexaoBD
 
-try:
-  def conexaoBD():
-    return mysql.connector.connect(
-      host=Config.DB_HOST,
-      user=Config.DB_USER,
-      password=Config.DB_PASSWORD,
-      database=Config.DB_NAME
-    )
-  print("Conexão bem-sucedida!")
-except mysql.connector.Error as err:
-  print(f"Erro: {err}")
-
-def verificar_usuario(usuario, senha, estado):
+def verificar_usuario(email, senha, status):
   conexao = conexaoBD()
   cursor = conexao.cursor(dictionary=True)
-  cursor.execute("SELECT * FROM usuarios WHERE usuario = %s AND senha = %s AND estado = %s", (usuario, senha, estado))
+  cursor.execute("SELECT * FROM usuario WHERE email = %s AND senha = %s AND status = %s", (email, senha, status))
   user = cursor.fetchone()
   cursor.close()
   conexao.close()

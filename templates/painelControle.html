@@ -631,80 +631,66 @@
         <!-- Tipo do Produto -->
         <label for="tipoProduto">Tipo de Produto</label>
         <select id="tipoProduto" name="tipo" required>
-          <option value="" disabled selected>Selecione</option>
+          <option value="" selected>Selecione</option>
           <option value="linha">Linha</option>
           <option value="tecido">Tecido</option>
-          <option value="adicional">Produto Adicional</option>
+          <option value="extra">Extras</option>
         </select>
-
-        <h3 class="subtituloSecao">Informações Gerais</h3>
-        <div class="grupoFormulario">
-          <!-- Campos compartilhados -->
-          <label for="codigoProduto">Código/SKU</label>
-          <input type="text" id="codigoProduto" name="codigo" required />
-
-          <label for="nomeProduto">Nome do Produto</label>
-          <input
-            type="text"
-            id="nomeProduto"
-            name="nome"
-            class="campo-longo"
-            required
-          />
-
-          <label for="fornecedorProduto">Fornecedor</label>
-          <input type="text" id="fornecedorProduto" name="fornecedor" />
-
-          <label for="unidadeMedida">Unidade de Medida</label>
-          <select id="unidadeMedida" name="unidade_medida">
-            <option value="" disabled selected>Selecione</option>
-            <option value="un">Unidade</option>
-            <option value="m">Metro</option>
-            <option value="kg">Quilo</option>
-            <option value="rolo">Rolo</option>
-          </select>
-
-          <label for="quantidade">Quantidade</label>
-          <input type="number" id="quantidade" name="quantidade" min="0" />
-
-          <label for="precoCusto">Preço de Custo</label>
-          <input
-            type="number"
-            id="precoCusto"
-            name="preco_custo"
-            step="0.01"
-            min="0"
-          />
-
-          <label for="precoVenda">Preço de Venda</label>
-          <input
-            type="number"
-            id="precoVenda"
-            name="preco_venda"
-            step="0.01"
-            min="0"
-          />
-
-          <label for="dataEntrada">Data de Entrada</label>
-          <input type="date" id="dataEntrada" name="data_entrada" />
-        </div>
 
         <!-- Linha -->
         <div class="grupoFormulario grupoTipo" id="formLinha" hidden>
-          <h3 class="subtituloSecao">Informações do Tipo</h3>
-          <label for="corLinha">Cor</label>
-          <input type="text" id="corLinha" name="cor_linha" />
+          <h3 class="subtituloSecao">Informações do Produto: Linha</h3>
 
-          <label for="espessuraLinha">Espessura</label>
-          <input type="text" id="espessuraLinha" name="espessura" />
+          <label for="codigoLinha">Código - Linha</label>
+          <input type="text" id="codigoLinha" name="codigo" required />
 
           <label for="marcaLinha">Marca</label>
-          <input type="text" id="marcaLinha" name="marca_linha" />
+          <input type="text" id="marcaLinha" name="marca_linha" required />
+
+          <label for="corLinha">Cor</label>
+          <input type="text" id="corLinha" name="cor_linha" required />
+
+          <label for="codigoCor">Código - Cor</label>
+          <input type="color" name="codigoCor" id="codigo da cor" required />
+
+          <label for="tipoLinha">Tipo da linha</label>
+          <select name="tipoLinha" id="tipoLinha" required>
+            <option value="">Selecione o tipo da linha</option>
+            <option value="costura">Costura</option>
+            <option value="bordado">Bordado</option>
+            <option value="croche">Crochê</option>
+            <option value="trico">Tricô</option>
+            <option value="outro">Outro</option>
+          </select>
+
+          <label for="materialLinha">Material da linha</label>
+          <select name="material" id="materialLinha" required>
+            <option value="">Selecione o material da linha</option>
+            <option value="algodao">Algodão</option>
+            <option value="poliester">Poliéster</option>
+            <option value="misto">Misto</option>
+            <option value="seda">Seda</option>
+            <option value="outra">Outra</option>
+          </select>
+
+          <label for="comprimentoLinha">Comprimento</label>
+          <input
+            type="text"
+            id="comprimentoLinha"
+            name="comprimento"
+            required
+          />
+
+          <label for="espessuraLinha">Espessura</label>
+          <input type="text" id="espessuraLinha" name="espessura" required />
+
+          <label for="precoUnitario">Preço unitário</label>
+          <input type="text" id="precoBase" name="preco" required />
         </div>
 
         <!-- Tecido -->
         <div class="grupoFormulario grupoTipo" id="formTecido" hidden>
-          <h3 class="subtituloSecao">Informações do Tipo</h3>
+          <h3 class="subtituloSecao">Informações do produto: Tecido</h3>
           <label for="tipoTecido">Tipo (ex: algodão)</label>
           <input type="text" id="tipoTecido" name="tipo_tecido" />
 
@@ -724,9 +710,9 @@
           />
         </div>
 
-        <!-- Produto Adicional -->
-        <div class="grupoFormulario grupoTipo" id="formAdicional" hidden>
-          <h3 class="subtituloSecao">Informações do Tipo</h3>
+        <!-- Produto Extra -->
+        <div class="grupoFormulario grupoTipo" id="formExtra" hidden>
+          <h3 class="subtituloSecao">Informações do produto: Extras</h3>
           <label for="descricaoAdicional">Descrição</label>
           <textarea
             id="descricaoAdicional"

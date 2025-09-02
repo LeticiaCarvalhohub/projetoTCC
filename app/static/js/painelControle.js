@@ -27,7 +27,7 @@ const btnLogout = document.getElementById("btnLogout");
 const tipoProduto = document.getElementById("tipoProduto");
 const formLinha = document.getElementById("formLinha");
 const formTecido = document.getElementById("formTecido");
-const formAdicional = document.getElementById("formAdicional");
+const formExtra = document.getElementById("formExtra");
 
 // Botões para a navegação das abas principais
 botaoMenu.addEventListener("click", () => {
@@ -107,7 +107,7 @@ modalCadastro.addEventListener("click", (evento) => {
 tipoProduto.addEventListener("change", () => {
   formLinha.hidden = true;
   formTecido.hidden = true;
-  formAdicional.hidden = true;
+  formExtra.hidden = true;
 
   switch (tipoProduto.value) {
     case "linha":
@@ -117,7 +117,7 @@ tipoProduto.addEventListener("change", () => {
       formTecido.hidden = false;
       break;
     case "adicional":
-      formAdicional.hidden = false;
+      formExtra.hidden = false;
       break;
   }
 });
