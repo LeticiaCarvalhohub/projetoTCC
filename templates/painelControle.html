@@ -147,7 +147,6 @@
         <div class="acoesRapidas">
           <div class="abas">
             <button class="aba ativo">Operações</button>
-            <button class="aba">Relatórios</button>
           </div>
           <h3 class="sessaoTitulo">Ações Rápidas</h3>
           <div class="acoesBotoes">
@@ -156,14 +155,7 @@
                 src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
                 alt="novo.svg"
               />
-              Novos Pedidos
-            </button>
-            <button class="botaoPrimario">
-              <img
-                src="{{ url_for('static', filename='assets/icons/pessoas2.svg') }}"
-                alt="pessoas2.svg"
-              />
-              Novos Clientes
+              Novos Produtos
             </button>
           </div>
         </div>
@@ -642,16 +634,40 @@
           <h3 class="subtituloSecao">Informações do Produto: Linha</h3>
 
           <label for="codigoLinha">Código - Linha</label>
-          <input type="text" id="codigoLinha" name="codigo" required />
+          <input
+            type="text"
+            id="codigoLinha"
+            name="codigo"
+            placeholder="Digite o código da linha..."
+            required
+          />
 
           <label for="marcaLinha">Marca</label>
-          <input type="text" id="marcaLinha" name="marca_linha" required />
+          <input
+            type="text"
+            id="marcaLinha"
+            name="marca_linha"
+            placeholder="Digite a marca da linha..."
+            required
+          />
 
           <label for="corLinha">Cor</label>
-          <input type="text" id="corLinha" name="cor_linha" required />
+          <input
+            type="text"
+            id="corLinha"
+            name="cor_linha"
+            placeholder="Digite a cor da linha..."
+            required
+          />
 
           <label for="codigoCor">Código - Cor</label>
-          <input type="color" name="codigoCor" id="codigo da cor" required />
+          <input
+            type="text"
+            name="codigoCor"
+            id="codigo da cor"
+            placeholder="Digite o código da cor da linha..."
+            required
+          />
 
           <label for="tipoLinha">Tipo da linha</label>
           <select name="tipoLinha" id="tipoLinha" required>
@@ -675,17 +691,37 @@
 
           <label for="comprimentoLinha">Comprimento</label>
           <input
-            type="text"
+            type="number"
             id="comprimentoLinha"
             name="comprimento"
+            placeholder="Digite o comprimento da linha..."
             required
           />
 
           <label for="espessuraLinha">Espessura</label>
-          <input type="text" id="espessuraLinha" name="espessura" required />
+          <input
+            type="number"
+            id="espessuraLinha"
+            name="espessura"
+            step="0.001"
+            min="0"
+            placeholder="Digite a espessura da linha..."
+            required
+          />
 
           <label for="precoUnitario">Preço unitário</label>
-          <input type="text" id="precoBase" name="preco" required />
+          <input
+            type="number"
+            id="precoBase"
+            name="preco"
+            placeholder="Digite o preço unitário da linha..."
+            step="0.01"
+            min="0"
+            required
+          />
+
+          <label for="dataCadastro">Data do cadastro</label>
+          <input type="date" id="dataCadastro" name="data" required />
         </div>
 
         <!-- Tecido -->

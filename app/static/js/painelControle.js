@@ -91,6 +91,16 @@ btnAbrirModalEstoque.addEventListener("click", () => modalCadastro.showModal());
 btnFecharModalEstoque.addEventListener("click", () => modalCadastro.close());
 btnCancelarModalEstoque.addEventListener("click", () => modalCadastro.close());
 
+//resetar selects no modal
+function resetarSelectsModalCadastro() {
+  const selects = modalCadastro.querySelectorAll("select");
+  selects.forEach((select) => {
+    select.value = "";
+  });
+}
+
+modalCadastro.addEventListener("close", resetarSelectsModalCadastro);
+
 modalCadastro.addEventListener("click", (evento) => {
   const reacao = modalCadastro.getBoundingClientRect();
   if (
@@ -116,7 +126,7 @@ tipoProduto.addEventListener("change", () => {
     case "tecido":
       formTecido.hidden = false;
       break;
-    case "adicional":
+    case "extra":
       formExtra.hidden = false;
       break;
   }
