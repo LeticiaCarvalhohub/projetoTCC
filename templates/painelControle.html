@@ -132,33 +132,17 @@
         </div>
 
         <div class="dashboardGrid">
-          <div class="calendario">
-            <h3 class="sessaoTitulo">Calendário</h3>
-            <div class="diasCalendario"></div>
-          </div>
           <div class="graficos">
             <canvas id="chartContainer1" class="graficoContainer"></canvas>
           </div>
           <div class="graficos">
             <canvas id="chartContainer2" class="graficoContainer"></canvas>
           </div>
+          <div class="graficos">
+            <canvas id="chartContainer3" class="graficoContainer"></canvas>
+          </div>
         </div>
 
-        <div class="acoesRapidas">
-          <div class="abas">
-            <button class="aba ativo">Operações</button>
-          </div>
-          <h3 class="sessaoTitulo">Ações Rápidas</h3>
-          <div class="acoesBotoes">
-            <button class="botaoPrimario">
-              <img
-                src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
-                alt="novo.svg"
-              />
-              Novos Produtos
-            </button>
-          </div>
-        </div>
         <div class="atividadesRecentes">
           <div class="sessaoCabecalho">
             <h2 class="paginaTitulo">Atividades Recentes</h2>
@@ -435,7 +419,89 @@
           </button>
         </div>
 
-        <table id="tabelaInventario">
+        <h3 class="tituloTabela">Tabela de Linhas</h3>
+        <table class="tabelaInventario">
+          <thead>
+            <tr class="tabelaCabecalho">
+              <th>Código</th>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="linhaTabela">
+              <td class="tabelaColuna">PROD001</td>
+              <td class="tabelaColuna">Notebook Dell</td>
+              <td class="tabelaColuna">15 unidades</td>
+              <td class="tabelaColuna">
+                <span class="itemEstado emEstoque">Em Estoque</span>
+              </td>
+              <td class="tabelaColuna acoes">
+                <button class="botoesDecisao" title="Editar">
+                  <img
+                    src="{{ url_for('static', filename='assets/icons/editar.svg')}}"
+                    alt="editar.svg"
+                  />
+                </button>
+                <button class="botoesDecisao" title="Excluir">
+                  <img
+                    src="{{ url_for('static', filename='assets/icons/lixeira.svg')}}"
+                    alt="lixeira.svg"
+                  />
+                </button>
+              </td>
+            </tr>
+            <tr class="linhaTabela">
+              <td class="tabelaColuna">PROD002</td>
+              <td class="tabelaColuna">Teclado Sem Fio</td>
+              <td class="tabelaColuna">65 unidades</td>
+              <td class="tabelaColuna">
+                <span class="itemEstado baixoEstoque">Baixo Estoque</span>
+              </td>
+              <td class="tabelaColuna acoes">
+                <button class="botoesDecisao" title="Editar">
+                  <img
+                    src="{{ url_for('static', filename='assets/icons/editar.svg')}}"
+                    alt="editar.svg"
+                  />
+                </button>
+                <button class="botoesDecisao" title="Excluir">
+                  <img
+                    src="{{ url_for('static', filename='assets/icons/lixeira.svg')}}"
+                    alt="lixeira.svg"
+                  />
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="tituloTabela">Tabela de Tecidos</h3>
+        <table id="tabelaTecidos" class="tabelaInventario">
+          <thead>
+            <tr class="tabelaCabecalho">
+              <th>Código</th>
+              <th>Nome</th>
+              <th>Marca</th>
+              <th>Tipo</th>
+              <th>Estampa</th>
+              <th>Cor</th>
+              <th>Largura (cm)</th>
+              <th>Preço (R$/m)</th>
+              <th>Composição</th>
+              <th>Peso (g/m²)</th>
+              <th>Data Cadastro</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <h3 class="tituloTabela">Tabela de Produtos Extras</h3>
+        <table class="tabelaInventario">
           <thead>
             <tr class="tabelaCabecalho">
               <th>Código</th>

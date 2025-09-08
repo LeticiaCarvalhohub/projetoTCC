@@ -3,11 +3,10 @@ from app.models import conexaoBD
 def insert_produtos_extras(nome, categoria, marca, cor, tamanho, material, preço_base, unidade_medida, data_cadastro):
     conexao = conexaoBD()
     cursor = conexao.cursor()
-    cursor.execute("INSERT INTO prodrutos_extras(nome, categoria, marca, cor, tamanho, material, preço_base, unidade_medida, data_cadastro) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(nome, categoria, marca, cor, tamanho, material, preço_base, unidade_medida, data_cadastro))
+    cursor.execute("INSERT INTO produtos_extras(nome, categoria, marca, cor, tamanho, material, preço_base, unidade_medida, data_cadastro) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(nome, categoria, marca, cor, tamanho, material, preço_base, unidade_medida, data_cadastro))
     conexao.commit()
     cursor.close()
     conexao.close()
-
 
 def update_produtos_extras(codigo_extra, dado):
     conexao = conexaoBD()

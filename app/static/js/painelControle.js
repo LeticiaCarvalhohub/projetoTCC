@@ -155,3 +155,32 @@ btnLogout.addEventListener("click", async () => {
     console.error(erro);
   }
 });
+
+// Carregamento dos dados nas tabelas
+document.addEventListener("DOMContentLoaded", async () => {
+  const tabela = document.querySelector("#tabelaTecidos tbody");
+
+  try {
+    const resposta = await fetch("/tecido");
+    const tecidos = await resposta.json();
+
+    tecidos.forEach((tecido) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${tecido.codigo_tecido}</td>
+        <td>${tecido.nome}</td>
+        <td>${tecido.marca}</td>
+        <td>${tecido.tipo_tecido}</td>
+        <td>${tecido.estampa}</td>
+        <td>${tecido.cor}</td>
+        <td>${tecido.largura_cm}</td>
+        <td>R$ ${parseFloat(tecido.preco_metro).toFixed(2)}</td>
+        <td>${tecido.composicao}</td>
+        <td>${tecido.peso_g_m2}</td>
+        <td>${new Date(tecido.data_cadastro).toLocaleDateString("pt-BR")}</td>`;
+      tabela.appendChild(tr);
+    });
+  } catch (error) {
+    console.error("Erro ao buscar tecidos:", error);
+  }
+});

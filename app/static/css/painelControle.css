@@ -616,9 +616,9 @@ main {
   padding: 0 0.5rem;
   cursor: pointer;
 }
-
-#tabelaInventario {
+.tabelaInventario {
   width: 100%;
+  margin-bottom: 2rem;
   border-collapse: collapse;
   background: white;
   border: var(--raio-borda);
@@ -626,8 +626,8 @@ main {
   box-shadow: var(--sombra-pequena);
 }
 
-#tabelaInventario th,
-#tabelaInventario td {
+.tabelaInventario th,
+.tabelaInventario td {
   padding: 0.8rem 1rem;
   text-align: left;
   vertical-align: middle;
@@ -640,6 +640,13 @@ main {
   font-size: 14px;
   color: var(--cor-texto);
   text-transform: uppercase;
+}
+
+.tituloTabela {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--cor-texto);
+  margin-bottom: 1rem;
 }
 
 .linhaTabela {

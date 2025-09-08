@@ -1,13 +1,25 @@
 from app.models import conexaoBD
 
+def listar_tecido():
+    conexao = conexaoBD()
+    cursor = conexao.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT codigo_tecido, nome, marca, tipo_tecido, estampa, cor,
+               largura_cm, preco_metro, composicao, peso_g_m2, data_cadastro
+        FROM tecidos
+    """)
+    tecidos = cursor.fetchall()
+    cursor.close()
+    conexao.close()
+    return tecidos
+
 def insert_tecidos(nome, marca,tipo_tecido, estampa, cor, largura_cm, preco_metro, composicao, peso_g_m2, data_cadastro):
     conexao = conexaoBD()
     cursor = conexao.cursor()
-    cursor.execute("INSERT INTO tecidos(nome, marca, tipo_tecido, estampa, cor, largura_cm, preco_metro, composicao, peso_g_m2, data_cadastro) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",nome, marca,tipo_tecido, estampa, cor, largura_cm, preco_metro, composicao, peso_g_m2, data_cadastro)
+    cursor.execute("INSERT INTO tecidos(nome, marca, tipo_tecido, estampa, cor, largura_cm, preco_metro, composicao, peso_g_m2, data_cadastro) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (nome, marca, tipo_tecido, estampa, cor, largura_cm, preco_metro, composicao, peso_g_m2, data_cadastro))
     conexao.commit()
     cursor.close()
     conexao.close()
-
 
 def update_tecido(codigo_tecido, dado):
     conexao = conexaoBD()
@@ -56,8 +68,7 @@ def update_tecido(codigo_tecido, dado):
         campos.append("data_cadastro=%s")
         valores.append(dado["data_cadastro"])
 
-    # Monta o UPDATE só com os campos enviados
-    sql = f"UPDATE tecidos SET {', '.join(campos)} WHERE id=%s"
+    sql = f"UPDATE tecidos SET {', '.join(campos)} WHERE codigo_tecido=%s"
     valores.append(codigo_tecido)
 
     cursor.execute(sql, valores)
