@@ -161,23 +161,38 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tabela = document.querySelector("#tabelaTecidos tbody");
 
   try {
-    const resposta = await fetch("/tecido");
+    const resposta = await fetch("/api/produtos");
     const tecidos = await resposta.json();
-
+    console.log(tecidos);
     tecidos.forEach((tecido) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${tecido.codigo_tecido}</td>
-        <td>${tecido.nome}</td>
-        <td>${tecido.marca}</td>
-        <td>${tecido.tipo_tecido}</td>
-        <td>${tecido.estampa}</td>
-        <td>${tecido.cor}</td>
-        <td>${tecido.largura_cm}</td>
-        <td>R$ ${parseFloat(tecido.preco_metro).toFixed(2)}</td>
-        <td>${tecido.composicao}</td>
-        <td>${tecido.peso_g_m2}</td>
-        <td>${new Date(tecido.data_cadastro).toLocaleDateString("pt-BR")}</td>`;
+        <td class="tabelaColuna">${tecido.codigo_tecido}</td>
+        <td class="tabelaColuna">${tecido.nome}</td>
+        <td class="tabelaColuna">${tecido.marca}</td>
+        <td class="tabelaColuna">${tecido.tipo_tecido}</td>
+        <td class="tabelaColuna">${tecido.estampa}</td>
+        <td class="tabelaColuna">${tecido.cor}</td>
+        <td class="tabelaColuna">${tecido.largura_cm}</td>
+        <td class="tabelaColuna">R$ ${parseFloat(tecido.preco_metro).toFixed(
+          2
+        )}</td>
+        <td class="tabelaColuna">${tecido.composicao}</td>
+        <td class="tabelaColuna">${tecido.peso_g_m2}</td>
+        <td class="tabelaColuna">${new Date(
+          tecido.data_cadastro
+        ).toLocaleDateString("pt-BR")}</td>
+        <td class="tabelaColuna">
+          <span class="itemEstado emEstoque">alguma coisa</span>
+        </td>
+        <td class="tabelaColuna acoes">
+          <button class="botoesDecisao" title="Editar">
+            <img src="editar.svg" alt="editar.svg"/>
+          </button>
+          <button class="botoesDecisao" title="Excluir">
+            <img src="lixeira.svg" alt="lixeira.svg" />
+          </button>
+        </td>`;
       tabela.appendChild(tr);
     });
   } catch (error) {

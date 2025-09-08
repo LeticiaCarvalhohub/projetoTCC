@@ -1,6 +1,6 @@
 from app.models import conexaoBD
 
-def listar_tecido():
+def get_tecido():
     conexao = conexaoBD()
     cursor = conexao.cursor(dictionary=True)
     cursor.execute("""
