@@ -158,34 +158,122 @@ btnLogout.addEventListener("click", async () => {
 
 // Carregamento dos dados nas tabelas
 document.addEventListener("DOMContentLoaded", async () => {
+  const tabela = document.querySelector("#tabelaLinhas tbody");
+
+  try {
+    const resposta = await fetch("/api/linha");
+    const linhas = await resposta.json();
+    tabela.innerHTML = "";
+    console.log(linhas);
+    linhas.forEach((linha) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="linhaColuna">${linha.codigo_linha}</td>
+        <td class="linhaColuna">${linha.nome}</td>
+        <td class="linhaColuna">${linha.marca}</td>
+        <td class="linhaColuna">${linha.cor}</td>
+        <td class="linhaColuna">${linha.codigo_cor}</td>
+        <td class="linhaColuna">${linha.tipo}</td>
+        <td class="linhaColuna">${linha.material}</td>
+        <td class="linhaColuna">${linha.comprimento_metros}</td>
+        <td class="linhaColuna">${linha.espessura}</td>
+        <td class="linhaColuna">R$ ${parseFloat(linha.preco_base).toFixed(
+          2
+        )}</td>
+        <td class="linhaColuna">${new Date(
+          linha.data_cadastro
+        ).toLocaleDateString("pt-BR")}</td>
+        <td class="linhaColuna"">
+          <span class="itemEstado emEstoque"></span>
+        </td>
+        <td class="linhaColuna acoes">
+          <button class="botoesDecisao" title="Editar">
+            <img src="editar.svg" alt="editar.svg"/>
+          </button>
+          <button class="botoesDecisao" title="Excluir">
+            <img src="lixeira.svg" alt="lixeira.svg" />
+          </button>
+        </td>`;
+      tabela.appendChild(tr);
+    });
+  } catch (error) {
+    console.error("Erro ao buscar tecidos:", error);
+  }
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
   const tabela = document.querySelector("#tabelaTecidos tbody");
 
   try {
-    const resposta = await fetch("/api/produtos");
+    const resposta = await fetch("/api/tecido");
     const tecidos = await resposta.json();
+    tabela.innerHTML = "";
     console.log(tecidos);
     tecidos.forEach((tecido) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td class="tabelaColuna">${tecido.codigo_tecido}</td>
-        <td class="tabelaColuna">${tecido.nome}</td>
-        <td class="tabelaColuna">${tecido.marca}</td>
-        <td class="tabelaColuna">${tecido.tipo_tecido}</td>
-        <td class="tabelaColuna">${tecido.estampa}</td>
-        <td class="tabelaColuna">${tecido.cor}</td>
-        <td class="tabelaColuna">${tecido.largura_cm}</td>
-        <td class="tabelaColuna">R$ ${parseFloat(tecido.preco_metro).toFixed(
+        <td class="linhaColuna">${tecido.codigo_tecido}</td>
+        <td class="linhaColuna">${tecido.nome}</td>
+        <td class="linhaColuna">${tecido.marca}</td>
+        <td class="linhaColuna">${tecido.tipo_tecido}</td>
+        <td class="linhaColuna">${tecido.estampa}</td>
+        <td class="linhaColuna">${tecido.cor}</td>
+        <td class="linhaColuna">${tecido.largura_cm}</td>
+        <td class="linhaColuna">R$ ${parseFloat(tecido.preco_metro).toFixed(
           2
         )}</td>
-        <td class="tabelaColuna">${tecido.composicao}</td>
-        <td class="tabelaColuna">${tecido.peso_g_m2}</td>
-        <td class="tabelaColuna">${new Date(
+        <td class="linhaColuna">${tecido.composicao}</td>
+        <td class="linhaColuna">${tecido.peso_g_m2}</td>
+        <td class="linhaColuna">${new Date(
           tecido.data_cadastro
         ).toLocaleDateString("pt-BR")}</td>
-        <td class="tabelaColuna">
-          <span class="itemEstado emEstoque">alguma coisa</span>
+        <td class="linhaColuna">
+          <span class="itemEstado emEstoque"></span>
         </td>
-        <td class="tabelaColuna acoes">
+        <td class="linhaColuna acoes">
+          <button class="botoesDecisao" title="Editar">
+            <img src="editar.svg" alt="editar.svg"/>
+          </button>
+          <button class="botoesDecisao" title="Excluir">
+            <img src="lixeira.svg" alt="lixeira.svg" />
+          </button>
+        </td>`;
+      tabela.appendChild(tr);
+    });
+  } catch (error) {
+    console.error("Erro ao buscar tecidos:", error);
+  }
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const tabela = document.querySelector("#tabelaProdutosExtras tbody");
+
+  try {
+    const resposta = await fetch("/api/produtos_extras");
+    const extras = await resposta.json();
+    tabela.innerHTML = "";
+    console.log(extras);
+    extras.forEach((extra) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="linhaColuna">${extra.codigo_extra}</td>
+        <td class="linhaColuna">${extra.nome}</td>
+        <td class="linhaColuna">${extra.categoria}</td>
+        <td class="linhaColuna">${extra.marca}</td>
+        <td class="linhaColuna">${extra.cor}</td>
+        <td class="linhaColuna">${extra.tamanho}</td>
+        <td class="linhaColuna">${extra.material}</td>
+        <td class="linhaColuna">R$ ${parseFloat(extra.preco_base).toFixed(
+          2
+        )}</td>
+        <td class="linhaColuna">${extra.unidade_medida}</td>
+        <td class="linhaColuna">${new Date(
+          extra.data_cadastro
+        ).toLocaleDateString("pt-BR")}</td>
+        <td class="linhaColuna">
+          <span class="itemEstado emEstoque"></span>
+        </td>
+        <td class="linhaColuna acoes">
           <button class="botoesDecisao" title="Editar">
             <img src="editar.svg" alt="editar.svg"/>
           </button>

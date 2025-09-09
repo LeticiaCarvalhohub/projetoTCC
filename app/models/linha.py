@@ -1,5 +1,16 @@
 from app.models import conexaoBD
 
+def get_linha():
+    conexao = conexaoBD()
+    cursor = conexao.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT codigo_linha, nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preco_base, data_cadastro FROM linhas
+    """)
+    tecidos = cursor.fetchall()
+    cursor.close()
+    conexao.close()
+    return tecidos
+
 def insert_linhas(nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preço_base, data_cadastro):
     conexao = conexaoBD()
     cursor = conexao.cursor()

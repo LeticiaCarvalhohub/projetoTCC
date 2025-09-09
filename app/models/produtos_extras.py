@@ -1,5 +1,16 @@
 from app.models import conexaoBD
 
+def get_produto_extra():
+    conexao = conexaoBD()
+    cursor = conexao.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT codigo_extra, nome, categoria, marca, cor, tamanho, material, preco_base, unidade_medida, data_cadastro FROM produtos_extras
+    """)
+    produtos_extra = cursor.fetchall()
+    cursor.close()
+    conexao.close()
+    return produtos_extra
+
 def insert_produtos_extras(nome, categoria, marca, cor, tamanho, material, preço_base, unidade_medida, data_cadastro):
     conexao = conexaoBD()
     cursor = conexao.cursor()

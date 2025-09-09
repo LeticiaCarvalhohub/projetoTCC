@@ -3,12 +3,9 @@ from app.models.tecido import get_tecido, insert_tecidos, update_tecido, delete_
 
 tecido_bp = Blueprint("/api/tecido", __name__)
 
-@tecido_bp.route("/api/produtos")
+@tecido_bp.route("/api/tecido")
 def listar_tecido():
-    print('aqui')
     tecido = get_tecido()
-    print('aqui2')
-    print(tecido)
     return jsonify(tecido)
 
 @tecido_bp.route("/api/tecido", methods=["POST"])

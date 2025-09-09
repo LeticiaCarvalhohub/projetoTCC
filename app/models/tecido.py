@@ -4,8 +4,7 @@ def get_tecido():
     conexao = conexaoBD()
     cursor = conexao.cursor(dictionary=True)
     cursor.execute("""
-        SELECT codigo_tecido, nome, marca, tipo_tecido, estampa, cor,
-               largura_cm, preco_metro, composicao, peso_g_m2, data_cadastro
+        SELECT codigo_tecido, nome, marca, tipo_tecido, estampa, cor, largura_cm, preco_metro, composicao, peso_g_m2, data_cadastro
         FROM tecidos
     """)
     tecidos = cursor.fetchall()

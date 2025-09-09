@@ -46,7 +46,10 @@
 
       <p id="mensagem"></p>
 
-      <button type="submit">Entrar</button>
+      <button id="btnLogin" type="submit">
+        <span id="btnText">Login</span>
+        <div id="btnSpinner" class="spinner" style="display: none"></div>
+      </button>
     </form>
 
     <script src="{{ url_for('static', filename='js/login.js') }}"></script>

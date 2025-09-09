@@ -1,5 +1,7 @@
 const formLogin = document.getElementById("login-caixa");
 const mensagem = document.getElementById("mensagem");
+const btnText = document.getElementById("btnText");
+const btnSpinner = document.getElementById("btnSpinner");
 
 formLogin.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -7,6 +9,9 @@ formLogin.addEventListener("submit", async (e) => {
   const usuario = document.getElementById("usuario").value.trim();
   const senha = document.getElementById("senha").value.trim();
   const estado = document.getElementById("estado").value;
+
+  btnText.style.display = "none";
+  btnSpinner.style.display = "block";
 
   try {
     const resposta = await fetch("/login", {
@@ -32,5 +37,8 @@ formLogin.addEventListener("submit", async (e) => {
     console.error("Erro no login: ", erro);
     mensagem.textContent = "Credenciais inválidas.";
     mensagem.style.color = "#990000";
+  } finally {
+    btnText.style.display = "block";
+    btnSpinner.style.display = "none";
   }
 });

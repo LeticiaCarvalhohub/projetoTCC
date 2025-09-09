@@ -420,62 +420,25 @@
         </div>
 
         <h3 class="tituloTabela">Tabela de Linhas</h3>
-        <table class="tabelaInventario">
+        <table id="tabelaLinhas" class="tabelaInventario">
           <thead>
             <tr class="tabelaCabecalho">
               <th>Código</th>
-              <th>Produto</th>
-              <th>Quantidade</th>
+              <th>Nome</th>
+              <th>Marca</th>
+              <th>Cor</th>
+              <th>Código Cor</th>
+              <th>Tipo</th>
+              <th>Material</th>
+              <th>Comprimento (m)</th>
+              <th>Espessura</th>
+              <th>Preço Base</th>
+              <th>Data Cadastro</th>
               <th>Status</th>
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="linhaTabela">
-              <td class="tabelaColuna">PROD001</td>
-              <td class="tabelaColuna">Notebook Dell</td>
-              <td class="tabelaColuna">15 unidades</td>
-              <td class="tabelaColuna">
-                <span class="itemEstado emEstoque">Em Estoque</span>
-              </td>
-              <td class="tabelaColuna acoes">
-                <button class="botoesDecisao" title="Editar">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/editar.svg')}}"
-                    alt="editar.svg"
-                  />
-                </button>
-                <button class="botoesDecisao" title="Excluir">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/lixeira.svg')}}"
-                    alt="lixeira.svg"
-                  />
-                </button>
-              </td>
-            </tr>
-            <tr class="linhaTabela">
-              <td class="tabelaColuna">PROD002</td>
-              <td class="tabelaColuna">Teclado Sem Fio</td>
-              <td class="tabelaColuna">65 unidades</td>
-              <td class="tabelaColuna">
-                <span class="itemEstado baixoEstoque">Baixo Estoque</span>
-              </td>
-              <td class="tabelaColuna acoes">
-                <button class="botoesDecisao" title="Editar">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/editar.svg')}}"
-                    alt="editar.svg"
-                  />
-                </button>
-                <button class="botoesDecisao" title="Excluir">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/lixeira.svg')}}"
-                    alt="lixeira.svg"
-                  />
-                </button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
 
         <h3 class="tituloTabela">Tabela de Tecidos</h3>
@@ -501,62 +464,24 @@
         </table>
 
         <h3 class="tituloTabela">Tabela de Produtos Extras</h3>
-        <table class="tabelaInventario">
+        <table id="tabelaProdutosExtras" class="tabelaInventario">
           <thead>
             <tr class="tabelaCabecalho">
               <th>Código</th>
-              <th>Produto</th>
-              <th>Quantidade</th>
+              <th>Nome</th>
+              <th>Categoria</th>
+              <th>Marca</th>
+              <th>Cor</th>
+              <th>Tamanho</th>
+              <th>Material</th>
+              <th>Preço Base</th>
+              <th>Unidade Medida</th>
+              <th>Data Cadastro</th>
               <th>Status</th>
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="linhaTabela">
-              <td class="tabelaColuna">PROD001</td>
-              <td class="tabelaColuna">Notebook Dell</td>
-              <td class="tabelaColuna">15 unidades</td>
-              <td class="tabelaColuna">
-                <span class="itemEstado emEstoque">Em Estoque</span>
-              </td>
-              <td class="tabelaColuna acoes">
-                <button class="botoesDecisao" title="Editar">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/editar.svg')}}"
-                    alt="editar.svg"
-                  />
-                </button>
-                <button class="botoesDecisao" title="Excluir">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/lixeira.svg')}}"
-                    alt="lixeira.svg"
-                  />
-                </button>
-              </td>
-            </tr>
-            <tr class="linhaTabela">
-              <td class="tabelaColuna">PROD002</td>
-              <td class="tabelaColuna">Teclado Sem Fio</td>
-              <td class="tabelaColuna">65 unidades</td>
-              <td class="tabelaColuna">
-                <span class="itemEstado baixoEstoque">Baixo Estoque</span>
-              </td>
-              <td class="tabelaColuna acoes">
-                <button class="botoesDecisao" title="Editar">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/editar.svg')}}"
-                    alt="editar.svg"
-                  />
-                </button>
-                <button class="botoesDecisao" title="Excluir">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/lixeira.svg')}}"
-                    alt="lixeira.svg"
-                  />
-                </button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
       </section>
     </main>
