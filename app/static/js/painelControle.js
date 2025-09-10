@@ -25,9 +25,13 @@ const btnLogout = document.getElementById("btnLogout");
 
 // Variáveis de alteração do conteúdo do formulário
 const tipoProduto = document.getElementById("tipoProduto");
-const formLinha = document.getElementById("formLinha");
-const formTecido = document.getElementById("formTecido");
-const formExtra = document.getElementById("formExtra");
+const grupos = document.querySelectorAll(".grupoTipo");
+const form = document.getElementById("formCadastroProduto");
+
+const editarIcon =
+  "{{ url_for('static', filename='assets/icons/editar.svg') }}";
+const lixeiraIcon =
+  "{{ url_for('static', filename='assets/icons/lixeira.svg') }}";
 
 // Botões para a navegação das abas principais
 botaoMenu.addEventListener("click", () => {
@@ -88,7 +92,12 @@ modalVenda.addEventListener("click", (evento) => {
 });
 
 btnAbrirModalEstoque.addEventListener("click", () => modalCadastro.showModal());
-btnFecharModalEstoque.addEventListener("click", () => modalCadastro.close());
+btnFecharModalEstoque.addEventListener("click", () => {
+  modalCadastro.close();
+  form.reset();
+  tipoProduto.value = "";
+  grupos.forEach((grupo) => (grupo.hidden = true));
+});
 btnCancelarModalEstoque.addEventListener("click", () => modalCadastro.close());
 
 //resetar selects no modal
@@ -110,25 +119,6 @@ modalCadastro.addEventListener("click", (evento) => {
     evento.clientY > reacao.bottom
   ) {
     modalCadastro.close();
-  }
-});
-
-// Contúdos do formulário do cadastro de produtos
-tipoProduto.addEventListener("change", () => {
-  formLinha.hidden = true;
-  formTecido.hidden = true;
-  formExtra.hidden = true;
-
-  switch (tipoProduto.value) {
-    case "linha":
-      formLinha.hidden = false;
-      break;
-    case "tecido":
-      formTecido.hidden = false;
-      break;
-    case "extra":
-      formExtra.hidden = false;
-      break;
   }
 });
 
@@ -156,6 +146,160 @@ btnLogout.addEventListener("click", async () => {
   }
 });
 
+tipoProduto.addEventListener("change", () => {
+  grupos.forEach((grupo) => (grupo.hidden = true));
+  const selecionado = tipoProduto.value;
+  if (selecionado === "linha")
+    document.getElementById("formLinha").hidden = false;
+  if (selecionado === "tecido")
+    document.getElementById("formTecido").hidden = false;
+  if (selecionado === "extra")
+    document.getElementById("formExtra").hidden = false;
+});
+
+//Cadastros de produtos
+
+//Atualizar produtos
+async function abrirModalEdicaoLinha(codigo_linha) {
+  try {
+    const resposta = await fetch(`/api/linha`);
+    const linhas = await resposta.json();
+    const linha = linhas.find((lin) => lin.codigo_linha == codigo_linha);
+
+    if (!linha) return alert("Linha não encontrada!");
+
+    modalCadastro.showModal();
+    form.reset();
+
+    tipoProduto.value = "linha";
+    tipoProduto.disabled = true;
+
+    grupos.forEach((grup) => (grup.hidden = true));
+    document.getElementById("formLinha").hidden = false;
+  } catch (error) {
+    console.error("Erro ao carregar as linhas:", error);
+  }
+}
+
+async function abrirModalEdicaoTecido(codigo_tecido) {
+  try {
+    const resposta = await fetch(`/api/tecido`);
+    const tecidos = await resposta.json();
+    const tecido = tecidos.find((tec) => tec.codigo_tecido == codigo_tecido);
+
+    if (!tecido) return alert("Tecido não encontrada!");
+
+    modalCadastro.showModal();
+    form.reset();
+
+    tipoProduto.value = "tecido";
+    tipoProduto.disabled = true;
+
+    grupos.forEach((grup) => (grup.hidden = true));
+    document.getElementById("formTecido").hidden = false;
+  } catch (error) {
+    console.error("Erro ao carregar os tecidos:", error);
+  }
+}
+
+async function abrirModalEdicaoExtra(codigo_extra) {
+  try {
+    const resposta = await fetch(`/api/produtos_extras`);
+    const extras = await resposta.json();
+    const extra = extras.find((ext) => ext.codigo_extra == codigo_extra);
+
+    if (!extra) return alert("Extra não encontrada!");
+
+    modalCadastro.showModal();
+    form.reset();
+
+    tipoProduto.value = "extra";
+    tipoProduto.disabled = true;
+
+    grupos.forEach((grup) => (grup.hidden = true));
+    document.getElementById("formExtra").hidden = false;
+  } catch (error) {
+    console.error("Erro ao carregar os produtos extras:", error);
+  }
+}
+
+//Deletar produtos
+async function deletarLinha(codigo_linha) {
+  if (!confirm("Deseja realmente deletar esta linha?")) return;
+  try {
+    const resposta = await fetch(`/api/linha/${codigo_linha}`, {
+      method: "DELETE",
+    });
+    const resultado = await resposta.json();
+    alert(resultado.mensagem || "Linha deletada!");
+    location.reload();
+  } catch (error) {
+    console.error("Erro ao deletar linha:", error);
+  }
+}
+
+async function deletarTecido(codigo_tecido) {
+  if (!confirm("Deseja realmente deletar este tecido?")) return;
+  try {
+    const resposta = await fetch(`/api/tecido/${codigo_tecido}`, {
+      method: "DELETE",
+    });
+    const resultado = await resposta.json();
+    alert(resultado.mensagem || "Tecido deletado!");
+    location.reload();
+  } catch (error) {
+    console.error("Erro ao deletar tecido:", error);
+  }
+}
+
+async function deletarExtra(codigo_extra) {
+  if (!confirm("Deseja realmente deletar esta linha?")) return;
+  try {
+    const resposta = await fetch(`/api/produtos_extras/${codigo_extra}`, {
+      method: "DELETE",
+    });
+    const resultado = await resposta.json();
+    alert(resultado.mensagem || "Produto extra deletado!");
+    location.reload();
+  } catch (error) {
+    console.error("Erro ao deletar linha:", error);
+  }
+}
+
+//Ligação com os botões de editar e excluir às funcões
+document.addEventListener("click", (evento) => {
+  if (evento.target.closest(".btnEditarLinha")) {
+    const id = evento.target.closest("button").dataset.id;
+    abrirModalEdicaoLinha(id);
+  }
+  if (evento.target.closest(".btnDeletarLinha")) {
+    const id = evento.target.closest("button").dataset.id;
+    deletarLinha(id);
+  }
+});
+
+document.addEventListener("click", (evento) => {
+  if (evento.target.closest(".btnEditarTecido")) {
+    const id = evento.target.closest("button").dataset.id;
+    abrirModalEdicaoTecido(id);
+  }
+  if (evento.target.closest(".btnDeletarTecido")) {
+    const id = evento.target.closest("button").dataset.id;
+    deletarTecido(id);
+  }
+});
+
+document.addEventListener("click", (evento) => {
+  if (evento.target.closest(".btnEditarExtra")) {
+    const id = evento.target.closest("button").dataset.id;
+    abrirModalEdicaoExtra(id);
+  }
+  if (evento.target.closest(".btnDeletarExtra")) {
+    const id = evento.target.closest("button").dataset.id;
+    deletarExtra(id);
+  }
+});
+
 // Carregamento dos dados nas tabelas
 document.addEventListener("DOMContentLoaded", async () => {
   const tabela = document.querySelector("#tabelaLinhas tbody");
@@ -164,7 +308,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const resposta = await fetch("/api/linha");
     const linhas = await resposta.json();
     tabela.innerHTML = "";
-    console.log(linhas);
+
     linhas.forEach((linha) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -187,11 +331,15 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span class="itemEstado emEstoque"></span>
         </td>
         <td class="linhaColuna acoes">
-          <button class="botoesDecisao" title="Editar">
-            <img src="editar.svg" alt="editar.svg"/>
+          <button class="botoesDecisao btnEditarLinha" data-id="${
+            linha.codigo_linha
+          }" title="Editar">
+            <img src=${editarIcon} alt="Editar" />
           </button>
-          <button class="botoesDecisao" title="Excluir">
-            <img src="lixeira.svg" alt="lixeira.svg" />
+          <button class="botoesDecisao btnDeletarLinha" data-id="${
+            linha.codigo_linha
+          }" title="Excluir">
+            <img src=${lixeiraIcon} alt="Excluir" />
           </button>
         </td>`;
       tabela.appendChild(tr);
@@ -208,7 +356,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const resposta = await fetch("/api/tecido");
     const tecidos = await resposta.json();
     tabela.innerHTML = "";
-    console.log(tecidos);
     tecidos.forEach((tecido) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -231,11 +378,15 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span class="itemEstado emEstoque"></span>
         </td>
         <td class="linhaColuna acoes">
-          <button class="botoesDecisao" title="Editar">
-            <img src="editar.svg" alt="editar.svg"/>
+          <button class="botoesDecisao btnEditarTecido" data-id="${
+            tecido.codigo_tecido
+          }" title="Editar">
+            <img src=${editarIcon} alt="Editar" />
           </button>
-          <button class="botoesDecisao" title="Excluir">
-            <img src="lixeira.svg" alt="lixeira.svg" />
+          <button class="botoesDecisao btnDeletarTecido" data-id="${
+            tecido.codigo_tecido
+          }" title="Excluir">
+            <img src=${lixeiraIcon} alt="Excluir" />
           </button>
         </td>`;
       tabela.appendChild(tr);
@@ -252,7 +403,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const resposta = await fetch("/api/produtos_extras");
     const extras = await resposta.json();
     tabela.innerHTML = "";
-    console.log(extras);
+
     extras.forEach((extra) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -274,11 +425,15 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span class="itemEstado emEstoque"></span>
         </td>
         <td class="linhaColuna acoes">
-          <button class="botoesDecisao" title="Editar">
-            <img src="editar.svg" alt="editar.svg"/>
+          <button class="botoesDecisao btnEditarExtra" data-id="${
+            extra.codigo_extra
+          }" title="Editar">
+            <img src=${editarIcon} alt="Editar" />
           </button>
-          <button class="botoesDecisao" title="Excluir">
-            <img src="lixeira.svg" alt="lixeira.svg" />
+          <button class="botoesDecisao btnDeletarExtra" data-id="${
+            extra.codigo_extra
+          }" title="Excluir">
+            <img src=${lixeiraIcon} alt="Excluir" />
           </button>
         </td>`;
       tabela.appendChild(tr);

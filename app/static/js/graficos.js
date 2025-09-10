@@ -1,209 +1,183 @@
-window.onload = function () {
-  const grafico1 = document.getElementById("chartContainer1").getContext("2d");
-  const grafico2 = document.getElementById("chartContainer2").getContext("2d");
-  const grafico3 = document.getElementById("chartContainer3").getContext("2d");
+let graficoVendas, graficoEstoque, graficoItens; // variáveis globais
+
+function criarGraficos(dadosVendas, dadosEstoque, dadosItens) {
+  const ctx1 = document.getElementById("chartContainer1").getContext("2d");
+  const ctx2 = document.getElementById("chartContainer2").getContext("2d");
+  const ctx3 = document.getElementById("chartContainer3").getContext("2d");
 
   const dataAtual = new Date();
   const mesAtual = dataAtual.toLocaleString("pt-BR", { month: "long" });
 
-  const config1 = {
+  // Gráfico 1 - Vendas
+  graficoVendas = new Chart(ctx1, {
     type: "bar",
     data: {
       labels: ["Semana 1", "Semana 2", "Semana 3", "Semana 4"],
       datasets: [
         {
-          data: [1200, 1900, 2200, 2800],
+          label: "R$ em Vendas",
+          data: dadosVendas,
           backgroundColor: [
             "rgba(54, 162, 235, 0.8)",
             "rgba(75, 192, 192, 0.8)",
             "rgba(0, 128, 255, 0.8)",
             "rgba(153, 102, 255, 0.8)",
           ],
+          borderRadius: 8,
           borderColor: [
             "rgba(54, 162, 235, 1)",
             "rgba(75, 192, 192, 1)",
             "rgba(0, 128, 255, 1)",
             "rgba(153, 102, 255, 1)",
           ],
-          borderWidth: 2,
         },
       ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      devicePixelRatio: 2,
       plugins: {
         title: {
           display: true,
           text: `Total de Vendas Mensais - ${mesAtual}`,
-          font: {
-            size: 18,
+          font: { size: 20, weight: "bold" },
+          color: "#1f3b73",
+        },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `R$ ${ctx.raw.toLocaleString("pt-BR")}`,
           },
         },
-        legend: {
-          labels: {
-            font: {
-              size: 16,
-            },
-          },
-        },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: "#1f3b73",
-            font: {
-              size: 16,
-            },
-          },
-          grid: {
-            color: "rgba(31, 59, 115, 0.3)",
-          },
-        },
-        x: {
-          ticks: {
-            color: "#1f3b73",
-            font: {
-              size: 16,
-            },
-          },
-          grid: {
-            color: "rgba(31, 59, 115, 0.3)",
-          },
-        },
+        legend: { display: false },
       },
     },
-  };
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { color: "#1f3b73", font: { size: 14, weight: "bold" } },
+        grid: { color: "rgba(31, 59, 115, 0.15)" },
+      },
+      x: {
+        ticks: { color: "#1f3b73", font: { size: 14, weight: "bold" } },
+        grid: { display: false },
+      },
+    },
+  });
 
-  const config2 = {
+  // Gráfico 2 - Situação do estoque
+  graficoEstoque = new Chart(ctx2, {
     type: "bar",
     data: {
-      labels: ["Em estoque", "Baixo estoque", "Não esta em estoque"],
+      labels: ["Em estoque", "Baixo estoque", "Não está em estoque"],
       datasets: [
         {
-          data: [1200, 1900, 3000],
+          label: "Quantidade",
+          data: dadosEstoque,
           backgroundColor: [
             "rgba(97, 192, 75, 0.8)",
             "rgba(255, 247, 0, 0.8)",
             "rgba(255, 102, 102, 0.8)",
           ],
+          borderRadius: 8,
           borderColor: [
             "rgba(97, 192, 75, 1)",
             "rgba(255, 247, 0, 1)",
             "rgba(255, 102, 102, 1)",
           ],
-          borderWidth: 2,
         },
       ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      devicePixelRatio: 2,
       plugins: {
         title: {
           display: true,
-          text: "Situação do estoque em relação ao itens",
-          font: {
-            size: 18,
+          text: "Situação do estoque em relação aos itens",
+          font: { size: 20, weight: "bold" },
+          color: "#1f3b73",
+        },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.raw.toLocaleString("pt-BR")} itens`,
           },
         },
-        legend: {
-          labels: {
-            font: {
-              size: 16,
-            },
-          },
-        },
+        legend: { display: false },
       },
       scales: {
         y: {
           beginAtZero: true,
-          ticks: {
-            color: "#1f3b73",
-            font: {
-              size: 16,
-            },
-          },
-          grid: {
-            color: "rgba(31, 59, 115, 0.3)",
-          },
+          ticks: { color: "#1f3b73", font: { size: 14, weight: "bold" } },
+          grid: { color: "rgba(31, 59, 115, 0.15)" },
         },
         x: {
-          ticks: {
-            color: "#1f3b73",
-            font: {
-              size: 16,
-            },
-          },
-          grid: {
-            color: "rgba(31, 59, 115, 0.3)",
-          },
+          ticks: { color: "#1f3b73", font: { size: 14, weight: "bold" } },
+          grid: { display: false },
         },
       },
     },
-  };
+  });
 
-  const config3 = {
+  // Gráfico 3 - Itens no estoque
+  graficoItens = new Chart(ctx3, {
     type: "pie",
     data: {
       labels: ["Linhas", "Tecidos", "Produtos extras"],
       datasets: [
         {
-          data: [1200, 1900, 3000],
+          data: dadosItens,
           backgroundColor: [
-            "rgba(75, 192, 192, 0.8)",
-            "rgba(0, 128, 255, 0.8)",
-            "rgba(153, 102, 255, 0.8)",
+            "rgba(75, 192, 192, 0.9)",
+            "rgba(0, 128, 255, 0.9)",
+            "rgba(153, 102, 255, 0.9)",
           ],
-          borderColor: [
-            "rgba(75, 192, 192, 1)",
-            "rgba(0, 128, 255, 1)",
-            "rgba(153, 102, 255, 1)",
-          ],
-          borderWidth: 2,
+          hoverOffset: 15,
         },
       ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      devicePixelRatio: 2,
       plugins: {
         title: {
           display: true,
           text: "Quantidade de itens no estoque",
-          font: {
-            size: 18,
-          },
+          font: { size: 20, weight: "bold" },
+          color: "#1f3b73",
         },
-        legend: {
-          labels: {
-            font: {
-              size: 16,
-            },
-          },
-        },
-        datalabels: {
-          formatter: (valor, contexto) => {
-            let dataset = contexto.chart.data.datasets[0].data;
-            let total = dataset.reduce((a, b) => a + b, 0);
-            let porcentagem = ((valor / total) * 100).toFixed(1) + "%";
-            return porcentagem;
-          },
-          color: "#fff",
-          font: {
-            weight: "bold",
-            size: 14,
+      },
+      tooltip: {
+        callbacks: {
+          label: (ctx) => {
+            const total = ctx.chart.data.datasets[0].data.reduce(
+              (a, b) => a + b,
+              0
+            );
+            const valor = ctx.raw;
+            const porcentagem = ((valor / total) * 100).toFixed(1);
+            return `${ctx.label}: ${valor} itens (${porcentagem}%)`;
           },
         },
       },
     },
-  };
+  });
+}
 
-  new Chart(grafico1, config1);
-  new Chart(grafico2, config2);
-  new Chart(grafico3, config3);
+// Atualizar gráficos sem recarregar a página
+function atualizarGraficos(novosVendas, novosEstoque, novosItens) {
+  graficoVendas.data.datasets[0].data = novosVendas;
+  graficoEstoque.data.datasets[0].data = novosEstoque;
+  graficoItens.data.datasets[0].data = novosItens;
+
+  graficoVendas.update();
+  graficoEstoque.update();
+  graficoItens.update();
+}
+
+window.onload = function () {
+  criarGraficos(
+    [1200, 1900, 2200, 2800], // vendas semanais
+    [1200, 1900, 3000], // estoque
+    [1200, 1900, 3000] // linhas, tecidos, extras
+  );
 };

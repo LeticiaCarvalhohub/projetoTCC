@@ -269,7 +269,7 @@
       <section id="vendas" style="display: none">
         <div id="vendasCabecalho">
           <div id="caixaVendas">
-            <h2 class="paginaTitulo">Vendas</h2>
+            <h2 class="paginaTitulo"></h2>
             <div id="vendasSumario">
               <div class="sumarioEstado total">
                 <span>Total Vendido Hoje</span>
@@ -327,6 +327,7 @@
           </div>
         </div>
 
+        <h3 class="tituloTabela">Vendas Registradas</h3>
         <table id="tabelaCompras">
           <thead>
             <tr class="tabelaCabecalho">
@@ -628,8 +629,17 @@
           <input
             type="text"
             id="codigoLinha"
-            name="codigo"
+            name="codigoLin"
             placeholder="Digite o código da linha..."
+            required
+          />
+
+          <label for="codigoLinha">Nome</label>
+          <input
+            type="text"
+            id="nomeLinha"
+            name="nome_linha"
+            placeholder="Digite o nome da linha..."
             required
           />
 
@@ -685,6 +695,7 @@
             type="number"
             id="comprimentoLinha"
             name="comprimento"
+            min="0"
             placeholder="Digite o comprimento da linha..."
             required
           />
@@ -694,7 +705,6 @@
             type="number"
             id="espessuraLinha"
             name="espessura"
-            step="0.001"
             min="0"
             placeholder="Digite a espessura da linha..."
             required
@@ -706,7 +716,6 @@
             id="precoBase"
             name="preco"
             placeholder="Digite o preço unitário da linha..."
-            step="0.01"
             min="0"
             required
           />
@@ -718,34 +727,191 @@
         <!-- Tecido -->
         <div class="grupoFormulario grupoTipo" id="formTecido" hidden>
           <h3 class="subtituloSecao">Informações do produto: Tecido</h3>
-          <label for="tipoTecido">Tipo (ex: algodão)</label>
-          <input type="text" id="tipoTecido" name="tipo_tecido" />
+
+          <label for="codigoTecido">Código do Tecido</label>
+          <input
+            type="text"
+            id="codigoTecido"
+            name="codigo_tecido"
+            placeholder="Digite o código do tecido..."
+            required
+          />
+
+          <label for="nomeTecido">Nome</label>
+          <input
+            type="text"
+            id="nomeTecido"
+            name="nome"
+            placeholder="Digite o nome do tecido..."
+            required
+          />
+
+          <label for="marcaTecido">Marca</label>
+          <input
+            type="text"
+            id="marcaTecido"
+            name="marca"
+            placeholder="Digite a marca do tecido..."
+          />
+
+          <label for="tipoTecido">Tipo do Tecido</label>
+          <input
+            type="text"
+            id="tipoTecido"
+            name="tipo_tecido"
+            placeholder="Ex: Algodão, Linho, Seda..."
+          />
+
+          <label for="estampaTecido">Estampa</label>
+          <input
+            type="text"
+            id="estampaTecido"
+            name="estampa"
+            placeholder="Ex: Liso, Floral, Listrado..."
+          />
 
           <label for="corTecido">Cor</label>
-          <input type="text" id="corTecido" name="cor_tecido" />
+          <input
+            type="text"
+            id="corTecido"
+            name="cor"
+            placeholder="Digite a cor do tecido..."
+          />
 
-          <label for="composicaoTecido">Composição</label>
-          <input type="text" id="composicaoTecido" name="composicao" />
-
-          <label for="metragemTecido">Metragem</label>
+          <label for="larguraTecido">Largura (cm)</label>
           <input
             type="number"
-            id="metragemTecido"
-            name="metragem"
-            step="0.1"
+            id="larguraTecido"
+            name="largura_cm"
+            placeholder="Digite a largura em cm..."
+            step="0.01"
             min="0"
+          />
+
+          <label for="precoTecido">Preço por Metro</label>
+          <input
+            type="number"
+            id="precoTecido"
+            name="preco_metro"
+            placeholder="Digite o preço por metro..."
+            step="0.01"
+            min="0"
+          />
+
+          <label for="composicaoTecido">Composição</label>
+          <input
+            type="text"
+            id="composicaoTecido"
+            name="composicao"
+            placeholder="Ex: 100% Algodão, Poliéster + Algodão..."
+          />
+
+          <label for="pesoTecido">Peso (g/m²)</label>
+          <input
+            type="number"
+            id="pesoTecido"
+            name="peso_g_m2"
+            placeholder="Digite o peso em g/m²..."
+            step="1"
+            min="0"
+          />
+
+          <label for="dataCadastroTecido">Data de Cadastro</label>
+          <input
+            type="date"
+            id="dataCadastroTecido"
+            name="data_cadastro"
+            required
           />
         </div>
 
         <!-- Produto Extra -->
         <div class="grupoFormulario grupoTipo" id="formExtra" hidden>
           <h3 class="subtituloSecao">Informações do produto: Extras</h3>
-          <label for="descricaoAdicional">Descrição</label>
-          <textarea
-            id="descricaoAdicional"
-            name="descricao"
-            rows="3"
-          ></textarea>
+
+          <label for="codigoExtra">Código do Produto Extra</label>
+          <input
+            type="text"
+            id="codigoExtra"
+            name="codigo_extra"
+            placeholder="Digite o código do produto extra..."
+            required
+          />
+
+          <label for="nomeExtra">Nome</label>
+          <input
+            type="text"
+            id="nomeExtra"
+            name="nome"
+            placeholder="Digite o nome do produto extra..."
+            required
+          />
+
+          <label for="categoriaExtra">Categoria</label>
+          <input
+            type="text"
+            id="categoriaExtra"
+            name="categoria"
+            placeholder="Ex: Botão, Zíper, Fita..."
+          />
+
+          <label for="marcaExtra">Marca</label>
+          <input
+            type="text"
+            id="marcaExtra"
+            name="marca"
+            placeholder="Digite a marca do produto extra..."
+          />
+
+          <label for="corExtra">Cor</label>
+          <input
+            type="text"
+            id="corExtra"
+            name="cor"
+            placeholder="Digite a cor do produto extra..."
+          />
+
+          <label for="tamanhoExtra">Tamanho</label>
+          <input
+            type="text"
+            id="tamanhoExtra"
+            name="tamanho"
+            placeholder="Digite o tamanho do produto extra..."
+          />
+
+          <label for="materialExtra">Material</label>
+          <input
+            type="text"
+            id="materialExtra"
+            name="material"
+            placeholder="Ex: Metal, Plástico, Madeira..."
+          />
+
+          <label for="precoExtra">Preço Base</label>
+          <input
+            type="number"
+            id="precoExtra"
+            name="preco_base"
+            placeholder="Digite o preço base do produto extra..."
+            step="0.01"
+            min="0"
+          />
+
+          <label for="unidadeExtra">Unidade de Medida</label>
+          <input
+            type="text"
+            id="unidadeExtra"
+            name="unidade_medida"
+            placeholder="Ex: Unidade, Pacote, Metro..."
+          />
+
+          <label for="dataCadastroExtra">Data de Cadastro</label>
+          <input
+            type="date"
+            id="dataCadastroExtra"
+            name="data_cadastro"
+            required
+          />
         </div>
 
         <menu>

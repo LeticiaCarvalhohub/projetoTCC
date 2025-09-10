@@ -11,16 +11,28 @@ def listar_linha():
 @linha_bp.route("/api/linha", methods=["POST"])
 def adicionar_linha():
     dado = request.get_json()
-    insert_linhas(dado["nome"], dado["marca"], dado["cor"], dado["cor"],dado["codigo_cor"], dado["tipo"], dado["material"], dado["comprimento_metros"], dado["espessura"], dado["preco_base"], dado["data_cadastro"])
+    insert_linhas(
+        dado["nome"], 
+        dado["marca"], 
+        dado["cor"],
+        dado["codigo_cor"], 
+        dado["tipo"], 
+        dado["material"], 
+        dado["comprimento_metros"],
+        dado["espessura"], 
+        dado["preco_base"], 
+        dado["data_cadastro"]
+    )
     return jsonify({"mensagem": "Linha adicionada com sucesso!"})
 
-@linha_bp.route("/api/linha/<int:codigo_linha>", methods=["PUT"])
+@linha_bp.route("/api/linha/<codigo_linha>", methods=["PUT"])
 def atualizar_linha(codigo_linha):
     dado = request.get_json()
-    update_linha(codigo_linha, dado["nome"], dado["marca"], dado["cor"], dado["cor"],dado["codigo_cor"], dado["tipo"], dado["material"], dado["comprimento_metros"], dado["espessura"], dado["preco_base"], dado["data_cadastro"])
+    update_linha(codigo_linha, dado)
+    
     return jsonify({"mensagem": "Linha atualizada com sucesso!"})
 
-@linha_bp.route("/api/linha/<int:codigo_linha>", methods=["DELETE"])
+@linha_bp.route("/api/linha/<codigo_linha>", methods=["DELETE"])
 def remover_linha(codigo_linha):
     delete_linhas(codigo_linha)
     return jsonify({"mensagem": "Linha deletada com sucesso!"})

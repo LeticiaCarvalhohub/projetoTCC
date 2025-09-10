@@ -11,68 +11,46 @@ def get_linha():
     conexao.close()
     return tecidos
 
-def insert_linhas(nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preço_base, data_cadastro):
+def insert_linhas(codigo_linha, nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preço_base, data_cadastro):
     conexao = conexaoBD()
     cursor = conexao.cursor()
-    cursor.execute("INSERT INTO linha(nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preço_base, data_cadastro) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preço_base, data_cadastro))
+    cursor.execute("INSERT INTO linha(codigo_linha, nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preço_base, data_cadastro) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(codigo_linha, nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preço_base, data_cadastro))
     conexao.commit()
     cursor.close()
     conexao.close()
 
 
-def update_linha(codigo_linha, dado):
+def update_linha(codigo_linha, dado: dict):
     conexao = conexaoBD()
     cursor = conexao.cursor()
 
     campos = []
     valores = []
 
-    if "nome" in dado:
-        campos.append("nome=%s")
-        valores.append(dado["nome"])
+    mapa = {
+        "nome": "nome",
+        "marca": "marca",
+        "cor": "cor",
+        "codigo_cor": "codigo_cor",
+        "tipo": "tipo",
+        "material": "material",
+        "comprimento_metros": "comprimento_metros",
+        "espessura": "espessura",
+        "preco_base": "preco_base",
+        "data_cadastro": "data_cadastro"
+    }
 
-    if "marca" in dado:
-        campos.append("marca=%s")
-        valores.append(dado["marca"])
+    for chave, coluna in mapa.itens():
+        if chave in dado:
+            campos.append(f"{coluna}=%s")
+            valores.append(dado[chave])
 
-    if "cor" in dado:
-        campos.append("cor=%s")
-        valores.append(dado["cor"])
+    if campos:
+        sql = f"UPDATE linhas SET {', '.join(campos)} WHERE codigo_linha=%s"
+        valores.append(codigo_linha)
+        cursor.execute(sql, valores)
+        conexao.commit()
 
-    if "codigo_cor" in dado:
-        campos.append("cogigo_cor=%s")
-        valores.append(dado["codigo_cor"])
-
-    if "tipo" in dado:
-        campos.append("tipo=%s")
-        valores.append(dado["tipo"])
-
-    if "material" in dado:
-        campos.append("material=%s")
-        valores.append(dado["material"])
-
-    if "comprimento_metros" in dado:
-        campos.append("comprimento_metros=%s")
-        valores.append(dado["comprimento_metros"])
-
-    if "espessura" in dado:
-        campos.append("espessura=%s")
-        valores.append(dado["espessura"])
-
-    if "preco_base" in dado:
-        campos.append("preco_base=%s")
-        valores.append(dado["preco_base"])
-
-    if "data_cadastro" in dado:
-        campos.append("data_cadastro=%s")
-        valores.append(dado["data_cadastro"])
-
-    # Monta o UPDATE só com os campos enviados
-    sql = f"UPDATE linha SET {', '.join(campos)} WHERE id=%s"
-    valores.append(codigo_linha)
-
-    cursor.execute(sql, valores)
-    conexao.commit()
     cursor.close()
     conexao.close()
 
@@ -80,7 +58,7 @@ def update_linha(codigo_linha, dado):
 def delete_linhas(codigo_linha):
     conexao = conexaoBD()
     cursor = conexao.cursor()
-    cursor.execute("DELETE FROM linha WHERE codigo_linha=%s",(codigo_linha))
+    cursor.execute("DELETE FROM linhas WHERE codigo_linha=%s",(codigo_linha,))
     conexao.commit()
     cursor.close()
     conexao.close()

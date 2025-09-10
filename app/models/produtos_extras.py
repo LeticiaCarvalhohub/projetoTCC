@@ -75,7 +75,7 @@ def update_produtos_extras(codigo_extra, dado):
 def delete_produtos_extras(codigo_extra):
     conexao = conexaoBD()
     cursor = conexao.cursor()
-    cursor.execute("DELETE FROM produtos_extras WHERE codigo_extra=%s",(codigo_extra))
+    cursor.execute("DELETE FROM produtos_extras WHERE codigo_extra=%s",(codigo_extra,))
     conexao.commit()
     cursor.close()
     conexao.close()

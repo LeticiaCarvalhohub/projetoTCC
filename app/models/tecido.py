@@ -79,7 +79,7 @@ def update_tecido(codigo_tecido, dado):
 def delete_tecidos(codigo_tecido):
     conexao = conexaoBD()
     cursor = conexao.cursor()
-    cursor.execute("DELETE FROM tecidos WHERE codigo_tecido=%s",(codigo_tecido))
+    cursor.execute("DELETE FROM tecidos WHERE codigo_tecido=%s",(codigo_tecido,))
     conexao.commit()
     cursor.close()
     conexao.close()
