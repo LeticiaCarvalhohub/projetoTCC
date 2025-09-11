@@ -44,13 +44,13 @@
         <label for="estado">Status</label>
       </div>
 
-      <p id="mensagem"></p>
-
       <button id="btnLogin" type="submit">
         <span id="btnText">Login</span>
         <div id="btnSpinner" class="spinner" style="display: none"></div>
       </button>
     </form>
+
+    <div id="toastContainer" class="toast-container"></div>
 
     <script src="{{ url_for('static', filename='js/login.js') }}"></script>
   </body>

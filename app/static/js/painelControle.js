@@ -159,6 +159,80 @@ tipoProduto.addEventListener("change", () => {
 });
 
 //Cadastros de produtos
+form.addEventListener("submit", async (evento) => {
+  evento.preventDefault();
+
+  let produto = {};
+  let url = "";
+
+  if (tipoProduto === "linha") {
+    produto = {
+      codigo_linha: document.getElementById("codigoLinha").value,
+      nome: document.getElementById("nomeLinha").value,
+      marca: document.getElementById("marcaLinha").value,
+      cor: document.getElementById("corLinha").value,
+      codigo_cor: document.getElementById("codigoCor").value,
+      tipo: document.getElementById("tipoLinha").value,
+      material: document.getElementById("materialLinha").value,
+      comprimento_metros: document.getElementById("comprimentoLinha").value,
+      espessura: document.getElementById("espessuraLinha").value,
+      preco_base: document.getElementById("precoBase").value,
+      data_cadastro: document.getElementById("dataCadastroLinha").value,
+    };
+
+    url = "/api/linha";
+  } else if (tipo === "tecido") {
+    produto = {
+      codigo_tecido: document.getElementById("codigoTecido").value,
+      nome: document.getElementById("nomeTecido").value,
+      marca: document.getElementById("marcaTecido").value,
+      tipo: document.getElementById("tipoTecido").value,
+      estampa: document.getElementById("estampaTecido").value,
+      cor: document.getElementById("corTecido").value,
+      largura: document.getElementById("larguraTecido").value,
+      preco_base: document.getElementById("precoTecido").value,
+      composicao: document.getElementById("composicaoTecido").value,
+      peso: document.getElementById("pesoTecido").value,
+      data_cadastro: document.getElementById("dataCadastroTecido").value,
+    };
+
+    url = "/api/tecido";
+  } else if (tipo === "extra") {
+    produto = {
+      codigo: document.getElementById("codigoExtra").value,
+      nome: document.getElementById("nomeExtra").value,
+      categoria: document.getElementById("categoriaExtra").value,
+      marca: document.getElementById("marcaExtra").value,
+      cor: document.getElementById("corExtra").value,
+      tamanho: document.getElementById("tamanhoExtra").value,
+      material: document.getElementById("materialExtra").value,
+      preco_base: document.getElementById("precoExtra").value,
+      unidade: document.getElementById("unidadeExtra").value,
+      data_cadastro: document.getElementById("dataCadastroExtra").value,
+    };
+
+    url = "/api/produtos_extras";
+  }
+
+  try {
+    const resposta = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(produto),
+    });
+
+    const resultado = await resposta.json();
+
+    if (resposta.ok) {
+      mostrarToast("Produto cadastrado com sucesso!", "sucesso");
+      form.reset();
+    } else {
+      mostrarToast(resultado.erro || "Erro ao cadastrar o produto.", "erro");
+    }
+  } catch (erro) {
+    mostrarToast("Falha na conexão com o servidor.", "erro");
+  }
+});
 
 //Atualizar produtos
 async function abrirModalEdicaoLinha(codigo_linha) {
@@ -169,14 +243,28 @@ async function abrirModalEdicaoLinha(codigo_linha) {
 
     if (!linha) return alert("Linha não encontrada!");
 
+    document.getElementById("codigoLinha").value = linha.codigo_linha;
+    document.getElementById("nomeLinha").value = linha.nome;
+    document.getElementById("marcaLinha").value = linha.marca;
+    document.getElementById("corLinha").value = linha.cor;
+    document.getElementById("codigoCor").value = linha.codigo_cor;
+    document.getElementById("tipoLinha").value = linha.tipo;
+    document.getElementById("materialLinha").value = linha.material;
+    document.getElementById("precoTecido").value = tecido.preco_metro;
+    document.getElementById("comprimentoLinha").value =
+      linha.comprimento_metros;
+    document.getElementById("espessuraLinha").value = linha.espessura;
+    document.getElementById("precoBase").value = linha.preco_base;
+    document.getElementById("dataCadastroLinha").value = linha.data_cadastro;
+
     modalCadastro.showModal();
-    form.reset();
 
     tipoProduto.value = "linha";
     tipoProduto.disabled = true;
 
     grupos.forEach((grup) => (grup.hidden = true));
     document.getElementById("formLinha").hidden = false;
+    form.reset();
   } catch (error) {
     console.error("Erro ao carregar as linhas:", error);
   }
@@ -190,14 +278,26 @@ async function abrirModalEdicaoTecido(codigo_tecido) {
 
     if (!tecido) return alert("Tecido não encontrada!");
 
+    document.getElementById("codigoTecido").value = tecido.codigo_tecido;
+    document.getElementById("nometecido").value = tecido.nome;
+    document.getElementById("marcaTecido").value = tecido.marca;
+    document.getElementById("tipoTecido").value = tecido.tipo_tecido;
+    document.getElementById("estampaTecido").value = tecido.estampa;
+    document.getElementById("corTecido").value = tecido.cor;
+    document.getElementById("larguraTecido").value = tecido.largura_cm;
+    document.getElementById("precoTecido").value = tecido.preco_metro;
+    document.getElementById("composicaoTecido").value = tecido.composicao;
+    document.getElementById("pesoTecido").value = tecido.peso_g_m2;
+    document.getElementById("dataCadastroTecido").value = tecido.data_cadastro;
+
     modalCadastro.showModal();
-    form.reset();
 
     tipoProduto.value = "tecido";
     tipoProduto.disabled = true;
 
     grupos.forEach((grup) => (grup.hidden = true));
     document.getElementById("formTecido").hidden = false;
+    form.reset();
   } catch (error) {
     console.error("Erro ao carregar os tecidos:", error);
   }
@@ -211,14 +311,25 @@ async function abrirModalEdicaoExtra(codigo_extra) {
 
     if (!extra) return alert("Extra não encontrada!");
 
+    document.getElementById("codigoExtra").value = extra.codigo_extra;
+    document.getElementById("nomeExtra").value = extra.nome;
+    document.getElementById("categoriaExtra").value = extra.categoria;
+    document.getElementById("marcaExtra").value = extra.marca;
+    document.getElementById("corExtra").value = extra.cor;
+    document.getElementById("tamanhoExtra").value = extra.tamanho;
+    document.getElementById("materialExtra").value = extra.material;
+    document.getElementById("precoExtra").value = extra.preco_base;
+    document.getElementById("unidadeExtra").value = extra.unidade_medida;
+    document.getElementById("dataCadastroExtra").value = extra.data_cadastro;
+
     modalCadastro.showModal();
-    form.reset();
 
     tipoProduto.value = "extra";
     tipoProduto.disabled = true;
 
     grupos.forEach((grup) => (grup.hidden = true));
     document.getElementById("formExtra").hidden = false;
+    form.reset();
   } catch (error) {
     console.error("Erro ao carregar os produtos extras:", error);
   }

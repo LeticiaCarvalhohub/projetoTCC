@@ -590,12 +590,7 @@
     </dialog>
 
     <!-- Modal para o cadastro de novos produtos -->
-    <dialog
-      id="modalCadastroProduto"
-      aria-labelledby="tituloModalCadastro"
-      aria-modal="true"
-      role="dialog"
-    >
+    <dialog id="modalCadastroProduto">
       <form id="formCadastroProduto" method="POST">
         <div class="modalCabecalho">
           <h2 class="tituloModal">Cadastrar Produto</h2>
@@ -660,7 +655,7 @@
           <label for="codigoCor">Código - Cor</label>
           <input
             type="text"
-            id="codigo da cor"
+            id="codigoCor"
             placeholder="Digite o código da cor da linha..."
             required
           />
@@ -713,7 +708,7 @@
           />
 
           <label for="dataCadastro">Data do cadastro</label>
-          <input type="date" id="dataCadastro" required />
+          <input type="date" id="dataCadastroLinha" required />
         </div>
 
         <!-- Tecido -->
