@@ -142,49 +142,6 @@
             <canvas id="chartContainer3" class="graficoContainer"></canvas>
           </div>
         </div>
-
-        <div class="atividadesRecentes">
-          <div class="sessaoCabecalho">
-            <h2 class="paginaTitulo">Atividades Recentes</h2>
-            <div id="verTudo">Ver Tudo</div>
-          </div>
-          <div class="filtrarOpcoes">
-            <select class="filtroSelecionar">
-              <option value="#">Todas Atividades</option>
-              <option value="Estoque">Estoque</option>
-              <option value="Compras">Compras</option>
-              <option value="Vendas">Vendas</option>
-              <option value="Sistema">Sistema</option>
-            </select>
-            <input type="date" id="dataFiltro" />
-          </div>
-          <div class="listaAtividade">
-            <div class="atividadeItem">
-              <div class="iconeAtividade">👤</div>
-              <div class="caixaAtividade">
-                <h4 class="tituloAtividade">Novo cliente cadastrado</h4>
-                <p>Empresa Cardoso LTDA. foi cadastrada no sistema</p>
-                <p class="tempoAtividade">10 minutos atrás</p>
-              </div>
-            </div>
-            <div class="atividadeItem">
-              <div class="iconeAtividade">💰</div>
-              <div class="caixaAtividade">
-                <h4 class="tituloAtividade">Pedido faturado</h4>
-                <p>Pedido #2045 no valor de R$ 7.890,00</p>
-                <p class="tempoAtividade">1 hora atrás</p>
-              </div>
-            </div>
-            <div class="atividadeItem">
-              <div class="iconeAtividade">💰</div>
-              <div class="caixaAtividade">
-                <h4 class="tituloAtividade">Pedido faturado</h4>
-                <p>Pedido #2045 no valor de R$ 7.890,00</p>
-                <p class="tempoAtividade">1 hora atrás</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
       <!-- Compras -->
@@ -694,6 +651,7 @@
             type="number"
             id="espessuraLinha"
             min="0"
+            step="0.01"
             placeholder="Digite a espessura da linha..."
             required
           />
@@ -703,6 +661,7 @@
             type="number"
             id="precoBase"
             placeholder="Digite o preço unitário da linha..."
+            step="0.01"
             min="0"
             required
           />

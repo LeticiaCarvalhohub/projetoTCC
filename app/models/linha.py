@@ -14,7 +14,7 @@ def get_linha():
 def insert_linhas(codigo_linha, nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preco_base, data_cadastro):
     conexao = conexaoBD()
     cursor = conexao.cursor()
-    cursor.execute("INSERT INTO linha(codigo_linha, nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preco_base, data_cadastro) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(codigo_linha, nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preço_base, data_cadastro))
+    cursor.execute("INSERT INTO linhas(codigo_linha, nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preco_base, data_cadastro) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(codigo_linha, nome, marca, cor, codigo_cor, tipo, material, comprimento_metros, espessura, preco_base, data_cadastro))
     conexao.commit()
     cursor.close()
     conexao.close()

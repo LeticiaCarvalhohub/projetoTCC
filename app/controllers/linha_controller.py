@@ -11,22 +11,28 @@ def listar_linha():
 
 @linha_bp.route("/api/linha", methods=["POST"])
 def adicionar_linha():
-    dados = request.get_json()
+    try:
+        dados = request.get_json()
+        
+        if not dados:
+            return jsonify({"erro": "JSON inválido ou vazio"}), 400
 
-    codigo_linha = dados.get("codigo_linha")
-    nome = dados.get("nome")
-    marca = dados.get("marca")
-    cor = dados.get("cor")
-    codigo_cor = dados.get("codigo_cor")
-    tipo = dados.get("tipo_linha")
-    material = dados.get("material")
-    comprimento_metros = dados.get("comprimento_metros")
-    espessura = dados.get("espessura")
-    preco_base = dados.get("preco_base")
-    data_cadastro = dados.get("data_cadastro")
+        codigo_linha = dados.get("codigo_linha")
+        nome = dados.get("nome")
+        marca = dados.get("marca")
+        cor = dados.get("cor")
+        codigo_cor = dados.get("codigo_cor")
+        tipo = dados.get("tipo")
+        material = dados.get("material")
+        comprimento_metros = float(dados.get("comprimento_metros") or 0)
+        espessura = float(dados.get("espessura") or 0)
+        preco_base = float(dados.get("preco_base") or 0)
+        data_cadastro = dados.get("data_cadastro")
 
-    insert_linhas(codigo_linha,nome,marca,cor,codigo_cor,tipo,material,comprimento_metros,espessura,preco_base,data_cadastro)
-    return jsonify({"mensagem": "Linha adicionada com sucesso!"})
+        insert_linhas(codigo_linha,nome,marca,cor,codigo_cor,tipo,material,comprimento_metros,espessura,preco_base,data_cadastro)
+        return jsonify({"mensagem": "Linha adicionada com sucesso!"}), 201
+    except Exception as error:
+        return jsonify({"erro": str(error)}), 400 
 
 @linha_bp.route("/api/linha/<codigo_linha>", methods=["PUT"])
 def atualizar_linha(codigo_linha):

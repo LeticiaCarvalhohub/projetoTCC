@@ -134,38 +134,122 @@ btnLogout.addEventListener("click", async () => {
     if (resposta.ok) {
       const dados = await resposta.json();
       if (dados) {
-        window.location.href = "/login";
+        mostrarToast("Logout realizado com sucesso!", "sucesso");
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 800);
       } else {
-        alert("Erro ao sair");
+        mostrarToast("Erro ao sair.", "erro");
       }
     } else {
-      alert("Erro na requisição");
+      mostrarToast("Erro na requisição.", "erro");
     }
   } catch (erro) {
-    alert("Erro ao sair");
+    mostrarToast("Falha na conexão com o servidor.", "erro");
     console.error(erro);
   }
 });
 
 tipoProduto.addEventListener("change", () => {
   grupos.forEach((grupo) => (grupo.hidden = true));
+
+  grupos.forEach((grupo) => {
+    grupo.querySelectorAll("input, select").forEach((remover) => {
+      remover.removeAttribute("required");
+    });
+  });
+
   const selecionado = tipoProduto.value;
-  if (selecionado === "linha")
-    document.getElementById("formLinha").hidden = false;
-  if (selecionado === "tecido")
-    document.getElementById("formTecido").hidden = false;
-  if (selecionado === "extra")
-    document.getElementById("formExtra").hidden = false;
+
+  if (selecionado === "linha") {
+    const formLinha = document.getElementById("formLinha");
+    formLinha.hidden = false;
+    formLinha.querySelectorAll("input, select").forEach((adicionar) => {
+      adicionar.setAttribute("required", true);
+    });
+  }
+  if (selecionado === "tecido") {
+    const formTecido = document.getElementById("formTecido");
+    formTecido.hidden = false;
+    formTecido.querySelectorAll("input, select").forEach((adicionar) => {
+      adicionar.setAttribute("required", true);
+    });
+  }
+  if (selecionado === "extra") {
+    const formExtra = document.getElementById("formExtra");
+    formExtra.hidden = false;
+    formExtra.querySelectorAll("input, select").forEach((adicionar) => {
+      adicionar.setAttribute("required", true);
+    });
+  }
 });
 
 //Cadastros de produtos
 form.addEventListener("submit", async (evento) => {
   evento.preventDefault();
 
+  const tipo = tipoProduto.value;
+
+  if (!tipo) {
+    mostrarToast("Selecione o tipo de produto.", "erro");
+    return;
+  }
+
+  if (tipo === "linha") {
+    const preco = parseFloat(document.getElementById("precoBase").value);
+    const comprimento = parseFloat(
+      document.getElementById("comprimentoLinha").value
+    );
+    const espessura = parseFloat(
+      document.getElementById("espessuraLinha").value
+    );
+
+    if (isNaN(preco) || preco <= 0) {
+      mostrarToast("Digite um preço válido maior que 0.", "erro");
+      return;
+    }
+    if (isNaN(comprimento) || comprimento <= 0) {
+      mostrarToast("Digite um comprimento válido maior que 0.", "erro");
+      return;
+    }
+    if (isNaN(espessura) || espessura <= 0) {
+      mostrarToast("Digite uma espessura válida maior que 0.", "erro");
+      return;
+    }
+  }
+
+  if (tipo === "tecido") {
+    const preco = parseFloat(document.getElementById("precoTecido").value);
+    const largura = parseFloat(document.getElementById("larguraTecido").value);
+    const peso = parseFloat(document.getElementById("pesoTecido").value);
+
+    if (isNaN(preco) || preco <= 0) {
+      mostrarToast("Digite um preço válido maior que 0.", "erro");
+      return;
+    }
+    if (isNaN(largura) || largura <= 0) {
+      mostrarToast("Digite uma largura válida maior que 0.", "erro");
+      return;
+    }
+    if (isNaN(peso) || peso <= 0) {
+      mostrarToast("Digite um peso válido maior que 0.", "erro");
+      return;
+    }
+  }
+
+  if (tipo === "extra") {
+    const preco = parseFloat(document.getElementById("precoExtra").value);
+
+    if (isNaN(preco) || preco <= 0) {
+      mostrarToast("Digite um preço válido maior que 0.", "erro");
+      return;
+    }
+  }
+
   let produto = {};
   let url = "";
 
-  if (tipoProduto === "linha") {
+  if (tipo === "linha") {
     produto = {
       codigo_linha: document.getElementById("codigoLinha").value,
       nome: document.getElementById("nomeLinha").value,
@@ -250,7 +334,7 @@ async function abrirModalEdicaoLinha(codigo_linha) {
     document.getElementById("codigoCor").value = linha.codigo_cor;
     document.getElementById("tipoLinha").value = linha.tipo;
     document.getElementById("materialLinha").value = linha.material;
-    document.getElementById("precoTecido").value = tecido.preco_metro;
+    document.getElementById("precoTecido").value = linha.preco_metro;
     document.getElementById("comprimentoLinha").value =
       linha.comprimento_metros;
     document.getElementById("espessuraLinha").value = linha.espessura;
@@ -578,9 +662,7 @@ function mostrarToast(mensagem, tipo = "sucesso", duracao = 4000) {
     setTimeout(() => toastContainer.removeChild(toast), 400);
   });
 
-  toast.appendChild(icon);
-  toast.appendChild(text);
-  toast.appendChild(btnFechar);
+  toast.appendChild(icon, text, btnFechar);
   toastContainer.appendChild(toast);
 
   // Mostrar com animação
