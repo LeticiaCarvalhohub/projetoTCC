@@ -7,32 +7,29 @@ const chaveEstado = "abaAtiva";
 
 // Variáveis para abrir e fechar os modais
 const modalCadastro = document.getElementById("modalCadastroProduto");
-const modalCompras = document.getElementById("modalRegistroCompra");
-const modalVenda = document.getElementById("modalRegistroVenda");
-const btnAbrirModalCompra = document.getElementById("btnAbrirModalCompra");
-const btnAbrirModalVenda = document.getElementById("btnAbrirModalVenda");
 const btnAbrirModalEstoque = document.getElementById("btnAbrirModalEstoque");
-
-const btnFecharModalCompra = document.getElementById("botaoFecharCompra");
-const btnFecharModalVenda = document.getElementById("botaoFecharVenda");
 const btnFecharModalEstoque = document.getElementById("botaoFecharModal");
-
-const btnCancelarModalCompra = document.getElementById("botaoCancelarCompra");
-const btnCancelarModalVenda = document.getElementById("botaoCancelarVenda");
 const btnCancelarModalEstoque = document.getElementById("botaoCancelarModal");
+
+const modalCompras = document.getElementById("modalRegistroCompra");
+const btnAbrirModalCompra = document.getElementById("btnAbrirModalCompra");
+const btnFecharModalCompra = document.getElementById("botaoFecharCompra");
+const btnCancelarModalCompra = document.getElementById("botaoCancelarCompra");
+
+const modalVenda = document.getElementById("modalRegistroVenda");
+const btnAbrirModalVenda = document.getElementById("btnAbrirModalVenda");
+const btnFecharModalVenda = document.getElementById("botaoFecharVenda");
+const btnCancelarModalVenda = document.getElementById("botaoCancelarVenda");
 
 const btnLogout = document.getElementById("btnLogout");
 
 // Variáveis de alteração do conteúdo do formulário
 const tipoProduto = document.getElementById("tipoProduto");
-const grupos = document.querySelectorAll(".grupoTipo");
 const form = document.getElementById("formCadastroProduto");
-
-const editarIcon =
-  "{{ url_for('static', filename='assets/icons/editar.svg') }}";
-const lixeiraIcon =
-  "{{ url_for('static', filename='assets/icons/lixeira.svg') }}";
 const toastContainer = document.getElementById("toastContainer");
+const filtroTipo = document.getElementById("filtroTipo");
+
+const tabelaProdutos = document.querySelector("#tabelaProdutos tbody");
 
 // Botões para a navegação das abas principais
 botaoMenu.addEventListener("click", () => {
@@ -75,41 +72,57 @@ window.addEventListener("DOMContentLoaded", () => {
   ativarPagina(destinoSalvo);
 });
 
-// Ações que ocorre dentro do modais
-btnAbrirModalVenda.addEventListener("click", () => modalVenda.showModal());
-btnFecharModalVenda.addEventListener("click", () => modalVenda.close());
-btnCancelarModalVenda.addEventListener("click", () => modalVenda.close());
+function mostrarToast(mensagem, tipo = "sucesso", duracao = 4000) {
+  const toast = document.createElement("div");
+  toast.classList.add("toast", tipo);
 
-modalVenda.addEventListener("click", (evento) => {
-  const reacao = modalVenda.getBoundingClientRect();
-  if (
-    evento.clientX < reacao.left ||
-    evento.clientX > reacao.right ||
-    evento.clientY < reacao.top ||
-    evento.clientY > reacao.bottom
-  ) {
-    modalVenda.close();
-  }
+  const icone = document.createElement("span");
+  icone.classList.add("icon");
+  icone.textContent = tipo === "sucesso" ? "✅" : "⚠️";
+
+  const texto = document.createElement("span");
+  texto.textContent = mensagem;
+
+  const btnFechar = document.createElement("button");
+  btnFechar.classList.add("fechar-btn");
+  btnFechar.innerHTML = "&times;";
+
+  btnFechar.addEventListener("click", () => {
+    toast.classList.remove("show");
+    setTimeout(() => toastContainer.removeChild(toast), 400);
+  });
+
+  toast.appendChild(icone);
+  toast.appendChild(texto);
+  toast.appendChild(btnFechar);
+  toastContainer.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 100);
+
+  // Remove automaticamente após a duração
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => {
+      if (toastContainer.contains(toast)) {
+        toastContainer.removeChild(toast);
+      }
+    }, 400);
+  }, duracao);
+}
+
+// -------- Modais --------
+btnAbrirModalEstoque.addEventListener("click", () => {
+  modalCadastro.showModal();
+  form.reset();
+  tipoProduto.value = "";
 });
 
-btnAbrirModalEstoque.addEventListener("click", () => modalCadastro.showModal());
 btnFecharModalEstoque.addEventListener("click", () => {
   modalCadastro.close();
   form.reset();
-  tipoProduto.value = "";
-  grupos.forEach((grupo) => (grupo.hidden = true));
 });
+
 btnCancelarModalEstoque.addEventListener("click", () => modalCadastro.close());
-
-//resetar selects no modal
-function resetarSelectsModalCadastro() {
-  const selects = modalCadastro.querySelectorAll("select");
-  selects.forEach((select) => {
-    select.value = "";
-  });
-}
-
-modalCadastro.addEventListener("close", resetarSelectsModalCadastro);
 
 modalCadastro.addEventListener("click", (evento) => {
   const reacao = modalCadastro.getBoundingClientRect();
@@ -118,9 +131,8 @@ modalCadastro.addEventListener("click", (evento) => {
     evento.clientX > reacao.right ||
     evento.clientY < reacao.top ||
     evento.clientY > reacao.bottom
-  ) {
+  )
     modalCadastro.close();
-  }
 });
 
 btnLogout.addEventListener("click", async () => {
@@ -150,531 +162,184 @@ btnLogout.addEventListener("click", async () => {
   }
 });
 
-tipoProduto.addEventListener("change", () => {
-  grupos.forEach((grupo) => (grupo.hidden = true));
+// Carregar os produtos
+async function carregarProdutos(tipo = "") {
+  try {
+    let url = "/api/produtos";
+    if (tipo) {
+      url += `?tipo=${tipo}`;
+    }
 
-  grupos.forEach((grupo) => {
-    grupo.querySelectorAll("input, select").forEach((remover) => {
-      remover.removeAttribute("required");
-    });
-  });
+    const resposta = await fetch(url);
+    const produtos = await resposta.json();
 
-  const selecionado = tipoProduto.value;
+    tabelaProdutos.innerHTML = "";
 
-  if (selecionado === "linha") {
-    const formLinha = document.getElementById("formLinha");
-    formLinha.hidden = false;
-    formLinha.querySelectorAll("input, select").forEach((adicionar) => {
-      adicionar.setAttribute("required", true);
+    produtos.forEach((produto) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="linhaTabela">${produto.id}</td>
+        <td class="linhaTabela">${produto.nome}</td>
+        <td class="linhaTabela">${produto.tipo}</td>
+        <td class="linhaTabela">${produto.codigo_original || ""}</td>
+        <td class="linhaTabela">R$ ${parseFloat(produto.preco_base).toFixed(
+          2
+        )}</td>
+        <td class="linhaTabela">${produto.marca || ""}</td>
+        <td class="linhaTabela">${produto.material || ""}</td>
+        <td class="linhaTabela">${produto.tamanho || ""}</td>
+        <td class="linhaTabela">${produto.cor || ""}</td>
+        <td class="linhaTabela">${new Date(
+          produto.data_cadastro
+        ).toLocaleDateString("pt-BR")}</td>
+        <td class="linhaTabela">${produto.quantidade || 0}</td>
+        <td class="linhaTabela acoes">
+          <button class="botoesDecisao btnEditarProduto" data-id="${
+            produto.id
+          }">
+            <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
+          </button>
+          <button class="botoesDecisao btnDeletarProduto" data-id="${
+            produto.id
+          }">
+            <img src="/static/assets/icons/lixeira.svg" alt="lixeira.svg" />
+          </button>
+        </td>
+      `;
+      tabelaProdutos.appendChild(tr);
     });
+  } catch (erro) {
+    console.error("Erro ao carregar produtos:", erro);
+    mostrarToast("Erro ao carregar produtos", "erro");
   }
-  if (selecionado === "tecido") {
-    const formTecido = document.getElementById("formTecido");
-    formTecido.hidden = false;
-    formTecido.querySelectorAll("input, select").forEach((adicionar) => {
-      adicionar.setAttribute("required", true);
-    });
-  }
-  if (selecionado === "extra") {
-    const formExtra = document.getElementById("formExtra");
-    formExtra.hidden = false;
-    formExtra.querySelectorAll("input, select").forEach((adicionar) => {
-      adicionar.setAttribute("required", true);
-    });
-  }
+}
+
+filtroTipo.addEventListener("change", () => {
+  carregarProdutos(filtroTipo.value);
 });
 
-//Cadastros de produtos
+function resetarFormulario() {
+  form.reset();
+  tipoProduto.value = "";
+}
+
+function abrirModalCadastro() {
+  modalCadastro.showModal();
+}
+
+function fecharModalCadastro() {
+  modalCadastro.close();
+  resetarFormulario();
+}
+
+// -------- CRUD produtos --------
 form.addEventListener("submit", async (evento) => {
   evento.preventDefault();
 
-  const tipo = tipoProduto.value;
+  const dados = {
+    nome: document.getElementById("nomeProduto").value,
+    tipo: tipoProduto.value,
+    codigo_original: document.getElementById("codigoProduto").value,
+    preco_base: parseFloat(document.getElementById("precoProduto").value),
+    marca: document.getElementById("marcaProduto").value,
+    material: document.getElementById("materialProduto").value,
+    tamanho: document.getElementById("tamanhoProduto").value,
+    cor: document.getElementById("corProduto").value,
+    data_cadastro: document.getElementById("dataCadastroProduto").value,
+    quantidade_inicial:
+      parseInt(document.getElementById("quantidadeProduto").value) || 0,
+  };
 
-  if (!tipo) {
-    mostrarToast("Selecione o tipo de produto.", "erro");
+  if (
+    !dados.nome ||
+    !dados.tipo ||
+    isNaN(dados.preco_base) ||
+    dados.preco_base <= 0
+  ) {
+    mostrarToast("Preencha corretamente todos os campos obrigatórios!", "erro");
     return;
   }
 
-  if (tipo === "linha") {
-    const preco = parseFloat(document.getElementById("precoBase").value);
-    const comprimento = parseFloat(
-      document.getElementById("comprimentoLinha").value
-    );
-    const espessura = parseFloat(
-      document.getElementById("espessuraLinha").value
-    );
-
-    if (isNaN(preco) || preco <= 0) {
-      mostrarToast("Digite um preço válido maior que 0.", "erro");
-      return;
-    }
-    if (isNaN(comprimento) || comprimento <= 0) {
-      mostrarToast("Digite um comprimento válido maior que 0.", "erro");
-      return;
-    }
-    if (isNaN(espessura) || espessura <= 0) {
-      mostrarToast("Digite uma espessura válida maior que 0.", "erro");
-      return;
-    }
-  }
-
-  if (tipo === "tecido") {
-    const preco = parseFloat(document.getElementById("precoTecido").value);
-    const largura = parseFloat(document.getElementById("larguraTecido").value);
-    const peso = parseFloat(document.getElementById("pesoTecido").value);
-
-    if (isNaN(preco) || preco <= 0) {
-      mostrarToast("Digite um preço válido maior que 0.", "erro");
-      return;
-    }
-    if (isNaN(largura) || largura <= 0) {
-      mostrarToast("Digite uma largura válida maior que 0.", "erro");
-      return;
-    }
-    if (isNaN(peso) || peso <= 0) {
-      mostrarToast("Digite um peso válido maior que 0.", "erro");
-      return;
-    }
-  }
-
-  if (tipo === "extra") {
-    const preco = parseFloat(document.getElementById("precoExtra").value);
-
-    if (isNaN(preco) || preco <= 0) {
-      mostrarToast("Digite um preço válido maior que 0.", "erro");
-      return;
-    }
-  }
-
-  let produto = {};
-  let url = "";
-
-  if (tipo === "linha") {
-    produto = {
-      codigo_linha: document.getElementById("codigoLinha").value,
-      nome: document.getElementById("nomeLinha").value,
-      marca: document.getElementById("marcaLinha").value,
-      cor: document.getElementById("corLinha").value,
-      codigo_cor: document.getElementById("codigoCor").value,
-      tipo: document.getElementById("tipoLinha").value,
-      material: document.getElementById("materialLinha").value,
-      comprimento_metros: document.getElementById("comprimentoLinha").value,
-      espessura: document.getElementById("espessuraLinha").value,
-      preco_base: document.getElementById("precoBase").value,
-      data_cadastro: document.getElementById("dataCadastroLinha").value,
-    };
-
-    url = "/api/linha";
-  } else if (tipo === "tecido") {
-    produto = {
-      codigo_tecido: document.getElementById("codigoTecido").value,
-      nome: document.getElementById("nomeTecido").value,
-      marca: document.getElementById("marcaTecido").value,
-      tipo: document.getElementById("tipoTecido").value,
-      estampa: document.getElementById("estampaTecido").value,
-      cor: document.getElementById("corTecido").value,
-      largura: document.getElementById("larguraTecido").value,
-      preco_base: document.getElementById("precoTecido").value,
-      composicao: document.getElementById("composicaoTecido").value,
-      peso: document.getElementById("pesoTecido").value,
-      data_cadastro: document.getElementById("dataCadastroTecido").value,
-    };
-
-    url = "/api/tecido";
-  } else if (tipo === "extra") {
-    produto = {
-      codigo: document.getElementById("codigoExtra").value,
-      nome: document.getElementById("nomeExtra").value,
-      categoria: document.getElementById("categoriaExtra").value,
-      marca: document.getElementById("marcaExtra").value,
-      cor: document.getElementById("corExtra").value,
-      tamanho: document.getElementById("tamanhoExtra").value,
-      material: document.getElementById("materialExtra").value,
-      preco_base: document.getElementById("precoExtra").value,
-      unidade: document.getElementById("unidadeExtra").value,
-      data_cadastro: document.getElementById("dataCadastroExtra").value,
-    };
-
-    url = "/api/produtos_extras";
-  }
-
   try {
-    const resposta = await fetch(url, {
+    const resposta = await fetch("/api/produtos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(produto),
+      body: JSON.stringify(dados),
     });
 
     const resultado = await resposta.json();
 
     if (resposta.ok) {
-      mostrarToast("Produto cadastrado com sucesso!", "sucesso");
-      form.reset();
+      mostrarToast("Produto cadastrado com sucesso!");
+      resetarFormulario();
+      fecharModalCadastro();
+      carregarProdutos(filtroTipo.value);
     } else {
-      mostrarToast(resultado.erro || "Erro ao cadastrar o produto.", "erro");
+      mostrarToast(resultado.erro || "Erro ao cadastrar produto", "erro");
     }
   } catch (erro) {
+    console.error("Erro ao cadastrar produto:", erro);
     mostrarToast("Falha na conexão com o servidor.", "erro");
   }
 });
 
-//Atualizar produtos
-async function abrirModalEdicaoLinha(codigo_linha) {
+async function editarProduto(id) {
   try {
-    const resposta = await fetch(`/api/linha`);
-    const linhas = await resposta.json();
-    const linha = linhas.find((lin) => lin.codigo_linha == codigo_linha);
+    const res = await fetch(`/api/produtos/${id}`);
+    const produto = await res.json();
 
-    if (!linha) return alert("Linha não encontrada!");
+    if (!produto) return mostrarToast("Produto não encontrado!", "erro");
 
-    document.getElementById("codigoLinha").value = linha.codigo_linha;
-    document.getElementById("nomeLinha").value = linha.nome;
-    document.getElementById("marcaLinha").value = linha.marca;
-    document.getElementById("corLinha").value = linha.cor;
-    document.getElementById("codigoCor").value = linha.codigo_cor;
-    document.getElementById("tipoLinha").value = linha.tipo;
-    document.getElementById("materialLinha").value = linha.material;
-    document.getElementById("precoTecido").value = linha.preco_metro;
-    document.getElementById("comprimentoLinha").value =
-      linha.comprimento_metros;
-    document.getElementById("espessuraLinha").value = linha.espessura;
-    document.getElementById("precoBase").value = linha.preco_base;
-    document.getElementById("dataCadastroLinha").value = linha.data_cadastro;
+    document.getElementById("nomeProduto").value = produto.nome;
+    document.getElementById("codigoProduto").value = produto.codigo_original;
+    document.getElementById("precoProduto").value = produto.preco_base;
+    document.getElementById("marcaProduto").value = produto.marca;
+    document.getElementById("materialProduto").value = produto.material;
+    document.getElementById("tamanhoProduto").value = produto.tamanho;
+    document.getElementById("corProduto").value = produto.cor;
+    document.getElementById("dataCadastroProduto").value =
+      produto.data_cadastro;
+    document.getElementById("quantidadeProduto").value = produto.quantidade;
 
-    modalCadastro.showModal();
-
-    tipoProduto.value = "linha";
+    tipoProduto.value = produto.tipo;
     tipoProduto.disabled = true;
 
-    grupos.forEach((grup) => (grup.hidden = true));
-    document.getElementById("formLinha").hidden = false;
-    form.reset();
-  } catch (error) {
-    console.error("Erro ao carregar as linhas:", error);
+    abrirModalCadastro();
+  } catch (erro) {
+    console.error("Erro ao carregar produto:", erro);
+    mostrarToast("Erro ao carregar produto.", "erro");
   }
 }
 
-async function abrirModalEdicaoTecido(codigo_tecido) {
+// Deletar produto
+async function deletarProduto(id) {
+  if (!confirm("Deseja realmente deletar este produto?")) return;
+
   try {
-    const resposta = await fetch(`/api/tecido`);
-    const tecidos = await resposta.json();
-    const tecido = tecidos.find((tec) => tec.codigo_tecido == codigo_tecido);
+    const res = await fetch(`/api/produtos/${id}`, { method: "DELETE" });
+    const resultado = await res.json();
 
-    if (!tecido) return alert("Tecido não encontrada!");
-
-    document.getElementById("codigoTecido").value = tecido.codigo_tecido;
-    document.getElementById("nometecido").value = tecido.nome;
-    document.getElementById("marcaTecido").value = tecido.marca;
-    document.getElementById("tipoTecido").value = tecido.tipo_tecido;
-    document.getElementById("estampaTecido").value = tecido.estampa;
-    document.getElementById("corTecido").value = tecido.cor;
-    document.getElementById("larguraTecido").value = tecido.largura_cm;
-    document.getElementById("precoTecido").value = tecido.preco_metro;
-    document.getElementById("composicaoTecido").value = tecido.composicao;
-    document.getElementById("pesoTecido").value = tecido.peso_g_m2;
-    document.getElementById("dataCadastroTecido").value = tecido.data_cadastro;
-
-    modalCadastro.showModal();
-
-    tipoProduto.value = "tecido";
-    tipoProduto.disabled = true;
-
-    grupos.forEach((grup) => (grup.hidden = true));
-    document.getElementById("formTecido").hidden = false;
-    form.reset();
-  } catch (error) {
-    console.error("Erro ao carregar os tecidos:", error);
+    mostrarToast(resultado.mensagem || "Produto deletado!");
+    carregarProdutos(filtroTipo.value);
+  } catch (erro) {
+    console.error("Erro ao deletar produto:", erro);
+    mostrarToast("Erro ao deletar produto.", "erro");
   }
 }
-
-async function abrirModalEdicaoExtra(codigo_extra) {
-  try {
-    const resposta = await fetch(`/api/produtos_extras`);
-    const extras = await resposta.json();
-    const extra = extras.find((ext) => ext.codigo_extra == codigo_extra);
-
-    if (!extra) return alert("Extra não encontrada!");
-
-    document.getElementById("codigoExtra").value = extra.codigo_extra;
-    document.getElementById("nomeExtra").value = extra.nome;
-    document.getElementById("categoriaExtra").value = extra.categoria;
-    document.getElementById("marcaExtra").value = extra.marca;
-    document.getElementById("corExtra").value = extra.cor;
-    document.getElementById("tamanhoExtra").value = extra.tamanho;
-    document.getElementById("materialExtra").value = extra.material;
-    document.getElementById("precoExtra").value = extra.preco_base;
-    document.getElementById("unidadeExtra").value = extra.unidade_medida;
-    document.getElementById("dataCadastroExtra").value = extra.data_cadastro;
-
-    modalCadastro.showModal();
-
-    tipoProduto.value = "extra";
-    tipoProduto.disabled = true;
-
-    grupos.forEach((grup) => (grup.hidden = true));
-    document.getElementById("formExtra").hidden = false;
-    form.reset();
-  } catch (error) {
-    console.error("Erro ao carregar os produtos extras:", error);
-  }
-}
-
-//Deletar produtos
-async function deletarLinha(codigo_linha) {
-  if (!confirm("Deseja realmente deletar esta linha?")) return;
-  try {
-    const resposta = await fetch(`/api/linha/${codigo_linha}`, {
-      method: "DELETE",
-    });
-    const resultado = await resposta.json();
-    alert(resultado.mensagem || "Linha deletada!");
-    location.reload();
-  } catch (error) {
-    console.error("Erro ao deletar linha:", error);
-  }
-}
-
-async function deletarTecido(codigo_tecido) {
-  if (!confirm("Deseja realmente deletar este tecido?")) return;
-  try {
-    const resposta = await fetch(`/api/tecido/${codigo_tecido}`, {
-      method: "DELETE",
-    });
-    const resultado = await resposta.json();
-    alert(resultado.mensagem || "Tecido deletado!");
-    location.reload();
-  } catch (error) {
-    console.error("Erro ao deletar tecido:", error);
-  }
-}
-
-async function deletarExtra(codigo_extra) {
-  if (!confirm("Deseja realmente deletar esta linha?")) return;
-  try {
-    const resposta = await fetch(`/api/produtos_extras/${codigo_extra}`, {
-      method: "DELETE",
-    });
-    const resultado = await resposta.json();
-    alert(resultado.mensagem || "Produto extra deletado!");
-    location.reload();
-  } catch (error) {
-    console.error("Erro ao deletar linha:", error);
-  }
-}
-
-//Ligação com os botões de editar e excluir às funcões
-document.addEventListener("click", (evento) => {
-  if (evento.target.closest(".btnEditarLinha")) {
-    const id = evento.target.closest("button").dataset.id;
-    abrirModalEdicaoLinha(id);
-  }
-  if (evento.target.closest(".btnDeletarLinha")) {
-    const id = evento.target.closest("button").dataset.id;
-    deletarLinha(id);
-  }
-});
 
 document.addEventListener("click", (evento) => {
-  if (evento.target.closest(".btnEditarTecido")) {
-    const id = evento.target.closest("button").dataset.id;
-    abrirModalEdicaoTecido(id);
-  }
-  if (evento.target.closest(".btnDeletarTecido")) {
-    const id = evento.target.closest("button").dataset.id;
-    deletarTecido(id);
-  }
-});
+  const btnEditarProduto = evento.target.closest(".btnEditarProduto");
+  const btnDeletarProduto = evento.target.closest(".btnDeletarProduto");
 
-document.addEventListener("click", (evento) => {
-  if (evento.target.closest(".btnEditarExtra")) {
-    const id = evento.target.closest("button").dataset.id;
-    abrirModalEdicaoExtra(id);
+  if (btnEditarProduto) {
+    editarProduto(btnEditarProduto.dataset.id);
   }
-  if (evento.target.closest(".btnDeletarExtra")) {
-    const id = evento.target.closest("button").dataset.id;
-    deletarExtra(id);
+
+  if (btnDeletarProduto) {
+    deletarProduto(btnDeletarProduto.dataset.id);
   }
 });
 
-// Carregamento dos dados nas tabelas
-document.addEventListener("DOMContentLoaded", async () => {
-  const tabela = document.querySelector("#tabelaLinhas tbody");
-
-  try {
-    const resposta = await fetch("/api/linha");
-    const linhas = await resposta.json();
-    tabela.innerHTML = "";
-
-    linhas.forEach((linha) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td class="linhaColuna">${linha.codigo_linha}</td>
-        <td class="linhaColuna">${linha.nome}</td>
-        <td class="linhaColuna">${linha.marca}</td>
-        <td class="linhaColuna">${linha.cor}</td>
-        <td class="linhaColuna">${linha.codigo_cor}</td>
-        <td class="linhaColuna">${linha.tipo}</td>
-        <td class="linhaColuna">${linha.material}</td>
-        <td class="linhaColuna">${linha.comprimento_metros}</td>
-        <td class="linhaColuna">${linha.espessura}</td>
-        <td class="linhaColuna">R$ ${parseFloat(linha.preco_base).toFixed(
-          2
-        )}</td>
-        <td class="linhaColuna">${new Date(
-          linha.data_cadastro
-        ).toLocaleDateString("pt-BR")}</td>
-        <td class="linhaColuna"">
-          <span class="itemEstado emEstoque"></span>
-        </td>
-        <td class="linhaColuna acoes">
-          <button class="botoesDecisao btnEditarLinha" data-id="${
-            linha.codigo_linha
-          }" title="Editar">
-            <img src=${editarIcon} alt="Editar" />
-          </button>
-          <button class="botoesDecisao btnDeletarLinha" data-id="${
-            linha.codigo_linha
-          }" title="Excluir">
-            <img src=${lixeiraIcon} alt="Excluir" />
-          </button>
-        </td>`;
-      tabela.appendChild(tr);
-    });
-  } catch (error) {
-    console.error("Erro ao buscar tecidos:", error);
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  carregarProdutos();
 });
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const tabela = document.querySelector("#tabelaTecidos tbody");
-
-  try {
-    const resposta = await fetch("/api/tecido");
-    const tecidos = await resposta.json();
-    tabela.innerHTML = "";
-    tecidos.forEach((tecido) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td class="linhaColuna">${tecido.codigo_tecido}</td>
-        <td class="linhaColuna">${tecido.nome}</td>
-        <td class="linhaColuna">${tecido.marca}</td>
-        <td class="linhaColuna">${tecido.tipo_tecido}</td>
-        <td class="linhaColuna">${tecido.estampa}</td>
-        <td class="linhaColuna">${tecido.cor}</td>
-        <td class="linhaColuna">${tecido.largura_cm}</td>
-        <td class="linhaColuna">R$ ${parseFloat(tecido.preco_metro).toFixed(
-          2
-        )}</td>
-        <td class="linhaColuna">${tecido.composicao}</td>
-        <td class="linhaColuna">${tecido.peso_g_m2}</td>
-        <td class="linhaColuna">${new Date(
-          tecido.data_cadastro
-        ).toLocaleDateString("pt-BR")}</td>
-        <td class="linhaColuna">
-          <span class="itemEstado emEstoque"></span>
-        </td>
-        <td class="linhaColuna acoes">
-          <button class="botoesDecisao btnEditarTecido" data-id="${
-            tecido.codigo_tecido
-          }" title="Editar">
-            <img src=${editarIcon} alt="Editar" />
-          </button>
-          <button class="botoesDecisao btnDeletarTecido" data-id="${
-            tecido.codigo_tecido
-          }" title="Excluir">
-            <img src=${lixeiraIcon} alt="Excluir" />
-          </button>
-        </td>`;
-      tabela.appendChild(tr);
-    });
-  } catch (error) {
-    console.error("Erro ao buscar tecidos:", error);
-  }
-});
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const tabela = document.querySelector("#tabelaProdutosExtras tbody");
-
-  try {
-    const resposta = await fetch("/api/produtos_extras");
-    const extras = await resposta.json();
-    tabela.innerHTML = "";
-
-    extras.forEach((extra) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td class="linhaColuna">${extra.codigo_extra}</td>
-        <td class="linhaColuna">${extra.nome}</td>
-        <td class="linhaColuna">${extra.categoria}</td>
-        <td class="linhaColuna">${extra.marca}</td>
-        <td class="linhaColuna">${extra.cor}</td>
-        <td class="linhaColuna">${extra.tamanho}</td>
-        <td class="linhaColuna">${extra.material}</td>
-        <td class="linhaColuna">R$ ${parseFloat(extra.preco_base).toFixed(
-          2
-        )}</td>
-        <td class="linhaColuna">${extra.unidade_medida}</td>
-        <td class="linhaColuna">${new Date(
-          extra.data_cadastro
-        ).toLocaleDateString("pt-BR")}</td>
-        <td class="linhaColuna">
-          <span class="itemEstado emEstoque"></span>
-        </td>
-        <td class="linhaColuna acoes">
-          <button class="botoesDecisao btnEditarExtra" data-id="${
-            extra.codigo_extra
-          }" title="Editar">
-            <img src=${editarIcon} alt="Editar" />
-          </button>
-          <button class="botoesDecisao btnDeletarExtra" data-id="${
-            extra.codigo_extra
-          }" title="Excluir">
-            <img src=${lixeiraIcon} alt="Excluir" />
-          </button>
-        </td>`;
-      tabela.appendChild(tr);
-    });
-  } catch (error) {
-    console.error("Erro ao buscar tecidos:", error);
-  }
-});
-
-function mostrarToast(mensagem, tipo = "sucesso", duracao = 4000) {
-  const toast = document.createElement("div");
-  toast.classList.add("toast", tipo);
-
-  //Ícone
-  const icon = document.createElement("span");
-  icon.classList.add("icon");
-  icon.textContent = tipo === "sucesso" ? "✅" : "⚠️";
-
-  // Texto da mensagem
-  const text = document.createElement("span");
-  text.textContent = mensagem;
-
-  // Botão de fechar
-  const btnFechar = document.createElement("button");
-  btnFechar.classList.add("fechar-btn");
-  btnFechar.innerHTML = "&times;";
-
-  btnFechar.addEventListener("click", () => {
-    toast.classList.remove("show");
-    setTimeout(() => toastContainer.removeChild(toast), 400);
-  });
-
-  toast.appendChild(icon, text, btnFechar);
-  toastContainer.appendChild(toast);
-
-  // Mostrar com animação
-  setTimeout(() => toast.classList.add("show"), 100);
-
-  // Remover automaticamente após a duração
-  setTimeout(() => {
-    toast.classList.remove("show");
-    setTimeout(() => {
-      if (toastContainer.contains(toast)) {
-        toastContainer.removeChild(toast);
-      }
-    }, 400);
-  }, duracao);
-}

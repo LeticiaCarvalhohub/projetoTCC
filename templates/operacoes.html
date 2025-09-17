@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Operações</title>
+    <link rel="stylesheet" href="../app/static/css/operacoes.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img
+          id="logoIcone"
+          src="{{ url_for('static', filename='assets/images/logoTdC.png') }}"
+          alt="#"
+        />
+        <h1 id="tituloPrincipal">Tudo no Controle</h1>
+      </div>
+      <div class="perfilUsuario">
+        <span class="nomeUsuario">Bem-vindo - {{ session['usuario'] }}</span>
+      </div>
+    </header>
+
+    <main>
+      <!--Operações-->
+      <section id="Operacoes">
+        <div id="operacoes">
+          <div id="caixaUsuario">
+            <h2 class="paginaTitulo">Operações</h2>
+            <div id="operacoesSumario">
+              <div class="sumarioEstado total">
+                <span>Usuários Cadastrados</span>
+                <strong>23</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="controlesOperacoes">
+          <button id="btnAbrirModalEstoque" class="botaoPrimario">
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Novos Usuários
+          </button>
+        </div>
+
+        <table id="tabelaOperacoes">
+          <thead>
+            <tr class="tabelaCabecalho">
+              <th>Usuário</th>
+              <th>Email</th>
+              <th>Senha</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

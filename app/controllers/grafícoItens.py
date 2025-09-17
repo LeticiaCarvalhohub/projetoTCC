@@ -1,15 +1,7 @@
+from app.controllers import conexaoBD
 from flask import Flask, jsonify
-import mysql.connector
 
 app = Flask(__name__)
-
-def conexaoBD():
-    return mysql.connector.connect(
-        host='br418.hostgator.com.br:3306',
-        user='etemfl83_tudonocontrole',
-        password='P@=+nCxJzmy(',
-        database='tudonocontrole'
-    )
 
 @app.route('/dados-itens')
 def dados_itens():

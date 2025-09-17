@@ -37,6 +37,10 @@ def painelPrincipal():
   else:
     return redirect("/login")
   
+@usuario_bp.route('/operacoes')
+def operacoes():
+    return render_template('operacoes.html')
+  
 @usuario_bp.route("/logout", methods=["POST"])
 def logout():
   session.clear()
