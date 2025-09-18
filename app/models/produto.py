@@ -72,7 +72,7 @@ def update_produto(produto_id, dados: dict):
             "data_cadastro": "data_cadastro"
         }
 
-        for chave, coluna in mapa.itens():
+        for chave, coluna in mapa.items():
             if chave in dados:
                 campos.append(f"{coluna}=%s")
                 valores.append(dados[chave])
@@ -83,7 +83,7 @@ def update_produto(produto_id, dados: dict):
             cursor.execute(sql, valores)
     
         #atualiza o estoque se for preenchido
-        if 'quantidade' in dados:
+        if 'quantidade' in dados and ['quantidade'] not in [None, ""]:
             cursor.execute("UPDATE estoque SET quantidade=%s WHERE produto_id=%s", (dados['quantidade'], produto_id))
 
         conexao.commit()
@@ -101,3 +101,36 @@ def delete_produto(produto_id):
     finally:
         cursor.close()
         conexao.close()
+
+def get_quantidade_total():
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor(dictionary=True)
+        cursor.execute("SELECT SUM(quantidade) as total FROM estoque")
+        resultado = cursor.fetchone()
+    finally:
+        cursor.close()
+        conexao.close()
+    return resultado["total"] if resultado["total"] else 0
+
+def get_baixo_estoque(limite=30):
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor(dictionary=True)
+        cursor.execute("SELECT COUNT(*) as baixo_estoque FROM estoque WHERE quantidade < %s AND quantidade > 0", (limite,))
+        resultado = cursor.fetchone()
+    finally:
+        cursor.close()
+        conexao.close()
+    return resultado["baixo_estoque"] if resultado["baixo_estoque"] else 0
+
+def get_sem_estoque():
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor(dictionary=True)
+        cursor.execute("SELECT COUNT(*) as sem_estoque FROM estoque WHERE quantidade = 0")
+        resultado = cursor.fetchone()
+    finally:
+        cursor.close()
+        conexao.close()
+    return resultado["sem_estoque"] if resultado["sem_estoque"] else 0

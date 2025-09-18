@@ -26,6 +26,7 @@ def verificarLogin():
   user = verificar_usuario(login, senha, estado)
   if user:
     session["usuario"] = login
+    session['estado'] = estado
     return jsonify({"sucesso": True})
   else:
     return jsonify({"sucesso": False, "mensagem": "Credenciais inválidas"}), 401
@@ -36,10 +37,6 @@ def painelPrincipal():
     return render_template("painelControle.html")
   else:
     return redirect("/login")
-  
-@usuario_bp.route('/operacoes')
-def operacoes():
-    return render_template('operacoes.html')
   
 @usuario_bp.route("/logout", methods=["POST"])
 def logout():

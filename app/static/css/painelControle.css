@@ -169,42 +169,22 @@ nav {
   height: 1.25rem;
 }
 
-#configuracoes {
-  margin-top: auto;
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  padding: 0 1rem;
-}
-
-#btnOperacoes,
 #btnLogout {
   padding: 0.6rem 1rem;
   font-size: 1rem;
   border-radius: 6px;
-  min-width: 100px;
-  height: 40px;
+  height: 2.5rem;
+  width: 65%;
+  margin-left: 2.5rem;
+  margin-top: auto;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-#btnOperacoes {
-  background: #0275d8;
-  color: white;
-}
-
-#btnOperacoes:hover {
-  background: var(--cor-apoio2);
-  transform: translateY(-2px) scale(1.03);
-}
-
-#btnLogout {
   background: #d9534f;
   color: white;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 #btnLogout:hover {
@@ -416,6 +396,98 @@ main {
   padding: 0.8rem 1rem;
   text-align: left;
   vertical-align: middle;
+}
+
+#caixaUsuario {
+  display: flex;
+  gap: 1.5rem;
+}
+
+#operacoesSumario {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+#operacoesSumario .sumarioEstado {
+  background: white;
+  padding: 1rem;
+  border-radius: var(--raio-borda);
+  box-shadow: var(--sombra-pequena);
+  min-width: 200px;
+  text-align: center;
+}
+
+#operacoesSumario .sumarioEstado span {
+  font-size: 14px;
+  color: var(--cor-terciaria);
+  display: block;
+}
+
+#operacoesSumario .sumarioEstado strong {
+  font-size: 24px;
+  color: var(--cor-texto);
+  margin-top: 0.5rem;
+}
+
+#controlesOperacoes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+#controlesOperacoes .botaoPrimario {
+  padding: 0.8rem 1.2rem;
+  background: var(--cor-primaria);
+  color: white;
+  border: none;
+  border-radius: var(--raio-borda);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#controlesOperacoes .botaoPrimario:hover {
+  background: var(--cor-apoio1);
+}
+
+#tabelaOperacoes {
+  width: 100%;
+  margin-bottom: 2rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+#tabelaOperacoes th,
+#tabelaOperacoes td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+
+#tabelaOperacoes .linhaTabela:hover {
+  background-color: var(--cor-terciaria);
+  color: var(--corTexto-inversa);
+}
+
+.configCabecalho {
+  background: #0846ff;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e0e7ff;
 }
 
 #controlesVendas {

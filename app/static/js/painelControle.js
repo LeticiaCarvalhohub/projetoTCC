@@ -21,6 +21,11 @@ const btnAbrirModalVenda = document.getElementById("btnAbrirModalVenda");
 const btnFecharModalVenda = document.getElementById("botaoFecharVenda");
 const btnCancelarModalVenda = document.getElementById("botaoCancelarVenda");
 
+const btnFecharModalEditar = document.getElementById("botaoFecharModalEditar");
+const btnCancelarModalEditar = document.getElementById(
+  "botaoCancelarModalEditar"
+);
+
 const btnLogout = document.getElementById("btnLogout");
 
 // Variáveis de alteração do conteúdo do formulário
@@ -283,31 +288,92 @@ form.addEventListener("submit", async (evento) => {
   }
 });
 
-async function editarProduto(id) {
+async function abrirEditarProduto(id) {
   try {
     const res = await fetch(`/api/produtos/${id}`);
+    if (!res.ok) throw new Error("Produto não encontrado");
+
     const produto = await res.json();
 
-    if (!produto) return mostrarToast("Produto não encontrado!", "erro");
-
-    document.getElementById("nomeProduto").value = produto.nome;
-    document.getElementById("codigoProduto").value = produto.codigo_original;
-    document.getElementById("precoProduto").value = produto.preco_base;
-    document.getElementById("marcaProduto").value = produto.marca;
-    document.getElementById("materialProduto").value = produto.material;
-    document.getElementById("tamanhoProduto").value = produto.tamanho;
-    document.getElementById("corProduto").value = produto.cor;
-    document.getElementById("dataCadastroProduto").value =
+    document.getElementById("editarProdutoId").value = produto.id;
+    document.getElementById("editarNomeProduto").value = produto.nome;
+    document.getElementById("editarCodigoProduto").value =
+      produto.codigo_original;
+    document.getElementById("editarPrecoProduto").value = produto.preco_base;
+    document.getElementById("editarMarcaProduto").value = produto.marca || "";
+    document.getElementById("editarMaterialProduto").value =
+      produto.material || "";
+    document.getElementById("editarTamanhoProduto").value =
+      produto.tamanho || "";
+    document.getElementById("editarCorProduto").value = produto.cor || "";
+    document.getElementById("editarDataCadastroProduto").value =
       produto.data_cadastro;
-    document.getElementById("quantidadeProduto").value = produto.quantidade;
+    document.getElementById("editarQuantidadeProduto").value =
+      produto.quantidade;
+    document.getElementById("editarTipoProduto").value = produto.tipo;
 
-    tipoProduto.value = produto.tipo;
-    tipoProduto.disabled = true;
-
-    abrirModalCadastro();
+    abrirModalEdicao();
   } catch (erro) {
     console.error("Erro ao carregar produto:", erro);
     mostrarToast("Erro ao carregar produto.", "erro");
+  }
+}
+
+function abrirModalEdicao() {
+  const modalEditar = document.getElementById("modalEditarProduto");
+  if (typeof modalEditar.showModal === "function") {
+    modalEditar.showModal();
+  } else {
+    modalEditar.style.display = "block";
+  }
+}
+
+// --- Fechar modal ---
+function fecharModalEdicao() {
+  const modalEditar = document.getElementById("modalEditarProduto");
+  if (typeof modalEditar.close === "function") {
+    modalEditar.close();
+  } else {
+    modalEditar.style.display = "none";
+  }
+}
+
+btnCancelarModalEditar.addEventListener("click", fecharModalEdicao);
+btnFecharModalEditar.addEventListener("click", fecharModalEdicao);
+
+async function salvarEdicaoProduto() {
+  const produtoId = document.getElementById("editarProdutoId").value;
+  const dados = {
+    nome: document.getElementById("editarNomeProduto").value,
+    codigo_original: document.getElementById("editarCodigoProduto").value,
+    preco_base: document.getElementById("editarPrecoProduto").value,
+    marca: document.getElementById("editarMarcaProduto").value,
+    material: document.getElementById("editarMaterialProduto").value,
+    tamanho: document.getElementById("editarTamanhoProduto").value,
+    cor: document.getElementById("editarCorProduto").value,
+    data_cadastro: document.getElementById("editarDataCadastroProduto").value,
+    quantidade: document.getElementById("editarQuantidadeProduto").value,
+  };
+
+  try {
+    const resposta = await fetch(`/api/produtos/${produtoId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados),
+    });
+
+    const resultado = await resposta.json();
+
+    if (resultado.ok) {
+      mostrarToast("Produto atualizado com sucesso!", "sucesso");
+      fecharModalEdicao();
+      carregarProdutos();
+    } else {
+      mostrarToast(resposta.erro || "Erro ao atualizar produto.", "erro");
+    }
+  } catch (erro) {
+    console.error("Erro ao atualizar produto:", erro);
+    mostrarToast("Erro ao atualizar produto.", "erro");
   }
 }
 
@@ -332,7 +398,7 @@ document.addEventListener("click", (evento) => {
   const btnDeletarProduto = evento.target.closest(".btnDeletarProduto");
 
   if (btnEditarProduto) {
-    editarProduto(btnEditarProduto.dataset.id);
+    abrirEditarProduto(btnEditarProduto.dataset.id);
   }
 
   if (btnDeletarProduto) {
@@ -340,6 +406,27 @@ document.addEventListener("click", (evento) => {
   }
 });
 
+async function carregarResumoProdutos() {
+  try {
+    const resposta = await fetch("/api/produtos/resumo");
+
+    if (resposta.ok) {
+      const dados = await resposta.json();
+      const totalSpan = document.getElementById("totalQuant");
+      totalSpan.textContent = dados.total;
+
+      const baixoEstoqSpan = document.getElementById("baixoEstoq");
+      baixoEstoqSpan.textContent = dados.baixo_estoque;
+
+      const semEstoqSpan = document.getElementById("semEstoq");
+      semEstoqSpan.textContent = dados.sem_estoque;
+    }
+  } catch (erro) {
+    console.error("Erro ao carregar total de produtos:", erro);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   carregarProdutos();
+  carregarResumoProdutos();
 });

@@ -1,6 +1,4 @@
 const formLogin = document.getElementById("login-caixa");
-const mensagem = document.getElementById("mensagem");
-const btnText = document.getElementById("btnText");
 const btnSpinner = document.getElementById("btnSpinner");
 const toastContainer = document.getElementById("toastContainer");
 

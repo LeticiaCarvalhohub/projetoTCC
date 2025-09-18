@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models.produto import get_produtos, insert_produtos, update_produto, delete_produto
+from app.models.produto import get_produtos, insert_produtos, update_produto, delete_produto, get_quantidade_total, get_baixo_estoque, get_sem_estoque
 
 produto_bp = Blueprint("produto", __name__)
 
@@ -42,3 +42,12 @@ def remover_produto(produto_id):
         return jsonify({"mensagem": "Produto deletado com sucesso!"})
     except Exception as err:
         return jsonify({"erro:": str(err)}), 400
+
+@produto_bp.route("/api/produtos/resumo", methods=["GET"])
+def resumo_produtos():
+    resumo = {
+        "total": get_quantidade_total(),
+        "baixo_estoque": get_baixo_estoque(),
+        "sem_estoque": get_sem_estoque()
+    }
+    return jsonify(resumo)

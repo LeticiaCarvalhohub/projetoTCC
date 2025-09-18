@@ -43,7 +43,7 @@
     <!-- Barra de navegação -->
     <nav>
       <div class="navSessao">
-        <div class="navTitulo">Principal</div>
+        <h2 class="navTitulo">Principal</h2>
         <a href="#" class="navLink ativo" data-destino="dashboard">
           <img
             src="{{ url_for('static', filename='assets/icons/dashboard.svg') }}"
@@ -54,7 +54,7 @@
       </div>
 
       <div class="navSessao">
-        <div class="navTitulo">Operacional</div>
+        <h2 class="navTitulo">Módulos</h2>
         <a href="#" class="navLink" data-destino="compras">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
@@ -78,15 +78,20 @@
         </a>
       </div>
 
-      <div id="configuracoes">
-        <button id="btnOperacoes">
+      {% if session['estado'] == 'administrador' %}
+      <div class="navSessao">
+        <h2 class="navTitulo">Operacional</h2>
+        <a href="#" class="navLink" data-destino="operacoes">
           <img
-            src="{{ url_for('static', filename='assets/icons/config.svg') }}"
-            alt=""
+            src="{{ url_for('static', filename='assets/icons/configuracoes.svg') }}"
+            alt="config.svg"
           />
-        </button>
-        <button id="btnLogout">Sair</button>
+          <span>Configurações</span>
+        </a>
       </div>
+      {% endif %}
+
+      <button id="btnLogout">Sair</button>
     </nav>
 
     <!-- Conteúdo Principal -->
@@ -314,15 +319,15 @@
             <div id="inventarioSumario">
               <div class="sumarioEstado total">
                 <span>Produtos Totais</span>
-                <strong>287</strong>
+                <strong id="totalQuant"></strong>
               </div>
               <div class="sumarioEstado alerta">
-                <span>Baixo Estoque</span>
-                <strong>23</strong>
+                <span>Baixo Estoque (&lt; 30)</span>
+                <strong id="baixoEstoq"></strong>
               </div>
               <div class="sumarioEstado perigo">
-                <span>Em Falta</span>
-                <strong>6</strong>
+                <span>Sem Estoque</span>
+                <strong id="semEstoq"></strong>
               </div>
             </div>
           </div>
@@ -333,7 +338,7 @@
             <img
               src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
               alt="novo.svg"
-            />Novo Produto
+            />Novos produtos
           </button>
 
           <div class="filtrarOpcoes">
@@ -362,6 +367,42 @@
               <th>Cor</th>
               <th>Data Cadastro</th>
               <th>Quantidade</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section id="operacoes" style="display: none">
+        <div id="operacoes">
+          <div id="caixaUsuario">
+            <h2 class="paginaTitulo">Configurações</h2>
+            <div id="operacoesSumario">
+              <div class="sumarioEstado total">
+                <span>Usuários Cadastrados</span>
+                <strong>23</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="controlesOperacoes">
+          <button id="btnAbrirModalConfig" class="botaoPrimario">
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Novos Usuários
+          </button>
+        </div>
+
+        <table id="tabelaOperacoes">
+          <thead>
+            <tr class="configCabecalho">
+              <th>Usuário</th>
+              <th>Email</th>
+              <th>Senha</th>
+              <th>Status</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -559,6 +600,114 @@
         <menu>
           <button type="submit" class="botaoPrimario">Salvar</button>
           <button type="button" id="botaoCancelarModal">Cancelar</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <!-- Modal de edição dos produtos -->
+    <dialog id="modalEditarProduto">
+      <form id="formEditarProduto" method="POST">
+        <div class="modalCabecalho">
+          <h2 class="tituloModal">Editar Produto</h2>
+          <button
+            type="button"
+            aria-label="Fechar formulário"
+            id="botaoFecharModalEditar"
+            class="botaoFecharModal"
+          >
+            <img
+              src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
+              alt="fechar.svg"
+            />
+          </button>
+        </div>
+
+        <!-- Hidden para armazenar o ID do produto -->
+        <input type="hidden" id="editarProdutoId" />
+
+        <!-- Campos do Produto -->
+        <label for="editarNomeProduto">Nome</label>
+        <input
+          type="text"
+          id="editarNomeProduto"
+          placeholder="Digite o nome do produto..."
+          required
+        />
+
+        <label for="editarTipoProduto">Tipo de Produto</label>
+        <select id="editarTipoProduto" disabled>
+          <option value="">Selecione</option>
+          <option value="linha">Linha</option>
+          <option value="tecido">Tecido</option>
+          <option value="extra">Extra</option>
+        </select>
+
+        <label for="editarCodigoProduto">Código</label>
+        <input
+          type="text"
+          id="editarCodigoProduto"
+          placeholder="Digite o código do produto..."
+          required
+        />
+
+        <label for="editarMarcaProduto">Marca</label>
+        <input
+          type="text"
+          id="editarMarcaProduto"
+          placeholder="Digite a marca..."
+        />
+
+        <label for="editarMaterialProduto">Material</label>
+        <input
+          type="text"
+          id="editarMaterialProduto"
+          placeholder="Digite o material..."
+        />
+
+        <label for="editarTamanhoProduto">Tamanho</label>
+        <input
+          type="text"
+          id="editarTamanhoProduto"
+          placeholder="Digite o tamanho..."
+        />
+
+        <label for="editarCorProduto">Cor</label>
+        <input
+          type="text"
+          id="editarCorProduto"
+          placeholder="Digite a cor..."
+        />
+
+        <label for="editarPrecoProduto">Preço Base</label>
+        <input
+          type="number"
+          id="editarPrecoProduto"
+          placeholder="Digite o preço base..."
+          step="0.01"
+          min="0"
+          required
+        />
+
+        <label for="editarQuantidadeProduto">Quantidade</label>
+        <input
+          type="number"
+          id="editarQuantidadeProduto"
+          placeholder="Digite a quantidade..."
+          min="0"
+        />
+
+        <label for="editarDataCadastroProduto">Data de Cadastro</label>
+        <input type="date" id="editarDataCadastroProduto" required />
+
+        <menu>
+          <button
+            type="button"
+            class="botaoPrimario"
+            onclick="salvarEdicaoProduto()"
+          >
+            Salvar Alterações
+          </button>
+          <button type="button" id="botaoCancelarModalEditar">Cancelar</button>
         </menu>
       </form>
     </dialog>
