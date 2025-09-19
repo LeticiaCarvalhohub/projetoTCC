@@ -7,7 +7,7 @@ def get_produtos(tipo=None):
         cursor = conexao.cursor(dictionary=True)
         sql = """
             SELECT p.id, p.nome, p.tipo, p.codigo_original, p.preco_base, 
-                   p.marca, p.material, p.tamanho, p.cor, p.data_cadastro, e.quantidade
+                   p.marca, p.tamanho, p.cor, p.data_cadastro, e.quantidade
             FROM produto p
             JOIN estoque e ON p.id = e.produto_id
         """
@@ -29,17 +29,17 @@ def insert_produtos(dados: dict):
         cursor = conexao.cursor()
         sql = """
             INSERT INTO produto 
-            (nome, tipo, codigo_original, preco_base, marca, material, tamanho, cor, data_cadastro)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            (nome, tipo, codigo_original, preco_base, marca, tamanho, cor, data_cadastro)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
         """
         data_cadastro = dados.get('data_cadastro', date.today())
         cursor.execute("""
             INSERT INTO produto 
-            (nome, tipo, codigo_original, preco_base, marca, material, tamanho, cor, data_cadastro)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            (nome, tipo, codigo_original, preco_base, marca, tamanho, cor, data_cadastro)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
         """, (
             dados['nome'], dados['tipo'], dados.get('codigo_original'),
-            dados['preco_base'], dados.get('marca'), dados.get('material'),
+            dados['preco_base'], dados.get('marca'), 
             dados.get('tamanho'), dados.get('cor'), data_cadastro
         ))
 
@@ -66,7 +66,6 @@ def update_produto(produto_id, dados: dict):
             "codigo_original": "codigo_original",
             "preco_base": "preco_base",
             "marca": "marca",
-            "material": "material",
             "tamanho": "tamanho",
             "cor": "cor",
             "data_cadastro": "data_cadastro"

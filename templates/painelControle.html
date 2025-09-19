@@ -156,6 +156,7 @@
       </section>
 
       <!-- Compras -->
+
       <section id="compras" style="display: none">
         <div id="comprasCabecalho">
           <h2 class="paginaTitulo">Compras</h2>
@@ -359,8 +360,7 @@
               <th>Tipo</th>
               <th>Código Original</th>
               <th>Preço Base</th>
-              <th>Marca</th>
-              <th>Material</th>
+              <th>Marca</th>             
               <th>Tamanho</th>
               <th>Cor</th>
               <th>Data Cadastro</th>
@@ -392,6 +392,13 @@
               alt="novo.svg"
             />Novos Usuários
           </button>
+
+          <button id="btnAbrirModalConfig" class="botaoPrimario">
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Novas Categorias de Produtos
+          </button>
         </div>
 
         <table id="tabelaOperacoes">
@@ -413,6 +420,74 @@
     <footer>
       <p>Tudo no Controle © 2025 - Versão 3.0</p>
     </footer>
+
+    <dialog id="modalRegistroCompra">
+      <form id="formRegistroCompra" method="POST">
+        <div class="modalCabecalho">
+          <h2 class="tituloModal">Cadastrar / Editar Produto</h2>
+          <button
+            type="button"
+            aria-label="Fechar formulário"
+            id="botaoFecharModalCompra"
+            class="botaoFecharModalCompra"
+          >
+            <img
+              src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
+              alt="fechar.svg"
+            />
+          </button>
+        </div>
+
+      <!-- Campos de compras-->
+        <label for="produto_id">Produto_id</label>
+        <input
+          type="text"
+          id="produto_id"
+          placeholder="Digite o id do produto..."
+          required
+        />
+
+        <label for="categoria">Categoria do Produto</label>
+        <select id="categoria" required>
+          <option value="" selected>Selecione</option>
+        </select>
+
+        <label for="fornecedor_id">Fornecedor_id</label>
+        <input
+          type="text"
+          id="fornecedor_id"
+          placeholder="Digite o id do fornecedor..."
+          required
+        />
+
+        <label for="quantidade">Quantidade</label>
+        <input type="text" id="quantidade" placeholder="Digite a quantidade..." />
+
+       
+
+        <label for="preco_compra">Preço_compra</label>
+        <input
+          type="text"
+          id="preco_compra"
+          placeholder="Digite o Preço..."
+        />
+
+        <label for="data_compra">data_compra</label>
+        <input type="text" id="data_compra" placeholder="Digite a data da compra..." />
+
+        <label for="categoria">Categoria</label>
+        <input type="text" id="data_compra" placeholder="Digite a categotia do produto..." />
+
+        <menu>
+          <button type="submit" class="botaoPrimario">Salvar</button>
+          <button type="button" id="botaoCancelarModal">Cancelar</button>
+        </menu>
+      </form>
+     </dialog>
+
+
+      </form>
+    </dialog>
 
     <!-- Modal para o registro de novas vendas -->
     <dialog
@@ -557,12 +632,7 @@
         <label for="marcaProduto">Marca</label>
         <input type="text" id="marcaProduto" placeholder="Digite a marca..." />
 
-        <label for="materialProduto">Material</label>
-        <input
-          type="text"
-          id="materialProduto"
-          placeholder="Digite o material..."
-        />
+       
 
         <label for="tamanhoProduto">Tamanho</label>
         <input
@@ -655,12 +725,7 @@
           placeholder="Digite a marca..."
         />
 
-        <label for="editarMaterialProduto">Material</label>
-        <input
-          type="text"
-          id="editarMaterialProduto"
-          placeholder="Digite o material..."
-        />
+  
 
         <label for="editarTamanhoProduto">Tamanho</label>
         <input

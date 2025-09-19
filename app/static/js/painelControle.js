@@ -191,7 +191,6 @@ async function carregarProdutos(tipo = "") {
           2
         )}</td>
         <td class="linhaTabela">${produto.marca || ""}</td>
-        <td class="linhaTabela">${produto.material || ""}</td>
         <td class="linhaTabela">${produto.tamanho || ""}</td>
         <td class="linhaTabela">${produto.cor || ""}</td>
         <td class="linhaTabela">${new Date(
