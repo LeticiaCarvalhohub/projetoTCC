@@ -423,7 +423,7 @@
       aria-modal="true"
       role="dialog"
     >
-      <form id="formRegistroVenda" method="POST">
+      <form id="formRegistroVenda" method="POST" action="{{ url_for('registrar_venda')}}">
         <div class="modalCabecalho">
           <h2 class="tituloModal">Registrar Venda</h2>
           <button
@@ -442,18 +442,20 @@
         <div class="grupoFormulario">
           <!-- Cliente -->
           <label for="clienteVenda">Cliente</label>
-          <input
-            type="text"
-            id="clienteVenda"
-            name="cliente"
-            placeholder="Nome do cliente"
-            required
-          />
+          <select name="cliente_id" id="clienteVenda" required>
+            <option value="" disabled selected>Seleciona o cliente</option>
+            {% for cliente in clientes %}
+              <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
+            {% endfor %}
+          </select>
 
           <!-- Produto -->
           <label for="produtoVenda">Produto</label>
-          <select id="produtoVenda" name="produto" required>
+          <select id="produtoVenda" name="produto_id" required>
             <option value="" disabled selected>Selecione o produto</option>
+            {% for produto in produtos %}
+              <option value="{{ produto.id }}">{{ produto.nome }}</option>
+            {% endfor %}
             <!-- Produtos devem ser carregados dinamicamente -->
           </select>
 
@@ -463,22 +465,23 @@
             type="number"
             id="quantidadeVenda"
             name="quantidade"
-            min="1"
+            min="0"
+            step="1"
             required
           />
 
           <!-- Preço unitário (preenchido automático ou editável) -->
-          <label for="precoUnitarioVenda">Preço Unitário</label>
+          <label for="precoVenda">Preço Unitário</label>
           <input
             type="number"
-            id="precoUnitarioVenda"
-            name="preco_unitario"
+            id="precoVenda"
+            name="preco_venda"
             step="0.01"
             min="0"
             required
           />
 
-          <!-- Valor total (pode ser calculado) -->
+          <!-- Valor total (calculado automaticamente) -->
           <label for="valorTotalVenda">Valor Total</label>
           <input
             type="number"
