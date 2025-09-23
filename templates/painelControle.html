@@ -197,16 +197,16 @@
             </tr>
           </thead>
           <tbody id="listaCompras">
-            <tr class="linhaTabela">
-              <td class="tabelaColuna">PROD001</td>
-              <td class="tabelaColuna">Empresa Cardoso</td>
-              <td class="tabelaColuna">20/06/2026</td>
-              <td class="tabelaColuna">10 linhas</td>
+            <tr>
+              <td class="linhaTabela">PROD001</td>
+              <td class="linhaTabela">Empresa Cardoso</td>
+              <td class="linhaTabela">20/06/2026</td>
+              <td class="linhaTabela">10 linhas</td>
               <td>R$9.000</td>
-              <td class="tabelaColuna">
+              <td class="linhaTabela">
                 <span class="itemEstado emEstoque">Recebido</span>
               </td>
-              <td class="tabelaColuna acoes">
+              <td class="linhaTabela acoes">
                 <button class="botoesDecisao" title="Editar">
                   <img
                     src="{{ url_for('static', filename='assets/icons/editar.svg') }}"
@@ -287,13 +287,13 @@
             </tr>
           </thead>
           <tbody id="listaCompras">
-            <tr class="linhaTabela">
-              <td class="tabelaColuna">PROD001</td>
-              <td class="tabelaColuna">Empresa Cardoso</td>
-              <td class="tabelaColuna">20/06/2026</td>
-              <td class="tabelaColuna">10 linhas</td>
+            <tr>
+              <td class="linhaTabela">PROD001</td>
+              <td class="linhaTabela">Empresa Cardoso</td>
+              <td class="linhaTabela">20/06/2026</td>
+              <td class="linhaTabela">10 linhas</td>
               <td>R$9.000</td>
-              <td class="tabelaColuna">
+              <td class="linhaTabela">
                 <span class="itemEstado emEstoque">Recebido</span>
               </td>
               <td class="tabelaColuna acoes">
@@ -371,9 +371,6 @@
               <th>Tipo</th>
               <th>Código Original</th>
               <th>Preço Base</th>
-<<<<<<< HEAD
-              <th>Marca</th>             
-=======
               <th>Marca</th>
               <th>Tamanho</th>
               <th>Cor</th>
@@ -395,7 +392,6 @@
               <th>Código Original</th>
               <th>Preço Base</th>
               <th>Marca</th>
->>>>>>> 75be4538e2294586b7d1aa50527d8461a417052a
               <th>Tamanho</th>
               <th>Cor</th>
               <th>Data Cadastro</th>
@@ -456,22 +452,14 @@
       <p>Tudo no Controle © 2025 - Versão 3.0</p>
     </footer>
 
-<<<<<<< HEAD
-=======
-    <!-- Modal para o registro de novas compras -->
->>>>>>> 75be4538e2294586b7d1aa50527d8461a417052a
     <dialog id="modalRegistroCompra">
       <form id="formRegistroCompra" method="POST">
         <div class="modalCabecalho">
           <h2 class="tituloModal">Cadastrar / Editar Produto</h2>
           <button
             type="button"
-<<<<<<< HEAD
             aria-label="Fechar formulário"
-            id="botaoFecharModalCompra"
-=======
             id="botaoFecharCompra"
->>>>>>> 75be4538e2294586b7d1aa50527d8461a417052a
             class="botaoFecharModalCompra"
           >
             <img
@@ -481,11 +469,7 @@
           </button>
         </div>
 
-<<<<<<< HEAD
       <!-- Campos de compras-->
-=======
-        <!-- Campos de compras-->
->>>>>>> 75be4538e2294586b7d1aa50527d8461a417052a
         <label for="produto_id">Produto_id</label>
         <input
           type="text"
@@ -494,19 +478,10 @@
           required
         />
 
-<<<<<<< HEAD
         <label for="categoria">Categoria do Produto</label>
         <select id="categoria" required>
           <option value="" selected>Selecione</option>
         </select>
-=======
-        <label for="categoria_compra">Categoria</label>
-        <input
-          type="text"
-          id="categoria_compra"
-          placeholder="Digite a categoria do produto..."
-        />
->>>>>>> 75be4538e2294586b7d1aa50527d8461a417052a
 
         <label for="fornecedor_id">Fornecedor_id</label>
         <input
@@ -517,7 +492,6 @@
         />
 
         <label for="quantidade">Quantidade</label>
-<<<<<<< HEAD
         <input type="text" id="quantidade" placeholder="Digite a quantidade..." />
 
        
@@ -532,42 +506,15 @@
         <label for="data_compra">data_compra</label>
         <input type="text" id="data_compra" placeholder="Digite a data da compra..." />
 
-        <label for="categoria">Categoria</label>
-        <input type="text" id="data_compra" placeholder="Digite a categotia do produto..." />
+        <label for="categoria_produto">Categoria</label>
+        <input type="text" id="categoria_produto" placeholder="Digite a categotia do produto..." />
 
         <menu>
           <button type="submit" class="botaoPrimario">Salvar</button>
-          <button type="button" id="botaoCancelarModal">Cancelar</button>
+          <button type="button" id="botaoCancelarCompra"">Cancelar</button>
         </menu>
       </form>
      </dialog>
-
-
-      </form>
-=======
-        <input
-          type="text"
-          id="quantidade"
-          placeholder="Digite a quantidade..."
-        />
-
-        <label for="preco_compra">Preço_compra</label>
-        <input type="text" id="preco_compra" placeholder="Digite o Preço..." />
-
-        <label for="data_compra">data_compra</label>
-        <input
-          type="text"
-          id="data_compra"
-          placeholder="Digite a data da compra..."
-        />
-
-        <menu>
-          <button type="submit" class="botaoPrimario">Salvar</button>
-          <button type="button" id="botaoCancelarCompra">Cancelar</button>
-        </menu>
-      </form>
->>>>>>> 75be4538e2294586b7d1aa50527d8461a417052a
-    </dialog>
 
     <!-- Modal para o registro de novas vendas -->
     <dialog
@@ -710,11 +657,6 @@
         <label for="marcaProduto">Marca</label>
         <input type="text" id="marcaProduto" placeholder="Digite a marca..." />
 
-<<<<<<< HEAD
-       
-
-=======
->>>>>>> 75be4538e2294586b7d1aa50527d8461a417052a
         <label for="tamanhoProduto">Tamanho</label>
         <input
           type="text"
