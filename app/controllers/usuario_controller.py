@@ -24,9 +24,10 @@ def verificarLogin():
   estado = data.get("estado")
 
   user = verificar_usuario(login, senha, estado)
+  
   if user:
     session["usuario"] = login
-    session['estado'] = estado
+    session["estado"] = estado
     return jsonify({"sucesso": True})
   else:
     return jsonify({"sucesso": False, "mensagem": "Credenciais inválidas"}), 401

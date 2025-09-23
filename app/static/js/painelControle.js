@@ -35,6 +35,12 @@ const toastContainer = document.getElementById("toastContainer");
 const filtroTipo = document.getElementById("filtroTipo");
 
 const tabelaProdutos = document.querySelector("#tabelaProdutos tbody");
+const tabelaInativos = document.querySelector("#tabelaInativos tbody");
+
+const campoPesquisa = document.getElementById("campoPesquisa");
+const tabela = document
+  .getElementById("tabelaProdutos")
+  .getElementsByTagName("tbody")[0];
 
 // Botões para a navegação das abas principais
 botaoMenu.addEventListener("click", () => {
@@ -116,6 +122,52 @@ function mostrarToast(mensagem, tipo = "sucesso", duracao = 4000) {
 }
 
 // -------- Modais --------
+btnAbrirModalCompra.addEventListener("click", () => {
+  modalCompras.showModal();
+  form.reset();
+});
+
+btnFecharModalCompra.addEventListener("click", () => {
+  modalCompras.close();
+  form.reset();
+});
+
+btnCancelarModalCompra.addEventListener("click", () => modalCompras.close());
+
+modalCompras.addEventListener("click", (evento) => {
+  const reacao = modalCompras.getBoundingClientRect();
+  if (
+    evento.clientX < reacao.left ||
+    evento.clientX > reacao.right ||
+    evento.clientY < reacao.top ||
+    evento.clientY > reacao.bottom
+  )
+    modalCompras.close();
+});
+
+btnAbrirModalVenda.addEventListener("click", () => {
+  modalVenda.showModal();
+  form.reset();
+});
+
+btnFecharModalVenda.addEventListener("click", () => {
+  modalVenda.close();
+  form.reset();
+});
+
+btnCancelarModalVenda.addEventListener("click", () => modalVenda.close());
+
+modalVenda.addEventListener("click", (evento) => {
+  const reacao = modalVenda.getBoundingClientRect();
+  if (
+    evento.clientX < reacao.left ||
+    evento.clientX > reacao.right ||
+    evento.clientY < reacao.top ||
+    evento.clientY > reacao.bottom
+  )
+    modalVenda.close();
+});
+
 btnAbrirModalEstoque.addEventListener("click", () => {
   modalCadastro.showModal();
   form.reset();
@@ -203,7 +255,7 @@ async function carregarProdutos(tipo = "") {
           }">
             <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
           </button>
-          <button class="botoesDecisao btnDeletarProduto" data-id="${
+          <button class="botoesDecisao btnInativarProduto" data-id="${
             produto.id
           }">
             <img src="/static/assets/icons/lixeira.svg" alt="lixeira.svg" />
@@ -212,9 +264,94 @@ async function carregarProdutos(tipo = "") {
       `;
       tabelaProdutos.appendChild(tr);
     });
+
+    document.querySelectorAll(".btnInativarProduto").forEach((botao) => {
+      botao.addEventListener("click", async () => {
+        const id = botao.getAttribute("data-id");
+
+        if (!confirm("Tem certeza que deseja inativar este produto?")) return;
+
+        try {
+          const resposta = await fetch(`/api/produtos/${id}`, {
+            method: "DELETE",
+          });
+
+          if (resposta.ok) {
+            mostrarToast("Produto inativado com sucesso!", "sucesso");
+            carregarProdutos(tipo);
+          } else {
+            mostrarToast("Erro ao inativar produto", "erro");
+          }
+        } catch (erro) {
+          console.error("Erro ao inativar produto:", erro);
+          mostrarToast("Erro ao inativar produto", "erro");
+        }
+      });
+    });
   } catch (erro) {
     console.error("Erro ao carregar produtos:", erro);
     mostrarToast("Erro ao carregar produtos", "erro");
+  }
+}
+
+async function carregarProdutosInativos() {
+  try {
+    const url = "/api/produtos/inativos";
+    const resposta = await fetch(url);
+    const produtos = await resposta.json();
+
+    tabelaInativos.innerHTML = "";
+
+    produtos.forEach((produto) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="linhaTabela">${produto.id}</td>
+        <td class="linhaTabela">${produto.nome}</td>
+        <td class="linhaTabela">${produto.tipo}</td>
+        <td class="linhaTabela">${produto.codigo_original || ""}</td>
+        <td class="linhaTabela">R$ ${parseFloat(produto.preco_base).toFixed(
+          2
+        )}</td>
+        <td class="linhaTabela">${produto.marca || ""}</td>
+        <td class="linhaTabela">${produto.tamanho || ""}</td>
+        <td class="linhaTabela">${produto.cor || ""}</td>
+        <td class="linhaTabela">${new Date(
+          produto.data_cadastro
+        ).toLocaleDateString("pt-BR")}</td>
+        <td class="linhaTabela">${produto.quantidade || 0}</td>
+        <td class="linhaTabela acoes">
+          <button class="botoesDecisao btnReativarProduto" data-id="${
+            produto.id
+          }">
+            <img src="/static/assets/icons/reativar.svg" alt="reativar.svg" />
+          </button>
+        </td>
+      `;
+      tabelaInativos.appendChild(tr);
+    });
+
+    document.querySelectorAll(".btnReativarProduto").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-id");
+        try {
+          const resposta = await fetch(`/api/produtos/reativar/${id}`, {
+            method: "PUT",
+          });
+          if (resposta.ok) {
+            mostrarToast("Produto reativado com sucesso!", "sucesso");
+            carregarProdutosInativos();
+          } else {
+            mostrarToast("Erro ao reativar produto", "erro");
+          }
+        } catch (erro) {
+          console.error("Erro ao reativar produto:", erro);
+          mostrarToast("Erro ao reativar produto", "erro");
+        }
+      });
+    });
+  } catch (erro) {
+    console.error("Erro ao carregar produtos inativos:", erro);
+    mostrarToast("Erro ao carregar produtos inativos", "erro");
   }
 }
 
@@ -289,10 +426,12 @@ form.addEventListener("submit", async (evento) => {
 
 async function abrirEditarProduto(id) {
   try {
-    const res = await fetch(`/api/produtos/${id}`);
-    if (!res.ok) throw new Error("Produto não encontrado");
+    const resposta = await fetch(`/api/produtos/${id}`);
+    if (!resposta.ok) throw new Error("Produto não encontrado");
 
-    const produto = await res.json();
+    console.log(resposta);
+    const produto = await resposta.json();
+    console.log(produto);
 
     document.getElementById("editarProdutoId").value = produto.id;
     document.getElementById("editarNomeProduto").value = produto.nome;
@@ -300,8 +439,6 @@ async function abrirEditarProduto(id) {
       produto.codigo_original;
     document.getElementById("editarPrecoProduto").value = produto.preco_base;
     document.getElementById("editarMarcaProduto").value = produto.marca || "";
-    document.getElementById("editarMaterialProduto").value =
-      produto.material || "";
     document.getElementById("editarTamanhoProduto").value =
       produto.tamanho || "";
     document.getElementById("editarCorProduto").value = produto.cor || "";
@@ -313,8 +450,8 @@ async function abrirEditarProduto(id) {
 
     abrirModalEdicao();
   } catch (erro) {
-    console.error("Erro ao carregar produto:", erro);
-    mostrarToast("Erro ao carregar produto.", "erro");
+    console.error("Erro ao atualizar produto:", erro);
+    mostrarToast("Erro ao atualizar produto.", "erro");
   }
 }
 
@@ -347,11 +484,11 @@ async function salvarEdicaoProduto() {
     codigo_original: document.getElementById("editarCodigoProduto").value,
     preco_base: document.getElementById("editarPrecoProduto").value,
     marca: document.getElementById("editarMarcaProduto").value,
-    material: document.getElementById("editarMaterialProduto").value,
     tamanho: document.getElementById("editarTamanhoProduto").value,
     cor: document.getElementById("editarCorProduto").value,
     data_cadastro: document.getElementById("editarDataCadastroProduto").value,
-    quantidade: document.getElementById("editarQuantidadeProduto").value,
+    quantidade:
+      parseInt(document.getElementById("editarQuantidadeProduto").value) || 0,
   };
 
   try {
@@ -364,7 +501,10 @@ async function salvarEdicaoProduto() {
     const resultado = await resposta.json();
 
     if (resultado.ok) {
-      mostrarToast("Produto atualizado com sucesso!", "sucesso");
+      mostrarToast(
+        resultado.mensagem || "Produto atualizado com sucesso!",
+        "sucesso"
+      );
       fecharModalEdicao();
       carregarProdutos();
     } else {
@@ -376,32 +516,30 @@ async function salvarEdicaoProduto() {
   }
 }
 
-// Deletar produto
-async function deletarProduto(id) {
-  if (!confirm("Deseja realmente deletar este produto?")) return;
+campoPesquisa.addEventListener("keyup", function () {
+  const filtro = campoPesquisa.value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+  const linhas = tabela.getElementsByTagName("tr");
 
-  try {
-    const res = await fetch(`/api/produtos/${id}`, { method: "DELETE" });
-    const resultado = await res.json();
-
-    mostrarToast(resultado.mensagem || "Produto deletado!");
-    carregarProdutos(filtroTipo.value);
-  } catch (erro) {
-    console.error("Erro ao deletar produto:", erro);
-    mostrarToast("Erro ao deletar produto.", "erro");
+  for (let i = 0; i < linhas.length; i++) {
+    const colunaNome = linhas[i].getElementsByTagName("td")[1];
+    if (colunaNome) {
+      const textoNome = colunaNome.textContent
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      linhas[i].style.display = textoNome.includes(filtro) ? "" : "none";
+    }
   }
-}
+});
 
 document.addEventListener("click", (evento) => {
   const btnEditarProduto = evento.target.closest(".btnEditarProduto");
-  const btnDeletarProduto = evento.target.closest(".btnDeletarProduto");
 
   if (btnEditarProduto) {
     abrirEditarProduto(btnEditarProduto.dataset.id);
-  }
-
-  if (btnDeletarProduto) {
-    deletarProduto(btnDeletarProduto.dataset.id);
   }
 });
 
@@ -427,5 +565,6 @@ async function carregarResumoProdutos() {
 
 document.addEventListener("DOMContentLoaded", () => {
   carregarProdutos();
+  carregarProdutosInativos();
   carregarResumoProdutos();
 });
