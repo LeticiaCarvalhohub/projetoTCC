@@ -56,6 +56,7 @@
 
       <div class="navSessao">
         <h2 class="navTitulo">Módulos</h2>
+        {% if session['estado'] == "Administrador" %}
         <a href="#" class="navLink" data-destino="compras">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
@@ -63,6 +64,7 @@
           />
           <span>Compras</span>
         </a>
+        {% endif %}
         <a href="#" class="navLink" data-destino="vendas">
           <img
             src="{{ url_for('static', filename='assets/icons/vendas.svg') }}"
@@ -70,6 +72,7 @@
           />
           <span>Vendas</span>
         </a>
+        {% if session['estado'] == "Administrador" %}
         <a href="#" class="navLink" data-destino="inventario">
           <img
             src="{{ url_for('static', filename='assets/icons/estoque.svg') }}"
@@ -77,9 +80,11 @@
           />
           <span>Inventário</span>
         </a>
+        {% endif %}
       </div>
 
       <div class="navSessao">
+        {% if session['estado'] == "Administrador" %}
         <h2 class="navTitulo">Operacional</h2>
         <a href="#" class="navLink" data-destino="operacoes">
           <img
@@ -88,6 +93,7 @@
           />
           <span>Configurações</span>
         </a>
+        {% endif %}
       </div>
     </nav>
 
@@ -510,7 +516,7 @@
       aria-modal="true"
       role="dialog"
     >
-      <form id="formRegistroVenda" method="POST" action="{{ url_for('registrar_venda')}}">
+      <form id="formRegistroVenda" method="POST">
         <div class="modalCabecalho">
           <h2 class="tituloModal">Registrar Venda</h2>
           <button type="button" id="botaoFecharVenda" class="botaoFecharModal">
@@ -527,7 +533,7 @@
           <select name="cliente_id" id="clienteVenda" required>
             <option value="" disabled selected>Seleciona o cliente</option>
             {% for cliente in clientes %}
-              <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
+            <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
             {% endfor %}
           </select>
 
@@ -536,7 +542,7 @@
           <select id="produtoVenda" name="produto_id" required>
             <option value="" disabled selected>Selecione o produto</option>
             {% for produto in produtos %}
-              <option value="{{ produto.id }}">{{ produto.nome }}</option>
+            <option value="{{ produto.id }}">{{ produto.nome }}</option>
             {% endfor %}
             <!-- Produtos devem ser carregados dinamicamente -->
           </select>
