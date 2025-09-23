@@ -1,4 +1,4 @@
-let graficoVendas, graficoEstoque, graficoItens; // variáveis globais
+let graficoVendas, graficoEstoque, graficoItens;
 
 function criarGraficos(dadosVendas, dadosEstoque, dadosItens) {
   const ctx1 = document.getElementById("chartContainer1").getContext("2d");
@@ -165,19 +165,29 @@ function criarGraficos(dadosVendas, dadosEstoque, dadosItens) {
 
 // Atualizar gráficos sem recarregar a página
 function atualizarGraficos(novosVendas, novosEstoque, novosItens) {
-  graficoVendas.data.datasets[0].data = novosVendas;
-  graficoEstoque.data.datasets[0].data = novosEstoque;
-  graficoItens.data.datasets[0].data = novosItens;
+  if (graficoVendas && graficoEstoque && graficoItens) {
+    graficoVendas.data.datasets[0].data = novosVendas;
+    graficoEstoque.data.datasets[0].data = novosEstoque;
+    graficoItens.data.datasets[0].data = novosItens;
 
-  graficoVendas.update();
-  graficoEstoque.update();
-  graficoItens.update();
+    graficoVendas.update();
+    graficoEstoque.update();
+    graficoItens.update();
+  }
 }
 
-window.onload = function () {
+window.addEventListener("DOMContentLoaded", () => {
   criarGraficos(
-    [1200, 1900, 2200, 2800], // vendas semanais
-    [1200, 1900, 3000], // estoque
-    [1200, 1900, 3000] // linhas, tecidos, extras
+    [1200, 1900, 2200, 2800],
+    [1200, 1900, 3000],
+    [1200, 1900, 3000]
   );
-};
+});
+
+setTimeout(() => {
+  atualizarGraficos(
+    [1500, 2000, 2500, 3000],
+    [1100, 1800, 2900],
+    [1300, 1800, 3200]
+  );
+}, 5000);
